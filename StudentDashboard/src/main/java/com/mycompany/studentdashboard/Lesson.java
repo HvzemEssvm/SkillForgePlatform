@@ -8,13 +8,16 @@ package com.mycompany.studentdashboard;
  *
  * @author afifi.store
  */
-public class Course {
-     public String id;
+public class Lesson {
+    
+        public String id;
     public String title;
 
-    public Course(String id, String title) {
+    public Lesson(String id, String title) {
         this.id = id;
         this.title = title;
     }
+    
+    
     
 }
