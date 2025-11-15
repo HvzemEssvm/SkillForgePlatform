@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
- * @author Mega
+ * @author Zeyad
  */
 public class Course {
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1); // Start from 1
@@ -17,16 +17,17 @@ public class Course {
     public final int generateId() {
         return ID_GENERATOR.getAndIncrement();
     }
-    private final int courseId;
-    private final String InstructorId;
+    private int courseId;
+    private String instructorId;
     private ArrayList<String> studentIds;
     private String title;
     private String description;
     private ArrayList<Lesson> lessons;
 
 
-    public Course(String InstructorId, String title, String description) {
-        this.InstructorId = InstructorId;
+    public Course(){}
+    public Course(String instructorId, String title, String description) {
+        this.instructorId = instructorId;
         this.title = title;
         this.description = description;
         this.courseId = generateId();
@@ -44,7 +45,7 @@ public class Course {
      * @return the InstructorId
      */
     public String getInstructorId() {
-        return InstructorId;
+        return instructorId;
     }
 
     /**
@@ -87,6 +88,11 @@ public class Course {
      */
     public ArrayList<Lesson> getLessons() {
         return lessons;
+    }
+    
+    @Override
+    public String toString(){
+        return this.title+" "+this.description+" "+this.courseId;
     }
 
 }

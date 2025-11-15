@@ -6,7 +6,7 @@ package com.mycompany.CourseManagement;
 
 /**
  *
- * @author Mega
+ * @author Zeyad
  */
 public class Lesson {
 

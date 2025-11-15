@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 
 public class JsonHandler {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper objectMapper = new ObjectMapper();
     
     public static void writeToFile(JsonNode node, String fileName) throws IOException {
         objectMapper.writerWithDefaultPrettyPrinter()
