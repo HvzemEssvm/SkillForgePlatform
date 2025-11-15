@@ -4,6 +4,7 @@
  */
 package com.mycompany.CourseManagement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Zeyad
  */
 public class Course {
+
     private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1); // Start from 1
 
     public final int generateId() {
@@ -19,21 +21,30 @@ public class Course {
     }
     private int courseId;
     private String instructorId;
+
+    @JsonProperty(defaultValue = "[]")
     private ArrayList<String> studentIds;
+
     private String title;
     private String description;
+
+    @JsonProperty(defaultValue = "[]")
     private ArrayList<Lesson> lessons;
 
+    public Course() {
+        this.studentIds = new ArrayList<>();
+        this.lessons = new ArrayList<>();
+    }
 
-    public Course(){}
     public Course(String instructorId, String title, String description) {
         this.instructorId = instructorId;
         this.title = title;
         this.description = description;
         this.courseId = generateId();
+        this.studentIds = new ArrayList<>();
+        this.lessons = new ArrayList<>();
     }
 
-    
     /**
      * @return the courseId
      */
@@ -83,16 +94,25 @@ public class Course {
         this.description = description;
     }
 
-    /**
-     * @return the lessons
-     */
+    public void addLesson(Lesson lesson) {
+        if (lessons == null) {
+            lessons = new ArrayList<>();
+        }
+        if (lesson != null) {
+            lessons.add(lesson);
+        }
+    }
+
     public ArrayList<Lesson> getLessons() {
+        if (lessons == null) {
+            lessons = new ArrayList<>();
+        }
         return lessons;
     }
-    
+
     @Override
-    public String toString(){
-        return this.title+" "+this.description+" "+this.courseId;
+    public String toString() {
+        return this.title + " " + this.description + " " + this.courseId;
     }
 
 }

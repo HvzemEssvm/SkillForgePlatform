@@ -4,36 +4,38 @@
  */
 package com.mycompany.CourseManagement;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  *
  * @author Zeyad
  */
 public class Lesson {
 
-    private String lessonId;
+    private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1); // Start from 1
+
+    private int lessonId;
     private String title;
     private String content;
 
-    public Lesson(String lessonId, String title, String content) {
-        this.lessonId = lessonId;
+    public Lesson() {
+    }
+
+    public Lesson(String title, String content) {
+        this.lessonId = generateId();
         this.title = title;
         this.content = content;
     }
-    
-    
 
     /**
      * @return the lessonId
      */
-    public String getLessonId() {
-        return lessonId;
+    public final int generateId() {
+        return ID_GENERATOR.getAndIncrement();
     }
 
-    /**
-     * @param lessonId the lessonId to set
-     */
-    public void setLessonId(String lessonId) {
-        this.lessonId = lessonId;
+    public int getLessonId() {
+        return lessonId;
     }
 
     /**
@@ -62,6 +64,12 @@ public class Lesson {
      */
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Lesson[ID=%d, Title='%s', Content='%s']",
+                lessonId, title, content);
     }
 
 }

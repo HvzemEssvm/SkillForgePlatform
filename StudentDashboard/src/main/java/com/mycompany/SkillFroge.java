@@ -3,8 +3,11 @@ package com.mycompany;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
+import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
+import com.mycompany.CourseManagement.Lesson;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -19,9 +22,31 @@ public class SkillFroge {
 //        courseManagment.createCourse("instructor3", "Title3", "description 3");
 //        courseManagment.createCourse("instructor4", "Title4", "description 4");
 //        courseManagment.createCourse("instructor5", "Title5", "description 5");
-        System.out.println(courseManagment.findById(3).toString());
-        courseManagment.deleteCourseById(4);
-        System.out.println(courseManagment.updateCourse(5, "newDescription", "newTitle").toString());
+//        System.out.println(courseManagment.findCourseById(3).toString());
+//        courseManagment.deleteCourseById(4);
+//        System.out.println(courseManagment.updateCourse(5, "newDescription", "newTitle").toString());
+//          courseManagment.addLessonToCourse(2);
+//          courseManagment.addLessonToCourse(2);
+//          courseManagment.addLessonToCourse(2);
+//          courseManagment.addLessonToCourse(5);
+//          courseManagment.addLessonToCourse(5);
+//          courseManagment.addLessonToCourse(5);
+
+//          ArrayList<Course> courses = courseManagment.getAllCourses();
+//          ArrayList<Lesson> lessons = courseManagment.getAllLessonsFromCourse(2);
+//          
+//          for (Lesson lesson : lessons) {
+//              System.out.println(lesson.toString());
+//        }
+//          for (Course course : courses) {
+//              System.out.println(course.toString());
+//        }
+
+            Lesson lesson = courseManagment.createLesson("lesson one", "content one");
+            courseManagment.addLessonToCourse(1, lesson);
+            
+            courseManagment.updateLessonById(2, "newTitle", "newContent");
+            courseManagment.deleteLessonById(3);
     }
 
 }

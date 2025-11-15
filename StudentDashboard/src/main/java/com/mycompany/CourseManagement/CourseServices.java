@@ -9,13 +9,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mycompany.JsonHandler.JsonHandler;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
  * @author Zeyad
  */
 public class CourseServices {
-    
+
     private final String fileName;
     private ArrayNode courseList;
     private int index;
@@ -26,21 +27,35 @@ public class CourseServices {
         JsonHandler.initializeFileIfNeeded(fileName);
         courseList = JsonHandler.readArrayFromFile(fileName);
     }
-    
+
+    // Course Management Methods
+    public ArrayList<Course> getAllCourses() throws JsonProcessingException, IOException {
+        courseList = JsonHandler.readArrayFromFile(fileName);
+        ArrayList<Course> courses = new ArrayList<>();
+
+        for (int i = 0; i < courseList.size(); i++) {
+            JsonNode node = courseList.get(i);
+            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+            courses.add(course);
+        }
+
+        return courses;
+    }
+
     public Course createCourse(String instructorId, String title, String description)
             throws JsonProcessingException, IOException {
-        
+
         Course course = new Course(instructorId, title, description);
         JsonNode node = JsonHandler.convertJavatoJson(course);
-        
+
         courseList = JsonHandler.readArrayFromFile(fileName);
         courseList.add(node);
         JsonHandler.writeToFile(courseList, fileName);
-        
+
         return course;
     }
-    
-    public Course findById(int id) throws IllegalArgumentException, JsonProcessingException, IOException {
+
+    public Course findCourseById(int id) throws IllegalArgumentException, JsonProcessingException, IOException {
         courseList = JsonHandler.readArrayFromFile(fileName);
         for (int i = 0; i < courseList.size(); i++) {
             JsonNode node = courseList.get(i);
@@ -51,9 +66,9 @@ public class CourseServices {
         }
         return null;
     }
-    
+
     public Course updateCourse(int id, String newDescription, String newTitle) throws IllegalArgumentException, IOException {
-        Course course = findById(id);
+        Course course = findCourseById(id);
         course.setDescription(newDescription);
         course.setTitle(newTitle);
         JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
@@ -61,10 +76,10 @@ public class CourseServices {
         JsonHandler.writeToFile(courseList, fileName);
         return course;
     }
-    
+
     public boolean deleteCourseById(int id) throws IOException {
         ArrayNode courseList = JsonHandler.readArrayFromFile(fileName);
-        
+
         for (int i = 0; i < courseList.size(); i++) {
             JsonNode node = courseList.get(i);
             if (node.get("courseId").asText().equals(String.valueOf(id))) {
@@ -73,7 +88,136 @@ public class CourseServices {
                 return true;
             }
         }
-        
+
         return false;
     }
+
+    public Lesson addLessonToCourse(int courseId,Lesson lesson) throws IllegalArgumentException, JsonProcessingException, IOException {
+        Course course = findCourseById(courseId);
+        course.addLesson(lesson);
+        JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
+        courseList.set(index, jsonNode);
+        JsonHandler.writeToFile(courseList, fileName);
+        return lesson;
+    }
+
+    //--------------------------------------------------------
+    //Lesson Management Methods
+    //--------------------------------------------------------
+    public ArrayList<Lesson> getAllLessonsFromCourse(int courseId)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
+
+        Course course = findCourseById(courseId);
+        if (course == null) {
+            throw new IllegalArgumentException("Course with ID " + courseId + " not found");
+        }
+
+        return course.getLessons();
+    }
+
+    public Lesson createLesson(String title, String content) {
+        return new Lesson(title, content);
+    }
+
+    // Use this if you know already the course id which have the lesson
+    public Lesson findLessonById(int courseId, int lessonId)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
+
+        Course course = findCourseById(courseId);
+        if (course == null) {
+            throw new IllegalArgumentException("Course with ID " + courseId + " not found");
+        }
+
+        ArrayList<Lesson> lessons = course.getLessons();
+        if (lessons == null) {
+            return null;
+        }
+
+        for (Lesson lesson : lessons) {
+            if (lesson.getLessonId() == lessonId) {
+                return lesson;
+            }
+        }
+
+        return null;
+    }
+
+    // Use this if you don't know the course id which have the lesson
+    public Lesson findLessonById(int lessonId)
+            throws JsonProcessingException, IOException {
+
+        courseList = JsonHandler.readArrayFromFile(fileName);
+
+        for (int i = 0; i < courseList.size(); i++) {
+            JsonNode node = courseList.get(i);
+            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+
+            ArrayList<Lesson> lessons = course.getLessons();
+            if (lessons != null) {
+                for (Lesson lesson : lessons) {
+                    if (lesson.getLessonId() == lessonId) {
+                        index = i; // Store index for later use
+                        return lesson;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public Lesson updateLessonById(int lessonId, String newTitle, String newContent)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
+
+        Lesson lesson = findLessonById(lessonId);
+
+        if (lesson == null) {
+            throw new IllegalArgumentException("Lesson with ID " + lessonId + " not found");
+        }
+
+        lesson.setTitle(newTitle);
+        lesson.setContent(newContent);
+
+        JsonNode node = courseList.get(index);
+        Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+
+        JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
+        courseList.set(index, jsonNode);
+        JsonHandler.writeToFile(courseList, fileName);
+
+        return lesson;
+    }
+
+    public boolean deleteLessonById(int lessonId)
+            throws JsonProcessingException, IOException {
+
+        Lesson lesson = findLessonById(lessonId);
+
+        if (lesson == null) {
+            return false;
+        }
+
+        JsonNode node = courseList.get(index);
+        Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+
+        ArrayList<Lesson> lessons = course.getLessons();
+        boolean removed = false;
+
+        for (int i = 0; i < lessons.size(); i++) {
+            if (lessons.get(i).getLessonId() == lessonId) {
+                lessons.remove(i);
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed) {
+            JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
+            courseList.set(index, jsonNode);
+            JsonHandler.writeToFile(courseList, fileName);
+        }
+
+        return removed;
+    }
+
 }
