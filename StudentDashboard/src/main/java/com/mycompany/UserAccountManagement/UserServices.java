@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class UserServices {
     private final String fileName;
     private ArrayNode userList;
-    private int index;
     
     public UserServices() throws IOException
     {
@@ -51,34 +50,45 @@ public class UserServices {
         }
         else 
         {
-            user = classType.cast(new Instructor(userId, name, email, password));
+            user = classType.cast(new Student(userId, name, email, password));
         }
         JsonNode node = JsonHandler.convertJavatoJson(user);
         userList = JsonHandler.readArrayFromFile(fileName);
         userList.add(node);
         JsonHandler.writeToFile(userList, fileName);
 
-        return (T) user;
+        return (T)user;
     }
     
     /**
      * 
      * @param userId
      * @param password
-     * @returns Null in case of invalid credentials, or User instance otherwise , check on type before usage
+     * @throws java.lang.Exception
+     * @return Null in case of invalid credentials, or User instance otherwise , check on type before usage
      */
-//    public <T extends User> T login(String userId,String password)
-//    {
-//        userList = JsonHandler.readArrayFromFile(fileName);
-//        
-//        for (JsonNode node : userList) 
-//        {
-//            if(node.get("userId").asText().equals(userId))
-//            {
-//                if(userId
-//            }
-//        }
-//        
-//    }
+    public User login(String userId,String password) throws Exception
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        
+        for (JsonNode node : userList) 
+        {
+            if(node.get("userId").asText().equals(userId)&&
+               node.get("password").asText().equals(User.getHashedPassword(password)))
+            {
+                if(userId.charAt(0)=='i')
+                {
+                    return JsonHandler.objectMapper.treeToValue(node, Instructor.class);
+                }
+                else
+                {
+                    return JsonHandler.objectMapper.treeToValue(node, Student.class);
+                }
+                    
+            }
+        }
+        return null;
+    }
+    
     
 }
