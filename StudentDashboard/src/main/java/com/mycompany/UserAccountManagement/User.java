@@ -4,7 +4,11 @@
  */
 package com.mycompany.UserAccountManagement;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mycompany.InputVerifiers.Validation;
+import com.mycompany.JsonHandler.JsonHandler;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,18 +17,43 @@ import java.security.NoSuchAlgorithmException;
  * note that password must be >= 8 characters, and doesn't contain whitespace
  * @author Hazem
  */
-public class User {
+public abstract class User {
     private String userId;
     private String name;
     private String email;
     private String password;
     
-    private static void  validateArgs(String userId, String name, String email, String password)
+    /**
+     * 
+     * @param userId
+     * @param name
+     * @param email
+     * @param password
+     * @throws IllegalArgumentException 
+     */
+    public User(String userId, String name, String email, String password) throws IllegalArgumentException
     {
-        //Start of Validating that UserId is unique
+        name = name.trim();
+        email = email.trim();
+        userId = userId.trim();
+        password = password.trim();
         
-        //End of Validating that UserId is unique
-
+        try
+        {
+            validateArgs(name,email,password);
+            this.userId = userId;
+            this.name = name;
+            this.email = email;
+            this.password = getHashedPassword(password);
+        }
+        catch(IllegalArgumentException e)
+        {
+                throw e;
+        }
+    }
+    
+    private static void  validateArgs(String name, String email, String password)
+    {
         if(!Validation.isEmail(email))
         {
             throw new IllegalArgumentException("Error: Invalid Email Input");
@@ -59,25 +88,83 @@ public class User {
         }
     }
     
-    public User(String userId, String name, String email, String password) throws IllegalArgumentException
+    public static String generateId(Class<? extends User> classType)
     {
-        name = name.trim();
-        email = email.trim();
-        userId = userId.trim();
-        password = password.trim();
-        
-        try
-        {
-            validateArgs(userId,name,email,password);
-            this.userId = userId;
-            this.name = name;
-            this.email = email;
-            this.password = getHashedPassword(password);
-        }
-        catch(IllegalArgumentException e)
-        {
-                throw e;
-        }
+       String generatedId;
+       if(classType == Instructor.class)
+       {
+           generatedId="i";
+       }
+       else if(classType == Student.class)
+       {
+           generatedId="s";
+       }
+       else
+       {
+           return null;
+       }
+       try
+       {
+            ArrayNode usersList = JsonHandler.readArrayFromFile("users.json");
+            int maxId = 0;
+
+            for (int i = 0; i < usersList.size(); i++) {
+                JsonNode node = usersList.get(i);
+                if (node.has("userId")) 
+                {
+                    String userIdStr = node.get("userId").asText();
+                    if(userIdStr.charAt(0)!=generatedId.charAt(0))
+                    {
+                        continue;
+                    }
+                    int tempUserId = Integer.parseInt(userIdStr.substring(1));
+                    if (tempUserId > maxId) {
+                        maxId = tempUserId;
+                    }
+                }
+            }
+            generatedId = generatedId.concat("" + (maxId+1));
+       }
+       catch(IOException e)
+       {
+           generatedId = generatedId.concat("1");
+       }
+       return generatedId;
     }
     
-//} // commented it to mark incompletness of the class
+    @Override
+    
+    public String toString()
+    {
+        return this.getUserId() + "," + this.getName() + "," + this.getEmail() + "," + this.getPassword();
+    }
+
+    /**
+     * @return the userId
+     */
+    public String getUserId() {
+        return userId;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+    
+}
