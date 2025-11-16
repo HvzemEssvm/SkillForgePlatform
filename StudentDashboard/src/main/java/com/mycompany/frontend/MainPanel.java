@@ -133,7 +133,7 @@ public class MainPanel extends javax.swing.JPanel {
 
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
         // TODO add your handling code here:
-        mainFrame.getCardLayout().show(mainFrame.getContentPane(),"signup");
+        mainFrame.getCardLayout().show(mainFrame.getContentPane(),"login");
     }//GEN-LAST:event_BtnLoginActionPerformed
 
 

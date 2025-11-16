@@ -5,6 +5,8 @@
 package com.mycompany.frontend;
 
 import com.mycompany.CourseManagement.CourseServices;
+import com.mycompany.UserAccountManagement.Instructor;
+import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.UserServices;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -20,11 +22,11 @@ public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private CardLayout cardLayout;
-    private JPanel loginPanel;
-    private JPanel signupPanel;
-    private JPanel studentPanel;
-    private JPanel instructorPanel;
-    private JPanel mainPanel;
+    private LoginPanel loginPanel;
+    private SignupPanel signupPanel;
+//    private StudentPanel studentPanel;
+//    private InstructorPanel instructorPanel;
+    private MainPanel mainPanel;
     private UserServices userServices;
     private CourseServices courseServices;
     
@@ -45,15 +47,15 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel = new MainPanel(this);
         add(mainPanel,"home");
         
-//        loginPanel = new LoginPanel(this);
-//        add(loginPanel,"login");
+        loginPanel = new LoginPanel(this);
+        add(loginPanel,"login");
 //        
 //        signupPanel = new SignupPanel(this);
 //        add(signupPanel, "signup");
 //        
 //        instructorPanel = new InstructorPanel(this);
 //        add(instructorPanel,"instructor");
-//        
+////        
 //        studentPanel = new StudentPanel(this);
 //        add(studentPanel,"student");
         
@@ -145,16 +147,28 @@ public class MainFrame extends javax.swing.JFrame {
         return signupPanel;
     }
 
-    public JPanel getStudentPanel() {
-        return studentPanel;
-    }
-
-    public JPanel getInstructorPanel() {
-        return instructorPanel;
-    }
+//    public JPanel getStudentPanel() {
+//        return studentPanel;
+//    }
+//
+//    public JPanel getInstructorPanel() {
+//        return instructorPanel;
+//    }
 
     public JPanel getMainPanel() {
         return mainPanel;
+    }
+    
+    public void navigateToInstructorPanel(Instructor instructor)
+    {
+//        instructorPanel.loadInstructorData(instructor);
+//        cardLayout.show(getContentPane(),"instructor");
+    }
+//    
+    public void navigateToStudentPanel(Student student)
+    {
+//        studentPanel.loadStudentData(student);
+//        cardLayout.show(getContentPane(),"student");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

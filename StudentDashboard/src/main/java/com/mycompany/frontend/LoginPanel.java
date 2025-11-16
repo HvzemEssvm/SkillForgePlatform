@@ -4,17 +4,34 @@
  */
 package com.mycompany.frontend;
 
+import com.mycompany.InputVerifiers.IsEmptyVerifier;
+import com.mycompany.UserAccountManagement.Instructor;
+import com.mycompany.UserAccountManagement.Student;
+import com.mycompany.UserAccountManagement.User;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Hazem
  */
 public class LoginPanel extends javax.swing.JPanel {
 
+    private final MainFrame mainFrame;
+    private final IsEmptyVerifier userIdVerifier = new IsEmptyVerifier("User ID");
+    private final IsEmptyVerifier passwordVerifier = new IsEmptyVerifier("Password");
     /**
      * Creates new form LoginPanel
+     * @param mainFrame
      */
-    public LoginPanel() {
+    public LoginPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         initComponents();
+        fieldUserId.setInputVerifier(userIdVerifier);
+        fieldPassword.setInputVerifier(passwordVerifier);
+        btnBack.setVerifyInputWhenFocusTarget(false);
+        btnBack.setForeground(Color.WHITE);
+        btnLogin.setForeground(Color.WHITE);
     }
 
     /**
@@ -26,19 +43,137 @@ public class LoginPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
+        labelTitle = new javax.swing.JLabel();
+        btnLogin = new javax.swing.JButton();
+        labelUserId = new javax.swing.JLabel();
+        labelPassword = new javax.swing.JLabel();
+        fieldUserId = new javax.swing.JTextField();
+        fieldPassword = new javax.swing.JPasswordField();
+
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        btnBack.setBackground(new java.awt.Color(0, 0, 0));
+        btnBack.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        labelTitle.setFont(new java.awt.Font("Lucida Console", 1, 48)); // NOI18N
+        labelTitle.setText("L o g i n   P a g e");
+        labelTitle.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, java.awt.Color.darkGray, java.awt.Color.gray));
+
+        btnLogin.setBackground(new java.awt.Color(0, 0, 0));
+        btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        labelUserId.setBackground(new java.awt.Color(255, 255, 255));
+        labelUserId.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        labelUserId.setForeground(new java.awt.Color(0, 0, 0));
+        labelUserId.setText("User ID");
+
+        labelPassword.setBackground(new java.awt.Color(255, 255, 255));
+        labelPassword.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        labelPassword.setForeground(new java.awt.Color(0, 0, 0));
+        labelPassword.setText("Password");
+
+        fieldUserId.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+
+        fieldPassword.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1280, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(labelUserId)
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelPassword))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fieldUserId)
+                            .addComponent(fieldPassword))
+                        .addGap(33, 33, 33))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(labelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(19, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBack)
+                    .addComponent(labelTitle))
+                .addGap(122, 122, 122)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelUserId)
+                    .addComponent(fieldUserId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPassword)
+                    .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        if(userIdVerifier.verify(fieldUserId)&&passwordVerifier.verify(fieldPassword))
+        {
+            try {
+                User user  = this.mainFrame.getUserServices().login(fieldUserId.getText(),String.valueOf(fieldPassword.getPassword()));
+                if(user == null)
+                {
+                    JOptionPane.showMessageDialog(this, "Invalid Credentials", "Error", JOptionPane.ERROR_MESSAGE);
+                }else if(user.getUserId().charAt(0)=='i')
+                {
+                    this.mainFrame.navigateToInstructorPanel((Instructor)user);
+                }else if(user.getUserId().charAt(0)=='s')
+                {
+                    this.mainFrame.navigateToStudentPanel((Student)user);
+                }else
+                {}
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        showHome();
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JPasswordField fieldPassword;
+    private javax.swing.JTextField fieldUserId;
+    private javax.swing.JLabel labelPassword;
+    private javax.swing.JLabel labelTitle;
+    private javax.swing.JLabel labelUserId;
     // End of variables declaration//GEN-END:variables
+    public final void showHome() {
+        mainFrame.getCardLayout().show(mainFrame.getContentPane(), "home");
+    }
 }
