@@ -108,11 +108,16 @@ public class UserServices {
     
     public boolean deleteUser(User user) throws Exception
     {
+        return deleteUserById(user.getUserId());
+    }
+    
+    public boolean deleteUserById(String userId) throws Exception
+    {
         userList = JsonHandler.readArrayFromFile(fileName);
         
         for (int i =0;i<userList.size();i++) 
         {
-            if(userList.get(i).get("userId").asText().equals(user.getUserId()))
+            if(userList.get(i).get("userId").asText().equals(userId))
             {
                 userList.remove(i);
                 JsonHandler.writeToFile(userList, fileName);
