@@ -41,6 +41,44 @@ public class UserServices {
     }
     
     // check on the UserId that it should be displayed to the user after signing up
-    public User signup()
+    public <T extends User> T signup(Class<T> classType, String name,String email, String password) throws IllegalArgumentException, JsonProcessingException, IOException
+    {
+        String userId = User.generateId(classType);
+        User user;
+        if(classType == Instructor.class)
+        {
+            user =  classType.cast(new Instructor(userId, name, email, password));
+        }
+        else 
+        {
+            user = classType.cast(new Instructor(userId, name, email, password));
+        }
+        JsonNode node = JsonHandler.convertJavatoJson(user);
+        userList = JsonHandler.readArrayFromFile(fileName);
+        userList.add(node);
+        JsonHandler.writeToFile(userList, fileName);
+
+        return (T) user;
+    }
+    
+    /**
+     * 
+     * @param userId
+     * @param password
+     * @returns Null in case of invalid credentials, or User instance otherwise , check on type before usage
+     */
+//    public <T extends User> T login(String userId,String password)
+//    {
+//        userList = JsonHandler.readArrayFromFile(fileName);
+//        
+//        for (JsonNode node : userList) 
+//        {
+//            if(node.get("userId").asText().equals(userId))
+//            {
+//                if(userId
+//            }
+//        }
+//        
+//    }
     
 }
