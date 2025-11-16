@@ -90,5 +90,21 @@ public class UserServices {
         return null;
     }
     
+    public boolean updateUser(User user) throws Exception
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        
+        for (int i =0;i<userList.size();i++) 
+        {
+            if(userList.get(i).get("userId").asText().equals(user.getUserId()))
+            {
+                userList.set(i,JsonHandler.convertJavatoJson(user));
+                JsonHandler.writeToFile(userList, fileName);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
 }
