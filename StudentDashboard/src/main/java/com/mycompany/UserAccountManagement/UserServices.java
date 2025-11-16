@@ -69,7 +69,7 @@ public class UserServices {
     /**
      * 
      * @param userId
-     * @param password
+     * @param UnHashedPassword
      * @throws java.lang.Exception
      * @return Null in case of invalid credentials, or User instance otherwise , check on type before usage
      */
