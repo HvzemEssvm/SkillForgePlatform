@@ -25,24 +25,26 @@ public class Student extends User {
         courseManager = new CourseServices();
     }
     
-    public void enroll(String courseId) throws IOException {
+    public void enroll(String courseId) throws IllegalArgumentException, IOException {
         courseManager.enrollStudentInCourse(courseId, getUserId());
     }
     
     public void completeLesson(String lessonId) throws IOException {
-        // Check if student is enrolled in the course
         ArrayNode courseList = JsonHandler.readArrayFromFile(courseManager.getFileName());
+        
+        // Find the lesson to get the course index
         courseManager.findLessonById(lessonId);
         
+        // Get the course from JSON
         JsonNode node = courseList.get(courseManager.getIndex());
         Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
         
-        // Check enrollment
+        // Check if student is enrolled
         if (!course.getStudentIds().contains(getUserId())) {
             throw new IllegalArgumentException("You must enroll in this course first!");
         }
         
-        // Update lesson
+        // Find and update the lesson
         ArrayList<Lesson> lessons = course.getLessons();
         for (Lesson lesson : lessons) {
             if (lesson.getLessonId().equals(lessonId)) {
@@ -56,14 +58,33 @@ public class Student extends User {
         JsonHandler.writeToFile(courseList, courseManager.getFileName());
     }
     
-    // Get only courses this student is enrolled in
+    // View all available courses (not enrolled)
+    public ArrayList<Course> viewAvailableCourses() throws IOException {
+        ArrayList<Course> allCourses = courseManager.getAllCourses();
+        ArrayList<Course> availableCourses = new ArrayList<>();
+        
+        for (Course course : allCourses) {
+            // Show courses the student is NOT enrolled in
+            if (!course.getStudentIds().contains(getUserId())) {
+                availableCourses.add(course);
+            }
+        }
+        
+        return availableCourses;
+    }
+    
+    // View all enrolled courses
     public ArrayList<Course> getMyEnrolledCourses() throws IOException {
         return courseManager.getEnrolledCoursesByStudent(getUserId());
     }
     
-    // View lessons in enrolled courses only
+    // View lessons from an enrolled course
     public ArrayList<Lesson> getCourseLessons(String courseId) throws IOException {
         Course course = courseManager.findCourseById(courseId);
+        
+        if (course == null) {
+            throw new IllegalArgumentException("Course not found");
+        }
         
         // Check if enrolled
         if (!course.getStudentIds().contains(getUserId())) {
@@ -72,5 +93,4 @@ public class Student extends User {
         
         return courseManager.getAllLessonsFromCourse(courseId);
     }
-
 }

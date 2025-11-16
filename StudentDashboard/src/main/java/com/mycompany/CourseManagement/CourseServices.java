@@ -52,7 +52,6 @@ public class CourseServices {
         courseList.add(node);
         JsonHandler.writeToFile(courseList, getFileName());
 
-        
         return course;
     }
 
@@ -68,6 +67,27 @@ public class CourseServices {
         return null;
     }
 
+    public Course findCourseByLessonId(String lessonId) throws IOException {
+        courseList = JsonHandler.readArrayFromFile(getFileName());
+
+        for (int i = 0; i < courseList.size(); i++) {
+            JsonNode node = courseList.get(i);
+            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+
+            ArrayList<Lesson> lessons = course.getLessons();
+            if (lessons != null) {
+                for (Lesson lesson : lessons) {
+                    if (lesson.getLessonId().equals(lessonId)) {
+                        index = i;
+                        return course;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     public Course updateCourse(String courseId, String newDescription, String newTitle) throws IllegalArgumentException, IOException {
         Course course = findCourseById(courseId);
         course.setDescription(newDescription);
@@ -78,12 +98,12 @@ public class CourseServices {
         return course;
     }
 
-    public boolean deleteCourseById(int id) throws IOException {
+    public boolean deleteCourseById(String courseId) throws IOException {
         ArrayNode courseList = JsonHandler.readArrayFromFile(getFileName());
 
         for (int i = 0; i < courseList.size(); i++) {
             JsonNode node = courseList.get(i);
-            if (node.get("courseId").asText().equals(String.valueOf(id))) {
+            if (node.get("courseId").asText().equals(courseId)) {
                 courseList.remove(i);
                 JsonHandler.writeToFile(courseList, getFileName());
                 return true;
