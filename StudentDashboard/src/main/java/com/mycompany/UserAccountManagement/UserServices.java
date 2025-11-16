@@ -106,5 +106,19 @@ public class UserServices {
         return false;
     }
     
-    
+    public boolean deleteUser(User user) throws Exception
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        
+        for (int i =0;i<userList.size();i++) 
+        {
+            if(userList.get(i).get("userId").asText().equals(user.getUserId()))
+            {
+                userList.remove(i);
+                JsonHandler.writeToFile(userList, fileName);
+                return true;
+            }
+        }
+        return false;
+    }
 }
