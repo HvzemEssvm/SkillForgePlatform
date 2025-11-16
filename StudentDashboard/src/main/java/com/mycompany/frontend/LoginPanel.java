@@ -10,10 +10,12 @@ package com.mycompany.frontend;
  */
 public class LoginPanel extends javax.swing.JPanel {
 
+    private MainFrame mainFrame;
     /**
      * Creates new form LoginPanel
      */
-    public LoginPanel() {
+    public LoginPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         initComponents();
     }
 
@@ -41,4 +43,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    public final void showHome() {
+        mainFrame.getCardLayout().show(mainFrame.getContentPane(), "home");
+    }
 }
