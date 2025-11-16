@@ -18,6 +18,7 @@ public class Lesson {
     private String lessonId;
     private String title;
     private String content;
+    private boolean completed;
 
     public Lesson() {
     }
@@ -26,6 +27,7 @@ public class Lesson {
         this.lessonId = "L"+generateNextLessonId();
         this.title = title;
         this.content = content;
+        this.completed = false;
     }
 
     private int generateNextLessonId() throws IOException {
@@ -97,6 +99,20 @@ public class Lesson {
     public String toString() {
         return String.format("Lesson[ID=%s, Title='%s', Content='%s']",
                 lessonId, title, content);
+    }
+
+    /**
+     * @return the completed
+     */
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    /**
+     * @param completed the completed to set
+     */
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
 }
