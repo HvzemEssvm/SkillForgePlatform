@@ -41,7 +41,6 @@ public class UserServices {
                 user = JsonHandler.objectMapper.treeToValue(node, Student.class);
             }
             users.add(user);
-            users.add(user);
         }
         return users;
     }
