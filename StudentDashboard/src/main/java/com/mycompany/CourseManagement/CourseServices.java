@@ -55,11 +55,11 @@ public class CourseServices {
         return course;
     }
 
-    public Course findCourseById(int id) throws IllegalArgumentException, JsonProcessingException, IOException {
+    public Course findCourseById(String courseId) throws IllegalArgumentException, JsonProcessingException, IOException {
         courseList = JsonHandler.readArrayFromFile(fileName);
         for (int i = 0; i < courseList.size(); i++) {
             JsonNode node = courseList.get(i);
-            if (node.get("courseId").asText().equals(String.valueOf(id))) {
+            if (node.get("courseId").asText().equals(courseId)) {
                 index = i;
                 return JsonHandler.objectMapper.treeToValue(node, Course.class);
             }
@@ -67,8 +67,8 @@ public class CourseServices {
         return null;
     }
 
-    public Course updateCourse(int id, String newDescription, String newTitle) throws IllegalArgumentException, IOException {
-        Course course = findCourseById(id);
+    public Course updateCourse(String courseId, String newDescription, String newTitle) throws IllegalArgumentException, IOException {
+        Course course = findCourseById(courseId);
         course.setDescription(newDescription);
         course.setTitle(newTitle);
         JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
@@ -92,7 +92,7 @@ public class CourseServices {
         return false;
     }
 
-    public Lesson addLessonToCourse(int courseId, Lesson lesson) throws IllegalArgumentException, JsonProcessingException, IOException {
+    public Lesson addLessonToCourse(String courseId, Lesson lesson) throws IllegalArgumentException, JsonProcessingException, IOException {
         Course course = findCourseById(courseId);
         course.addLesson(lesson);
         JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
@@ -104,9 +104,8 @@ public class CourseServices {
     //------------------------
     //Enroll course and return enrolled courses by a student
     //------------------------
-    
     //Enroll student in a course
-    public boolean enrollStudentInCourse(int courseId, String studentId)
+    public boolean enrollStudentInCourse(String courseId, String studentId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -134,7 +133,6 @@ public class CourseServices {
         return enrolled;
     }
 
-    
     // return list of enrolled courses by specific student
     public ArrayList<Course> getEnrolledCoursesByStudent(String studentId)
             throws JsonProcessingException, IOException {
@@ -159,9 +157,8 @@ public class CourseServices {
         return enrolledCourses;
     }
 
-    
     //return list of students id who enrolled in specific course
-    public ArrayList<String> getEnrolledStudents(int courseId)
+    public ArrayList<String> getEnrolledStudents(String courseId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -175,7 +172,7 @@ public class CourseServices {
     //--------------------------------------------------------
     //Lesson Management Methods
     //--------------------------------------------------------
-    public ArrayList<Lesson> getAllLessonsFromCourse(int courseId)
+    public ArrayList<Lesson> getAllLessonsFromCourse(String courseId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -191,7 +188,7 @@ public class CourseServices {
     }
 
     // Use this if you know already the course id which have the lesson
-    public Lesson findLessonById(int courseId, int lessonId)
+    public Lesson findLessonById(String courseId, String lessonId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -205,7 +202,7 @@ public class CourseServices {
         }
 
         for (Lesson lesson : lessons) {
-            if (lesson.getLessonId() == lessonId) {
+            if (lesson.getLessonId().equals(lessonId)) {
                 return lesson;
             }
         }
@@ -214,7 +211,7 @@ public class CourseServices {
     }
 
     // Use this if you don't know the course id which have the lesson
-    public Lesson findLessonById(int lessonId)
+    public Lesson findLessonById(String lessonId)
             throws JsonProcessingException, IOException {
 
         courseList = JsonHandler.readArrayFromFile(fileName);
@@ -226,7 +223,7 @@ public class CourseServices {
             ArrayList<Lesson> lessons = course.getLessons();
             if (lessons != null) {
                 for (Lesson lesson : lessons) {
-                    if (lesson.getLessonId() == lessonId) {
+                    if (lesson.getLessonId().equals(lessonId)) {
                         index = i; // Store index for later use
                         return lesson;
                     }
@@ -237,7 +234,7 @@ public class CourseServices {
         return null;
     }
 
-    public Lesson updateLessonById(int lessonId, String newTitle, String newContent)
+    public Lesson updateLessonById(String lessonId, String newTitle, String newContent)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Lesson lesson = findLessonById(lessonId);
@@ -259,7 +256,7 @@ public class CourseServices {
         return lesson;
     }
 
-    public boolean deleteLessonById(int lessonId)
+    public boolean deleteLessonById(String lessonId)
             throws JsonProcessingException, IOException {
 
         Lesson lesson = findLessonById(lessonId);
@@ -275,7 +272,7 @@ public class CourseServices {
         boolean removed = false;
 
         for (int i = 0; i < lessons.size(); i++) {
-            if (lessons.get(i).getLessonId() == lessonId) {
+            if (lessons.get(i).getLessonId().equals(lessonId)) {
                 lessons.remove(i);
                 removed = true;
                 break;

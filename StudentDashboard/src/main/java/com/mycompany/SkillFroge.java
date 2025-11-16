@@ -22,12 +22,12 @@ public class SkillFroge {
         courseManagment.createCourse("instructor3", "Title3", "description 3");
         courseManagment.createCourse("instructor4", "Title4", "description 4");
         courseManagment.createCourse("instructor5", "Title5", "description 5");
-        System.out.println(courseManagment.findCourseById(3).toString());
+        System.out.println(courseManagment.findCourseById("C3").toString());
         courseManagment.deleteCourseById(4);
-        System.out.println(courseManagment.updateCourse(5, "newDescription", "newTitle").toString());
+        System.out.println(courseManagment.updateCourse("C5", "newDescription", "newTitle").toString());
 
           ArrayList<Course> courses = courseManagment.getAllCourses();
-          ArrayList<Lesson> lessons = courseManagment.getAllLessonsFromCourse(2);
+          ArrayList<Lesson> lessons = courseManagment.getAllLessonsFromCourse("C2");
           
           for (Lesson lesson : lessons) {
               System.out.println(lesson.toString());
@@ -37,17 +37,17 @@ public class SkillFroge {
         }
 
             Lesson lesson = courseManagment.createLesson("lesson one", "content one");
-            courseManagment.addLessonToCourse(1, lesson);
+            courseManagment.addLessonToCourse("C1", lesson);
             
-            courseManagment.updateLessonById(2, "newTitle", "newContent");
-            courseManagment.deleteLessonById(3);
+            courseManagment.updateLessonById("L2", "newTitle", "newContent");
+            courseManagment.deleteLessonById("L3");
 
-              courseManagment.enrollStudentInCourse(2, "st1");
-              courseManagment.enrollStudentInCourse(2, "st1");
-              courseManagment.enrollStudentInCourse(2, "st2");
-              courseManagment.enrollStudentInCourse(3, "st2");
+              courseManagment.enrollStudentInCourse("C2", "st1");
+              courseManagment.enrollStudentInCourse("C2", "st1");
+              courseManagment.enrollStudentInCourse("C2", "st2");
+              courseManagment.enrollStudentInCourse("C3", "st2");
 
-                System.out.println(courseManagment.getEnrolledStudents(2));
+                System.out.println(courseManagment.getEnrolledStudents("C2"));
     }
 
 }

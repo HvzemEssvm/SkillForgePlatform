@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Course {
 
-    private int courseId;
+    private String courseId;
     private String instructorId;
 
     @JsonProperty(defaultValue = "[]")
@@ -38,7 +38,7 @@ public class Course {
         this.instructorId = instructorId;
         this.title = title;
         this.description = description;
-        this.courseId = generateNextCourseId();
+        this.courseId = "C"+generateNextCourseId();
         this.studentIds = new ArrayList<>();
         this.lessons = new ArrayList<>();
     }
@@ -51,9 +51,9 @@ public class Course {
             for (int i = 0; i < courseList.size(); i++) {
                 JsonNode node = courseList.get(i);
                 if (node.has("courseId")) {
-                    int id = node.get("courseId").asInt();
-                    if (id > maxId) {
-                        maxId = id;
+                    String id = node.get("courseId").asText().substring(1);
+                    if (Integer.parseInt(id) > maxId) {
+                        maxId = Integer.parseInt(id);
                     }
                 }
             }
@@ -67,7 +67,7 @@ public class Course {
     /**
      * @return the courseId
      */
-    public int getCourseId() {
+    public String getCourseId() {
         return courseId;
     }
 
@@ -141,7 +141,8 @@ public class Course {
 
     @Override
     public String toString() {
-        return this.title + " " + this.description + " " + this.courseId;
+        return String.format("Course[ID=%s, Title='%s', Description='%s', ]",
+                courseId, title, description);
     }
 
 }
