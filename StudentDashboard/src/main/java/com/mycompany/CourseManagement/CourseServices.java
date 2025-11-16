@@ -92,13 +92,84 @@ public class CourseServices {
         return false;
     }
 
-    public Lesson addLessonToCourse(int courseId,Lesson lesson) throws IllegalArgumentException, JsonProcessingException, IOException {
+    public Lesson addLessonToCourse(int courseId, Lesson lesson) throws IllegalArgumentException, JsonProcessingException, IOException {
         Course course = findCourseById(courseId);
         course.addLesson(lesson);
         JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
         courseList.set(index, jsonNode);
         JsonHandler.writeToFile(courseList, fileName);
         return lesson;
+    }
+
+    //------------------------
+    //Enroll course and return enrolled courses by a student
+    //------------------------
+    
+    //Enroll student in a course
+    public boolean enrollStudentInCourse(int courseId, String studentId)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
+
+        Course course = findCourseById(courseId);
+        if (course == null) {
+            throw new IllegalArgumentException("Course with ID " + courseId + " not found");
+        }
+
+        if (studentId == null || studentId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Student ID cannot be null or empty");
+        }
+
+        ArrayList<String> studentIds = course.getStudentIds();
+        if (studentIds.contains(studentId)) {
+            return false; // Already enrolled
+        }
+
+        boolean enrolled = course.enrollStudent(studentId);
+
+        if (enrolled) {
+            JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
+            courseList.set(index, jsonNode);
+            JsonHandler.writeToFile(courseList, fileName);
+        }
+
+        return enrolled;
+    }
+
+    
+    // return list of enrolled courses by specific student
+    public ArrayList<Course> getEnrolledCoursesByStudent(String studentId)
+            throws JsonProcessingException, IOException {
+
+        if (studentId == null || studentId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Student ID cannot be null or empty");
+        }
+
+        courseList = JsonHandler.readArrayFromFile(fileName);
+        ArrayList<Course> enrolledCourses = new ArrayList<>();
+
+        for (int i = 0; i < courseList.size(); i++) {
+            JsonNode node = courseList.get(i);
+            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+
+            ArrayList<String> studentIds = course.getStudentIds();
+            if (studentIds != null && studentIds.contains(studentId)) {
+                enrolledCourses.add(course);
+            }
+        }
+
+        return enrolledCourses;
+    }
+
+    
+    //return list of students id who enrolled in specific course
+    public ArrayList<String> getEnrolledStudents(int courseId)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
+
+        Course course = findCourseById(courseId);
+        if (course == null) {
+            throw new IllegalArgumentException("Course with ID " + courseId + " not found");
+        }
+
+        return course.getStudentIds();
     }
 
     //--------------------------------------------------------

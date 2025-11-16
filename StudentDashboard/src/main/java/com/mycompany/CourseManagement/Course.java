@@ -66,6 +66,16 @@ public class Course {
         return studentIds;
     }
 
+    public boolean enrollStudent(String studentId) {
+        if (studentIds == null) {
+            studentIds = new ArrayList<>();
+        }
+        if (studentId != null && !studentIds.contains(studentId)) {
+            return studentIds.add(studentId);
+        }
+        return false;
+    }
+
     /**
      * @return the title
      */

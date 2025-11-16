@@ -42,11 +42,18 @@ public class SkillFroge {
 //              System.out.println(course.toString());
 //        }
 
-            Lesson lesson = courseManagment.createLesson("lesson one", "content one");
-            courseManagment.addLessonToCourse(1, lesson);
-            
-            courseManagment.updateLessonById(2, "newTitle", "newContent");
-            courseManagment.deleteLessonById(3);
+//            Lesson lesson = courseManagment.createLesson("lesson one", "content one");
+//            courseManagment.addLessonToCourse(1, lesson);
+//            
+//            courseManagment.updateLessonById(2, "newTitle", "newContent");
+//            courseManagment.deleteLessonById(3);
+
+//              courseManagment.enrollStudentInCourse(2, "st1");
+//              courseManagment.enrollStudentInCourse(2, "st1");
+//              courseManagment.enrollStudentInCourse(2, "st2");
+//              courseManagment.enrollStudentInCourse(3, "st2");
+
+//                System.out.println(courseManagment.getEnrolledStudents(2));
     }
 
 }
