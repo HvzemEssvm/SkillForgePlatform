@@ -140,9 +140,38 @@ public class StudentDashboardFrame extends JFrame {
         card.add(detailsButton, BorderLayout.SOUTH);
         return card;
     }
+private void refreshEnrolledCoursesTab() {
 
-    private void refreshEnrolledCoursesTab() {
-        tabbedPane.remove(enrolledCoursesPanel);
-        createEnrolledCoursesTab();
+    enrolledCoursesPanel.removeAll();
+    
+
+    JLabel titleLabel = new JLabel("الكورسات المسجلة", JLabel.CENTER);
+    titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+    enrolledCoursesPanel.add(titleLabel, BorderLayout.NORTH);
+
+    JPanel coursesPanel = new JPanel();
+    coursesPanel.setLayout(new BoxLayout(coursesPanel, BoxLayout.Y_AXIS));
+
+    try {
+        ArrayList<Course> enrolledCourses = student.getMyEnrolledCourses();
+        if (enrolledCourses.isEmpty()) {
+            coursesPanel.add(new JLabel("لا توجد كورسات مسجلة"));
+        } else {
+            for (Course course : enrolledCourses) {
+                JPanel courseCard = createCourseCard(course);
+                coursesPanel.add(courseCard);
+                coursesPanel.add(Box.createVerticalStrut(10));
+            }
+        }
+    } catch (Exception e) {
+        coursesPanel.add(new JLabel("خطأ في تحميل الكورسات"));
     }
+
+    JScrollPane scrollPane = new JScrollPane(coursesPanel);
+    enrolledCoursesPanel.add(scrollPane, BorderLayout.CENTER);
+    
+
+    enrolledCoursesPanel.revalidate();
+    enrolledCoursesPanel.repaint();
+}
 }
