@@ -5,8 +5,11 @@
 package com.mycompany.CourseManagement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.mycompany.JsonHandler.JsonHandler;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -14,11 +17,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class Course {
 
-    private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1); // Start from 1
-
-    public final int generateId() {
-        return ID_GENERATOR.getAndIncrement();
-    }
     private int courseId;
     private String instructorId;
 
@@ -36,13 +34,34 @@ public class Course {
         this.lessons = new ArrayList<>();
     }
 
-    public Course(String instructorId, String title, String description) {
+    public Course(String instructorId, String title, String description) throws IOException {
         this.instructorId = instructorId;
         this.title = title;
         this.description = description;
-        this.courseId = generateId();
+        this.courseId = generateNextCourseId();
         this.studentIds = new ArrayList<>();
         this.lessons = new ArrayList<>();
+    }
+
+    private int generateNextCourseId() throws IOException {
+        try {
+            ArrayNode courseList = JsonHandler.readArrayFromFile("courses.json");
+            int maxId = 0;
+
+            for (int i = 0; i < courseList.size(); i++) {
+                JsonNode node = courseList.get(i);
+                if (node.has("courseId")) {
+                    int id = node.get("courseId").asInt();
+                    if (id > maxId) {
+                        maxId = id;
+                    }
+                }
+            }
+
+            return maxId + 1;
+        } catch (IOException e) {
+            return 1; // If file doesn't exist or is empty, start from 1
+        }
     }
 
     /**

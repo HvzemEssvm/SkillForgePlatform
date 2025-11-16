@@ -186,7 +186,7 @@ public class CourseServices {
         return course.getLessons();
     }
 
-    public Lesson createLesson(String title, String content) {
+    public Lesson createLesson(String title, String content) throws IOException {
         return new Lesson(title, content);
     }
 

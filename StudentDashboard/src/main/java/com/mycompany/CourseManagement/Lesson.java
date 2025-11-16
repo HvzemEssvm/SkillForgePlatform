@@ -4,15 +4,16 @@
  */
 package com.mycompany.CourseManagement;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.mycompany.JsonHandler.JsonHandler;
+import java.io.IOException;
 
 /**
  *
  * @author Zeyad
  */
 public class Lesson {
-
-    private static final AtomicInteger ID_GENERATOR = new AtomicInteger(1); // Start from 1
 
     private int lessonId;
     private String title;
@@ -21,18 +22,44 @@ public class Lesson {
     public Lesson() {
     }
 
-    public Lesson(String title, String content) {
-        this.lessonId = generateId();
+    public Lesson(String title, String content) throws IOException {
+        this.lessonId = generateNextLessonId();
         this.title = title;
         this.content = content;
     }
 
+    private int generateNextLessonId() throws IOException {
+        try {
+            ArrayNode courseList = JsonHandler.readArrayFromFile("courses.json");
+            int maxId = 0;
+            
+            for (int i = 0; i < courseList.size(); i++) {
+                JsonNode courseNode = courseList.get(i);
+                
+                if (courseNode.has("lessons") && courseNode.get("lessons").isArray()) {
+                    ArrayNode lessons = (ArrayNode) courseNode.get("lessons");
+                    
+                    for (int j = 0; j < lessons.size(); j++) {
+                        JsonNode lessonNode = lessons.get(j);
+                        if (lessonNode.has("lessonId")) {
+                            int id = lessonNode.get("lessonId").asInt();
+                            if (id > maxId) {
+                                maxId = id;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return maxId + 1;
+        } catch (IOException e) {
+            return 1; // If file doesn't exist or is empty, start from 1
+        }
+    }
+    
     /**
      * @return the lessonId
      */
-    public final int generateId() {
-        return ID_GENERATOR.getAndIncrement();
-    }
 
     public int getLessonId() {
         return lessonId;
