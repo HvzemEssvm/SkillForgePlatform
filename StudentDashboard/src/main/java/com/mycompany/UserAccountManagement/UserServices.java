@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class UserServices {
     private final String fileName;
     private ArrayNode userList;
-    private int index;
     
     public UserServices() throws IOException
     {
@@ -34,13 +33,103 @@ public class UserServices {
         
         for (int i = 0; i < userList.size(); i++) {
             JsonNode node = userList.get(i);
-            User user = JsonHandler.objectMapper.treeToValue(node, User.class);
+            User user;
+            String userId = node.get("userId").asText();
+            if (userId.charAt(0) == 'i') {
+                user = JsonHandler.objectMapper.treeToValue(node, Instructor.class);
+            } else {
+                user = JsonHandler.objectMapper.treeToValue(node, Student.class);
+            }
             users.add(user);
         }
         return users;
     }
     
     // check on the UserId that it should be displayed to the user after signing up
-//    public User signup(){};
+    public <T extends User> T signup(Class<T> classType, String name,String email, String password) throws IllegalArgumentException, JsonProcessingException, IOException
+    {
+        String userId = User.generateId(classType);
+        User user;
+        if(classType == Instructor.class)
+        {
+            user =  classType.cast(new Instructor(userId, name, email, password));
+        }
+        else 
+        {
+            user = classType.cast(new Student(userId, name, email, password));
+        }
+        JsonNode node = JsonHandler.convertJavatoJson(user);
+        userList = JsonHandler.readArrayFromFile(fileName);
+        userList.add(node);
+        JsonHandler.writeToFile(userList, fileName);
+
+        return (T)user;
+    }
     
+    /**
+     * 
+     * @param userId
+     * @param password
+     * @throws java.lang.Exception
+     * @return Null in case of invalid credentials, or User instance otherwise , check on type before usage
+     */
+    public User login(String userId,String password) throws Exception
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        
+        for (JsonNode node : userList) 
+        {
+            if(node.get("userId").asText().equals(userId)&&
+               node.get("password").asText().equals(User.getHashedPassword(password)))
+            {
+                if(userId.charAt(0)=='i')
+                {
+                    return JsonHandler.objectMapper.treeToValue(node, Instructor.class);
+                }
+                else
+                {
+                    return JsonHandler.objectMapper.treeToValue(node, Student.class);
+                }
+                    
+            }
+        }
+        return null;
+    }
+    
+    public boolean updateUser(User user) throws Exception
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        
+        for (int i =0;i<userList.size();i++) 
+        {
+            if(userList.get(i).get("userId").asText().equals(user.getUserId()))
+            {
+                userList.set(i,JsonHandler.convertJavatoJson(user));
+                JsonHandler.writeToFile(userList, fileName);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean deleteUser(User user) throws Exception
+    {
+        return deleteUserById(user.getUserId());
+    }
+    
+    public boolean deleteUserById(String userId) throws Exception
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        
+        for (int i =0;i<userList.size();i++) 
+        {
+            if(userList.get(i).get("userId").asText().equals(userId))
+            {
+                userList.remove(i);
+                JsonHandler.writeToFile(userList, fileName);
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -37,22 +37,15 @@ public abstract class User {
         email = email.trim();
         userId = userId.trim();
         password = password.trim();
-        
-        try
-        {
-            validateArgs(name,email,password);
-            this.userId = userId;
-            this.name = name;
-            this.email = email;
-            this.password = getHashedPassword(password);
-        }
-        catch(IllegalArgumentException e)
-        {
-                throw e;
-        }
+
+        validateArgs(name,email,password);
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = getHashedPassword(password);
     }
     
-    private static void  validateArgs(String name, String email, String password)
+    private static void validateArgs(String name, String email, String password)
     {
         if(!Validation.isEmail(email))
         {
@@ -70,7 +63,7 @@ public abstract class User {
         }
     }
     
-    private static String getHashedPassword(String input) {
+    public static String getHashedPassword(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedhash = digest.digest(input.getBytes(StandardCharsets.UTF_8)); // FYI: StandardCharsets.UTF_8 makes it standard output & consistent on all machines, References: https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb83888
@@ -136,7 +129,7 @@ public abstract class User {
     
     public String toString()
     {
-        return this.getUserId() + "," + this.getName() + "," + this.getEmail() + "," + this.getPassword();
+        return this.getUserId() + "," + this.getName() + "," + this.getEmail();
     }
 
     /**
