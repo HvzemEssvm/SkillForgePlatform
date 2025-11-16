@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
@@ -24,7 +25,7 @@ public class DashboardPanel extends JPanel {
      private JList<String> courseList;
     private DefaultListModel<String> courseListModel;
     private JButton btnCreateCourse;
-    private final MainFrame parent;
+    private MainFrame parent;
 
     public DashboardPanel(MainFrame parent) {
         this.parent = parent;
@@ -38,22 +39,20 @@ public class DashboardPanel extends JPanel {
         scrollPane.setPreferredSize(new Dimension(200, 500));
         add(scrollPane, BorderLayout.CENTER);
 
-        
+      
         btnCreateCourse = new JButton("Create New Course");
         add(btnCreateCourse, BorderLayout.SOUTH);
 
         
         loadCourses();
 
-     
+        
         courseList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                
                 if (!e.getValueIsAdjusting()) {
                     String selected = courseList.getSelectedValue();
                     if (selected != null) {
-                        
                         Course c = CourseManager.getCourseByName(selected);
                         parent.showCoursePanel(c);
                     }
@@ -62,25 +61,22 @@ public class DashboardPanel extends JPanel {
         });
 
         
-        btnCreateCourse.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                
-                Course c = new Course("New Course");
+        btnCreateCourse.addActionListener(e -> {
+            
+            try {
+                Course c = new Course("instructor1", "New Course", "Description");
                 CourseManager.addCourse(c);
-
-                
                 loadCourses();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error creating course: " + ex.getMessage());
             }
         });
     }
 
-    
     private void loadCourses() {
         courseListModel.clear();
         for (Course c : CourseManager.getAllCourses()) {
-            courseListModel.addElement(c.getName());
+            courseListModel.addElement(c.getTitle());
         }
     }
-    
 }
