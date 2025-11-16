@@ -33,7 +33,14 @@ public class UserServices {
         
         for (int i = 0; i < userList.size(); i++) {
             JsonNode node = userList.get(i);
-            User user = JsonHandler.objectMapper.treeToValue(node, User.class);
+            User user;
+            String userId = node.get("userId").asText();
+            if (userId.charAt(0) == 'i') {
+                user = JsonHandler.objectMapper.treeToValue(node, Instructor.class);
+            } else {
+                user = JsonHandler.objectMapper.treeToValue(node, Student.class);
+            }
+            users.add(user);
             users.add(user);
         }
         return users;

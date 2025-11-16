@@ -129,7 +129,7 @@ public abstract class User {
     
     public String toString()
     {
-        return this.getUserId() + "," + this.getName() + "," + this.getEmail() + "," + this.getPassword();
+        return this.getUserId() + "," + this.getName() + "," + this.getEmail();
     }
 
     /**
