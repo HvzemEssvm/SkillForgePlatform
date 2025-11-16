@@ -4,9 +4,12 @@
  */
 package com.mycompany.frontend;
 
+import com.mycompany.CourseManagement.CourseServices;
+import com.mycompany.UserAccountManagement.UserServices;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -22,11 +25,15 @@ public class MainFrame extends javax.swing.JFrame {
     private JPanel studentPanel;
     private JPanel instructorPanel;
     private JPanel mainPanel;
+    private UserServices userServices;
+    private CourseServices courseServices;
     
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainFrame(UserServices userServices, CourseServices courseServices) {
+        this.userServices = userServices;
+        this.courseServices = courseServices;
         setTitle("SkillForge Platform🔨");
         setSize(1280, 720); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,17 +45,17 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel = new MainPanel(this);
         add(mainPanel,"home");
         
-        loginPanel = new LoginPanel(this);
-        add(loginPanel,"login");
-        
-        signupPanel = new SignupPanel(this);
-        add(signupPanel, "signup");
-        
-        instructorPanel = new InstructorPanel(this);
-        add(instructorPanel,"instructor");
-        
-        studentPanel = new StudentPanel(this);
-        add(studentPanel,"student");
+//        loginPanel = new LoginPanel(this);
+//        add(loginPanel,"login");
+//        
+//        signupPanel = new SignupPanel(this);
+//        add(signupPanel, "signup");
+//        
+//        instructorPanel = new InstructorPanel(this);
+//        add(instructorPanel,"instructor");
+//        
+//        studentPanel = new StudentPanel(this);
+//        add(studentPanel,"student");
         
         cardLayout.show(getContentPane(),"home");
         setVisible(true);
@@ -94,9 +101,36 @@ public class MainFrame extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        UserServices userServices;
+        CourseServices courseServices;
+        try
+        {
+            userServices = new UserServices();
+            courseServices = new CourseServices();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new MainFrame(userServices,courseServices).setVisible(true));
+    }
+
+    public UserServices getUserServices() {
+        return userServices;
+    }
+
+    public void setUserServices(UserServices userServices) {
+        this.userServices = userServices;
+    }
+
+    public CourseServices getCourseServices() {
+        return courseServices;
+    }
+
+    public void setCourseServices(CourseServices courseServices) {
+        this.courseServices = courseServices;
     }
 
     public CardLayout getCardLayout() {
