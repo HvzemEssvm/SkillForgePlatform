@@ -3,6 +3,7 @@ package com.mycompany.nour;
 import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
+import com.mycompany.CourseManagement.ProgressManager;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.nour.CourseDetailsFrame;
 import java.util.ArrayList;
@@ -109,34 +110,76 @@ public class StudentDashboardFrame extends JFrame {
         tabbedPane.addTab("استعراض الكورسات", browseCoursesPanel);
     }
 
-    private JPanel createCourseCard(Course course) {
-        JPanel card = new JPanel(new BorderLayout());
-        card.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        card.setBackground(Color.WHITE);
-        card.setPreferredSize(new Dimension(300, 120));
+private JPanel createCourseCard(Course course) {
+    JPanel card = new JPanel(new BorderLayout());
+    card.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+    card.setBackground(Color.WHITE);
+    card.setPreferredSize(new Dimension(300, 120));
 
-        JPanel infoPanel = new JPanel(new GridLayout(3, 1, 5, 5));
-        JLabel titleLabel = new JLabel(course.getTitle());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        JLabel descLabel = new JLabel(course.getDescription());
-        descLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+    JPanel infoPanel = new JPanel(new GridLayout(3, 1, 5, 5));
+    JLabel titleLabel = new JLabel(course.getTitle());
+    titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
+    JLabel descLabel = new JLabel(course.getDescription());
+    descLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
-        infoPanel.add(titleLabel);
-        infoPanel.add(descLabel);
 
-        card.add(infoPanel, BorderLayout.CENTER);
+    JProgressBar progressBar = new JProgressBar(0, 100);
+    try {
+        int completed = ProgressManager.getCompletedLessonsCount(student.getUserId(), course.getCourseId());
+        int total = course.getLessons().size();
+        int progress = (total == 0) ? 0 : (completed * 100) / total;
+        progressBar.setValue(progress);
+    } catch (Exception e) {
+        progressBar.setValue(0);
+    }
+    progressBar.setStringPainted(true);
 
-        JButton detailsButton = new JButton("عرض التفاصيل");
-        detailsButton.addActionListener(e -> {
-            new CourseDetailsFrame(course, student).setVisible(true);
-        });
+    infoPanel.add(titleLabel);
+    infoPanel.add(descLabel);
+    infoPanel.add(progressBar); 
 
-        card.add(detailsButton, BorderLayout.SOUTH);
-        return card;
+    card.add(infoPanel, BorderLayout.CENTER);
+
+    JButton detailsButton = new JButton("عرض التفاصيل");
+    detailsButton.addActionListener(e -> {
+        new CourseDetailsFrame(course, student).setVisible(true);
+    });
+
+    card.add(detailsButton, BorderLayout.SOUTH);
+    return card;
+}
+
+ private void refreshEnrolledCoursesTab() {
+
+    enrolledCoursesPanel.removeAll();
+
+    JLabel titleLabel = new JLabel("الكورسات المسجلة", JLabel.CENTER);
+    titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+    enrolledCoursesPanel.add(titleLabel, BorderLayout.NORTH);
+
+    JPanel coursesPanel = new JPanel();
+    coursesPanel.setLayout(new BoxLayout(coursesPanel, BoxLayout.Y_AXIS));
+
+    try {
+        ArrayList<Course> enrolledCourses = student.getMyEnrolledCourses();
+        if (enrolledCourses.isEmpty()) {
+            coursesPanel.add(new JLabel("لا توجد كورسات مسجلة"));
+        } else {
+            for (Course course : enrolledCourses) {
+                JPanel courseCard = createCourseCard(course);
+                coursesPanel.add(courseCard);
+                coursesPanel.add(Box.createVerticalStrut(10));
+            }
+        }
+    } catch (Exception e) {
+        coursesPanel.add(new JLabel("خطأ في تحميل الكورسات"));
     }
 
-    private void refreshEnrolledCoursesTab() {
-        tabbedPane.remove(enrolledCoursesPanel);
-        createEnrolledCoursesTab();
-    }
+    JScrollPane scrollPane = new JScrollPane(coursesPanel);
+    enrolledCoursesPanel.add(scrollPane, BorderLayout.CENTER);
+    
+ 
+    enrolledCoursesPanel.revalidate();
+    enrolledCoursesPanel.repaint();
+}
 }
