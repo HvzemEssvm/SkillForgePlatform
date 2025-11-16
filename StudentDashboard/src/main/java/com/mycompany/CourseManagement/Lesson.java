@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class Lesson {
 
-    private int lessonId;
+    private String lessonId;
     private String title;
     private String content;
 
@@ -23,7 +23,7 @@ public class Lesson {
     }
 
     public Lesson(String title, String content) throws IOException {
-        this.lessonId = generateNextLessonId();
+        this.lessonId = "L"+generateNextLessonId();
         this.title = title;
         this.content = content;
     }
@@ -42,9 +42,9 @@ public class Lesson {
                     for (int j = 0; j < lessons.size(); j++) {
                         JsonNode lessonNode = lessons.get(j);
                         if (lessonNode.has("lessonId")) {
-                            int id = lessonNode.get("lessonId").asInt();
-                            if (id > maxId) {
-                                maxId = id;
+                            String id = lessonNode.get("lessonId").asText().substring(1);
+                            if (Integer.parseInt(id) > maxId) {
+                                maxId = Integer.parseInt(id);
                             }
                         }
                     }
@@ -61,7 +61,7 @@ public class Lesson {
      * @return the lessonId
      */
 
-    public int getLessonId() {
+    public String getLessonId() {
         return lessonId;
     }
 
@@ -95,7 +95,7 @@ public class Lesson {
 
     @Override
     public String toString() {
-        return String.format("Lesson[ID=%d, Title='%s', Content='%s']",
+        return String.format("Lesson[ID=%s, Title='%s', Content='%s']",
                 lessonId, title, content);
     }
 
