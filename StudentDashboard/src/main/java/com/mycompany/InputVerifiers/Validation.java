@@ -122,6 +122,11 @@ public class Validation {
     
     public static boolean isPassword(String password)
     {
+        if(isEmpty(password))
+            return false;
+        if(password.contains(" ")||password.length()<8)
+            return false;
         
+        return true;
     }
 }

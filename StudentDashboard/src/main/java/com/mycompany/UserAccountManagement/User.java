@@ -19,7 +19,7 @@ public class User {
     private String email;
     private String password;
     
-    private void validateArgs(String userId, String name, String email)
+    private static void  validateArgs(String userId, String name, String email, String password)
     {
         //Start of Validating that UserId is unique
         
@@ -29,9 +29,15 @@ public class User {
         {
             throw new IllegalArgumentException("Error: Invalid Email Input");
         }
-        if(Validation.isAlphabetic(name) != 1);
+        
+        if(Validation.isAlphabetic(name) != 1)
         {
             throw new IllegalArgumentException("Error: Invalid Name Input");
+        }
+        
+        if(!Validation.isPassword(password))
+        {
+            throw new IllegalArgumentException("Error: password length MUST be >= 8, password MUST NOT contain whitespaces");
         }
     }
     
@@ -53,7 +59,7 @@ public class User {
         }
     }
     
-    public User(String userId, String name, String email, String password)
+    public User(String userId, String name, String email, String password) throws IllegalArgumentException
     {
         name = name.trim();
         email = email.trim();
@@ -62,7 +68,7 @@ public class User {
         
         try
         {
-            validateArgs(userId,name,email);
+            validateArgs(userId,name,email,password);
             this.userId = userId;
             this.name = name;
             this.email = email;
@@ -72,7 +78,6 @@ public class User {
         {
                 throw e;
         }
-        
     }
-
-}
+    
+//} // commented it to mark incompletness of the class
