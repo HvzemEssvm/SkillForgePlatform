@@ -5,9 +5,11 @@
 package com.mycompany.instructor;
 
 import com.mycompany.CourseManagement.Course;
-import com.mycompany.studentdashboard.CourseManager;
+import com.mycompany.UserAccountManagement.Instructor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -22,13 +24,15 @@ import javax.swing.event.ListSelectionListener;
  * @author HP
  */
 public class DashboardPanel extends JPanel {
-     private JList<String> courseList;
+    private JList<String> courseList;
     private DefaultListModel<String> courseListModel;
     private JButton btnCreateCourse;
     private MainFrame parent;
+    private Instructor instructor;
 
-    public DashboardPanel(MainFrame parent) {
+    public DashboardPanel(MainFrame parent, Instructor instructor) {
         this.parent = parent;
+        this.instructor = instructor;
 
         setLayout(new BorderLayout());
 
@@ -53,30 +57,53 @@ public class DashboardPanel extends JPanel {
                 if (!e.getValueIsAdjusting()) {
                     String selected = courseList.getSelectedValue();
                     if (selected != null) {
-                        Course c = CourseManager.getCourseByName(selected);
-                        parent.showCoursePanel(c);
+                        try {
+                            ArrayList<Course> courses = instructor.getMyCourses();
+                            for (Course c : courses) {
+                                if (c.getTitle().equals(selected)) {
+                                    parent.showCoursePanel(c);
+                                    break;
+                                }
+                            }
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(null, "Error loading course: " + ex.getMessage());
+                        }
                     }
                 }
             }
         });
 
-        
+
         btnCreateCourse.addActionListener(e -> {
-            
-            try {
-                Course c = new Course("instructor1", "New Course", "Description");
-                CourseManager.addCourse(c);
-                loadCourses();
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error creating course: " + ex.getMessage());
+            String title = JOptionPane.showInputDialog(this, "Enter course title:");
+            if (title != null && !title.trim().isEmpty()) {
+                String description = JOptionPane.showInputDialog(this, "Enter course description:");
+                if (description != null) {
+                    try {
+                        instructor.createCourse(title, description);
+                        loadCourses();
+                        JOptionPane.showMessageDialog(this, "Course created successfully!");
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(this, "Error creating course: " + ex.getMessage());
+                    }
+                }
             }
         });
     }
 
+    public void refreshCourses() {
+        loadCourses();
+    }
+
     private void loadCourses() {
         courseListModel.clear();
-        for (Course c : CourseManager.getAllCourses()) {
-            courseListModel.addElement(c.getTitle());
+        try {
+            ArrayList<Course> courses = instructor.getMyCourses();
+            for (Course c : courses) {
+                courseListModel.addElement(c.getTitle());
+            }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error loading courses: " + ex.getMessage());
         }
     }
 }

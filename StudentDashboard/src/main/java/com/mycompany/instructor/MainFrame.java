@@ -5,7 +5,11 @@
 package com.mycompany.instructor;
 
 import com.mycompany.CourseManagement.Course;
+import com.mycompany.CourseManagement.Lesson;
+import com.mycompany.UserAccountManagement.Instructor;
 import java.awt.CardLayout;
+import java.io.IOException;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -19,28 +23,52 @@ public class MainFrame extends javax.swing.JFrame {
      */
     CardLayout cardLayout;
     JPanel cardsPanel;
-    public MainFrame() {
+    private Instructor instructor;
+
+    public MainFrame(Instructor instructor) {
+        this.instructor = instructor;
         initComponents();
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
         getContentPane().add(cardsPanel);
         showDashboard();
+    }
 
+    public MainFrame() {
+        try {
+            this.instructor = new Instructor("instructor1", "Default Instructor", "instructor@example.com", "password");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Error initializing instructor: " + ex.getMessage());
+        }
+        initComponents();
+        cardLayout = new CardLayout();
+        cardsPanel = new JPanel(cardLayout);
+        getContentPane().add(cardsPanel);
+        showDashboard();
     }
      
     public void showDashboard() {
-        DashboardPanel dashboard = new DashboardPanel(this);
+        DashboardPanel dashboard = new DashboardPanel(this, instructor);
 
         cardsPanel.add(dashboard, "DASHBOARD");
 
         cardLayout.show(cardsPanel, "DASHBOARD");
     }
-     public void showCoursePanel(Course course) {
-        CoursePanel cp = new CoursePanel(this, course);
+
+    public void showCoursePanel(Course course) {
+        CoursePanel cp = new CoursePanel(this, course, instructor);
 
         cardsPanel.add(cp, "COURSE");
 
         cardLayout.show(cardsPanel, "COURSE");
+    }
+
+    public void showLessonPanel(Lesson lesson, Course course) {
+        LessonPanel lp = new LessonPanel(this, lesson, course, instructor);
+
+        cardsPanel.add(lp, "LESSON");
+
+        cardLayout.show(cardsPanel, "LESSON");
     }
 
     /**
@@ -53,26 +81,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-    private void initComponents() {
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(900, 600);
         setLocationRelativeTo(null);
-    }
+    }// </editor-fold>//GEN-END:initComponents
     /**
      * @param args the command line arguments
      */
