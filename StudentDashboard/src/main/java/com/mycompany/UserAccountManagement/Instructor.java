@@ -12,11 +12,14 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Hazem
+ * 
  */
 public class Instructor extends User {
 
-    private final CourseServices courseManager;
+    private CourseServices courseManager;
+    
+    public Instructor() throws IOException
+    {courseManager = new CourseServices();}
     
     public Instructor(String userId, String name, String email, String password) throws IOException {
         super(userId, name, email, password);
