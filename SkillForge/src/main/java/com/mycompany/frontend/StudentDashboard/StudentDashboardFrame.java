@@ -1,10 +1,10 @@
-package com.mycompany.nour;
+package com.mycompany.frontend.StudentDashboard;
 
 import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.UserAccountManagement.Student;
-import com.mycompany.frontend.MainFrame;
+import com.mycompany.frontend.Main.MainFrame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;

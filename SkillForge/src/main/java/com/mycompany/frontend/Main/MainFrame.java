@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.frontend;
+package com.mycompany.frontend.Main;
 
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.UserServices;
-import com.mycompany.instructor.InstructorDashboardFrame;
-import com.mycompany.nour.StudentDashboardFrame;
+import com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame;
+import com.mycompany.frontend.StudentDashboard.StudentDashboardFrame;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -75,7 +75,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

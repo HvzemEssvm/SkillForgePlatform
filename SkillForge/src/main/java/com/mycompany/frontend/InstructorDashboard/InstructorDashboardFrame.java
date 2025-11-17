@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.mycompany.instructor;
+package com.mycompany.frontend.InstructorDashboard;
 
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Instructor;
-import com.mycompany.frontend.MainFrame;
+import com.mycompany.frontend.Main.MainFrame;
 import java.awt.CardLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
