@@ -12,6 +12,7 @@ import com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame;
 import com.mycompany.frontend.StudentDashboard.StudentDashboardFrame;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -44,7 +45,9 @@ public class MainFrame extends javax.swing.JFrame {
             System.exit(0);
         }
         setTitle("SkillForge Platform🔨");
-        setSize(1280, 720); 
+        setSize(1280, 720);
+        setMinimumSize(new Dimension(1280,720));
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cardLayout = new CardLayout();
         setLayout(cardLayout);
