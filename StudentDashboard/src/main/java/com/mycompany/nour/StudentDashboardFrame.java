@@ -22,7 +22,7 @@ public class StudentDashboardFrame extends JFrame {
     }
 
     private void initializeFrame() {
-        setTitle("لوحة الطالب - Skill Forge");
+        setTitle("Student Dashboard - Skill Forge");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
