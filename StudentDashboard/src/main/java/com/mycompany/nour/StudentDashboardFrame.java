@@ -3,9 +3,10 @@ package com.mycompany.nour;
 import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
-import com.mycompany.CourseManagement.ProgressManager;
 import com.mycompany.UserAccountManagement.Student;
-import com.mycompany.nour.CourseDetailsFrame;
+import com.mycompany.frontend.MainFrame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class StudentDashboardFrame extends JFrame {
@@ -24,9 +25,19 @@ public class StudentDashboardFrame extends JFrame {
     }
 
     private void initializeFrame() {
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+                JOptionPane.showMessageDialog(mainFrame,"Logged Out Successfully","Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        
         setTitle("Student Dashboard - Skill Forge");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();

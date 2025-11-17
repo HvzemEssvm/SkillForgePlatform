@@ -149,7 +149,7 @@ public class LoginPanel extends javax.swing.JPanel {
                     this.mainFrame.navigateToInstructorPanel((Instructor)user);
                 }else if(user.getUserId().charAt(0)=='s')
                 {
-                    this.mainFrame.navigateToStudentPanel((Student)user);
+                    this.mainFrame.navigateToStudentFrame((Student)user);
                 }else
                 {}
             } catch (Exception e) {

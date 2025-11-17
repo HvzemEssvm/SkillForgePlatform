@@ -27,10 +27,10 @@ public class DashboardPanel extends JPanel {
     private JList<String> courseList;
     private DefaultListModel<String> courseListModel;
     private JButton btnCreateCourse;
-    private MainFrame parent;
+    private InstructorDashboardFrame parent;
     private Instructor instructor;
 
-    public DashboardPanel(MainFrame parent, Instructor instructor) {
+    public DashboardPanel(InstructorDashboardFrame parent, Instructor instructor) {
         this.parent = parent;
         this.instructor = instructor;
 
