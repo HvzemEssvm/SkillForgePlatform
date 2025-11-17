@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
  * @author HP
  */
 public class CoursePanel extends JPanel{
-    private MainFrame parent;
+    private InstructorDashboardFrame parent;
     private Course course;
     private Instructor instructor;
 
@@ -37,7 +37,7 @@ public class CoursePanel extends JPanel{
     private JList<String> lessonList;
     private DefaultListModel<String> lessonListModel;
 
-    public CoursePanel(MainFrame parent, Course course, Instructor instructor) {
+    public CoursePanel(InstructorDashboardFrame parent, Course course, Instructor instructor) {
         this.parent = parent;
         this.course = course;
         this.instructor = instructor;

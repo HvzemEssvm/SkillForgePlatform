@@ -8,6 +8,8 @@ import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.UserServices;
+import com.mycompany.instructor.InstructorDashboardFrame;
+import com.mycompany.nour.StudentDashboardFrame;
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -23,8 +25,6 @@ public class MainFrame extends javax.swing.JFrame {
     private CardLayout cardLayout;
     private LoginPanel loginPanel;
     private SignupPanel signupPanel;
-//    private StudentPanel studentPanel;
-//    private InstructorPanel instructorPanel;
     private MainPanel mainPanel;
     private UserServices userServices;
     private CourseServices courseServices;
@@ -32,9 +32,17 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainFrame(UserServices userServices, CourseServices courseServices) {
-        this.userServices = userServices;
-        this.courseServices = courseServices;
+    public MainFrame() {
+        try
+        {
+            userServices = new UserServices();
+            courseServices = new CourseServices();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
         setTitle("SkillForge Platform🔨");
         setSize(1280, 720); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,12 +59,6 @@ public class MainFrame extends javax.swing.JFrame {
         
         signupPanel = new SignupPanel(this);
         add(signupPanel, "signup");
-        
-//        instructorPanel = new InstructorPanel(this);
-//        add(instructorPanel,"instructor");
-//        
-//        studentPanel = new StudentPanel(this);
-//        add(studentPanel,"student");
         
         cardLayout.show(getContentPane(),"home");
         setVisible(true);
@@ -98,20 +100,9 @@ public class MainFrame extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        UserServices userServices;
-        CourseServices courseServices;
-        try
-        {
-            userServices = new UserServices();
-            courseServices = new CourseServices();
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null,e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainFrame(userServices,courseServices).setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
     }
 
     public UserServices getUserServices() {
@@ -141,29 +132,23 @@ public class MainFrame extends javax.swing.JFrame {
     public SignupPanel getSignupPanel() {
         return signupPanel;
     }
-
-//    public JPanel getStudentPanel() {
-//        return studentPanel;
-//    }
-//
-//    public JPanel getInstructorPanel() {
-//        return instructorPanel;
-//    }
-
+    
     public MainPanel getMainPanel() {
         return mainPanel;
     }
     
     public void navigateToInstructorPanel(Instructor instructor)
     {
-//        instructorPanel.loadInstructorData(instructor);
-//        cardLayout.show(getContentPane(),"instructor");
+        InstructorDashboardFrame instructorDashboardFrame = new InstructorDashboardFrame(instructor);
+        instructorDashboardFrame.setVisible(true);
+        this.dispose();
     }
     
-    public void navigateToStudentPanel(Student student)
+    public void navigateToStudentFrame(Student student)
     {
-//        studentPanel.loadStudentData(student);
-//        cardLayout.show(getContentPane(),"student");
+        StudentDashboardFrame studentDashboardFrame = new StudentDashboardFrame(student);
+        studentDashboardFrame.setVisible(true);
+        this.dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

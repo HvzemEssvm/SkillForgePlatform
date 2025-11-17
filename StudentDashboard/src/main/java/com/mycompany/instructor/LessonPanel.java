@@ -21,13 +21,13 @@ import javax.swing.JTextArea;
  */
 public class LessonPanel extends JPanel {
     
-    private MainFrame parent;
+    private InstructorDashboardFrame parent;
     private Lesson lesson;
     private Course course;
     private Instructor instructor;
     private JTextArea txtContent;
 
-    public LessonPanel(MainFrame parent, Lesson lesson, Course course, Instructor instructor) {
+    public LessonPanel(InstructorDashboardFrame parent, Lesson lesson, Course course, Instructor instructor) {
         this.parent = parent;
         this.lesson = lesson;
         this.course = course;

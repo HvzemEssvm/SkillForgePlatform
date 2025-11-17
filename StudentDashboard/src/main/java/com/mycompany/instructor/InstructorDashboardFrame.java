@@ -7,7 +7,10 @@ package com.mycompany.instructor;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Instructor;
+import com.mycompany.frontend.MainFrame;
 import java.awt.CardLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,16 +19,25 @@ import javax.swing.JPanel;
  *
  * @author HP
  */
-public class MainFrame extends javax.swing.JFrame {
+public class InstructorDashboardFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form MainFrame
+     * Creates new form InstructorDashboardFrame
      */
     CardLayout cardLayout;
     JPanel cardsPanel;
     private Instructor instructor;
 
-    public MainFrame(Instructor instructor) {
+    public InstructorDashboardFrame(Instructor instructor) {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+                JOptionPane.showMessageDialog(mainFrame,"Logged Out Successfully","Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        
         this.instructor = instructor;
         initComponents();
         cardLayout = new CardLayout();
@@ -34,7 +46,7 @@ public class MainFrame extends javax.swing.JFrame {
         showDashboard();
     }
 
-    public MainFrame() {
+    public InstructorDashboardFrame() {
         try {
             this.instructor = new Instructor("instructor1", "Default Instructor", "instructor@example.com", "password");
         } catch (IOException ex) {
@@ -80,44 +92,11 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(900, 600);
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
