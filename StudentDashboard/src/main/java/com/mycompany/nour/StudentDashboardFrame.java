@@ -22,7 +22,7 @@ public class StudentDashboardFrame extends JFrame {
     }
 
     private void initializeFrame() {
-        setTitle("لوحة الطالب - Skill Forge");
+        setTitle("Student Dashboard - Skill Forge");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -32,7 +32,7 @@ public class StudentDashboardFrame extends JFrame {
 
     private void createEnrolledCoursesTab() {
         enrolledCoursesPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("الكورسات المسجلة", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("Enrolled Courses", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         enrolledCoursesPanel.add(titleLabel, BorderLayout.NORTH);
 
@@ -42,7 +42,7 @@ public class StudentDashboardFrame extends JFrame {
         try {
             ArrayList<Course> enrolledCourses = student.getMyEnrolledCourses();
             if (enrolledCourses.isEmpty()) {
-                coursesPanel.add(new JLabel("لا توجد كورسات مسجلة"));
+                coursesPanel.add(new JLabel("No Enrolled Courses"));
             } else {
                 for (Course course : enrolledCourses) {
                     JPanel courseCard = createCourseCard(course);
@@ -51,17 +51,17 @@ public class StudentDashboardFrame extends JFrame {
                 }
             }
         } catch (Exception e) {
-            coursesPanel.add(new JLabel("خطأ في تحميل الكورسات"));
+            coursesPanel.add(new JLabel("Error loading enrolled courses: " + e.getMessage()));
         }
 
         JScrollPane scrollPane = new JScrollPane(coursesPanel);
         enrolledCoursesPanel.add(scrollPane, BorderLayout.CENTER);
-        tabbedPane.addTab("كورساتي", enrolledCoursesPanel);
+        tabbedPane.addTab("My Courses", enrolledCoursesPanel);
     }
 
     private void createBrowseCoursesTab() {
         browseCoursesPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("الكورسات المتاحة", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("Available Courses", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         browseCoursesPanel.add(titleLabel, BorderLayout.NORTH);
 
@@ -80,34 +80,34 @@ public class StudentDashboardFrame extends JFrame {
 
             coursesTable.setModel(new javax.swing.table.DefaultTableModel(
                 data,
-                new String[]{"العنوان", "المدرس", "الوصف"}
+                new String[]{"title", "instructor", "description"}
             ));
         } catch (Exception e) {
-            browseCoursesPanel.add(new JLabel("خطأ في تحميل الكورسات"));
+            browseCoursesPanel.add(new JLabel("Error in loading courses: " + e.getMessage()));
         }
 
         JScrollPane scrollPane = new JScrollPane(coursesTable);
         browseCoursesPanel.add(scrollPane, BorderLayout.CENTER);
 
-        JButton enrollButton = new JButton("سجل في الكورس");
+        JButton enrollButton = new JButton("Enrollment");
         enrollButton.addActionListener(e -> {
             int selectedRow = coursesTable.getSelectedRow();
             if (selectedRow >= 0) {
                 try {
                     ArrayList<Course> availableCourses = student.viewAvailableCourses();
                     student.enroll(availableCourses.get(selectedRow).getCourseId());
-                    JOptionPane.showMessageDialog(this, "تم التسجيل في الكورس بنجاح");
+                    JOptionPane.showMessageDialog(this, "Enrollment successful");
                     refreshEnrolledCoursesTab();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "خطأ في التسجيل: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(this, "Enrollment failed" + ex.getMessage());
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "اختر كورس أولاً");
+                JOptionPane.showMessageDialog(this, "choose a course to enrollً");
             }
         });
 
         browseCoursesPanel.add(enrollButton, BorderLayout.SOUTH);
-        tabbedPane.addTab("استعراض الكورسات", browseCoursesPanel);
+        tabbedPane.addTab("Browse Available Courses", browseCoursesPanel);
     }
 
 private JPanel createCourseCard(Course course) {
@@ -122,25 +122,12 @@ private JPanel createCourseCard(Course course) {
     JLabel descLabel = new JLabel(course.getDescription());
     descLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
-
-    JProgressBar progressBar = new JProgressBar(0, 100);
-    try {
-        int completed = ProgressManager.getCompletedLessonsCount(student.getUserId(), course.getCourseId());
-        int total = course.getLessons().size();
-        int progress = (total == 0) ? 0 : (completed * 100) / total;
-        progressBar.setValue(progress);
-    } catch (Exception e) {
-        progressBar.setValue(0);
-    }
-    progressBar.setStringPainted(true);
-
     infoPanel.add(titleLabel);
     infoPanel.add(descLabel);
-    infoPanel.add(progressBar); 
 
     card.add(infoPanel, BorderLayout.CENTER);
 
-    JButton detailsButton = new JButton("عرض التفاصيل");
+    JButton detailsButton = new JButton("Show Details");
     detailsButton.addActionListener(e -> {
         new CourseDetailsFrame(course, student).setVisible(true);
     });
@@ -153,7 +140,7 @@ private JPanel createCourseCard(Course course) {
 
     enrolledCoursesPanel.removeAll();
 
-    JLabel titleLabel = new JLabel("الكورسات المسجلة", JLabel.CENTER);
+    JLabel titleLabel = new JLabel("Enrollment courses", JLabel.CENTER);
     titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
     enrolledCoursesPanel.add(titleLabel, BorderLayout.NORTH);
 
@@ -163,7 +150,7 @@ private JPanel createCourseCard(Course course) {
     try {
         ArrayList<Course> enrolledCourses = student.getMyEnrolledCourses();
         if (enrolledCourses.isEmpty()) {
-            coursesPanel.add(new JLabel("لا توجد كورسات مسجلة"));
+            coursesPanel.add(new JLabel("No Enrolled Courses"));
         } else {
             for (Course course : enrolledCourses) {
                 JPanel courseCard = createCourseCard(course);
@@ -172,7 +159,7 @@ private JPanel createCourseCard(Course course) {
             }
         }
     } catch (Exception e) {
-        coursesPanel.add(new JLabel("خطأ في تحميل الكورسات"));
+        coursesPanel.add(new JLabel("Error in loading courses"));
     }
 
     JScrollPane scrollPane = new JScrollPane(coursesPanel);
