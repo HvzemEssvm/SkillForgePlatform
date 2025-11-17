@@ -1,4 +1,4 @@
-package com.mycompany.nour;
+package com.mycompany.frontend.StudentDashboard;
 
 import javax.swing.*;
 import java.awt.*;
