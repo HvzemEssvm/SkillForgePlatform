@@ -20,7 +20,6 @@ public class SkillFroge {
 
     public static void main(String[] args) {
         try {
-            // 1️⃣ إنشاء CourseServices وإنشاء بعض الكورسات
             CourseServices courseManagment = new CourseServices();
             courseManagment.createCourse("TABLIA", "JAVA", "2025");
             courseManagment.createCourse("DR AMR", "MATH3", "4 LESSON");
@@ -28,7 +27,6 @@ public class SkillFroge {
             courseManagment.createCourse("instructor4", "Title4", "description 4");
             courseManagment.createCourse("instructor5", "Title5", "description 5");
 
-            // 2️⃣ عرض بعض المعلومات على الكونسول
             System.out.println(courseManagment.findCourseById("C3").toString());
             System.out.println(courseManagment.updateCourse("C5", "newDescription", "newTitle").toString());
 
@@ -49,12 +47,8 @@ public class SkillFroge {
             courseManagment.deleteLessonById("L3");
 
 
-            courseManagment.enrollStudentInCourse("C2", "st1");
-            courseManagment.enrollStudentInCourse("C2", "st1");
-            courseManagment.enrollStudentInCourse("C2", "st2");
             courseManagment.enrollStudentInCourse("C3", "st2");
 
-            System.out.println(courseManagment.getEnrolledStudents("C2"));
 
  
             Student st = new Student("st1", "StudentOne", "student1@example.com", "password123");

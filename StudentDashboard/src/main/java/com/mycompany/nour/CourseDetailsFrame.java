@@ -20,7 +20,7 @@ public class CourseDetailsFrame extends JFrame {
     }
     
     private void initializeFrame() {
-        setTitle("تفاصيل الكورس - " + course.getTitle());
+        setTitle("Course details" + course.getTitle());
         setSize(600, 500);
         setLocationRelativeTo(null);
     }
@@ -31,21 +31,21 @@ public class CourseDetailsFrame extends JFrame {
         JPanel infoPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        infoPanel.add(new JLabel("العنوان: " + course.getTitle()));
-        infoPanel.add(new JLabel("المدرس: " + course.getInstructorId()));
-        infoPanel.add(new JLabel("الوصف: " + course.getDescription()));
+        infoPanel.add(new JLabel("title: " + course.getTitle()));
+        infoPanel.add(new JLabel("instructor: " + course.getInstructorId()));
+        infoPanel.add(new JLabel("description: " + course.getDescription()));
         
         add(infoPanel, BorderLayout.NORTH);
         
         JPanel lessonsPanel = new JPanel();
         lessonsPanel.setLayout(new BoxLayout(lessonsPanel, BoxLayout.Y_AXIS));
-        lessonsPanel.setBorder(BorderFactory.createTitledBorder("الدروس"));
+        lessonsPanel.setBorder(BorderFactory.createTitledBorder("Lessons"));
         
         try {
             ArrayList<Lesson> lessons = student.getCourseLessons(course.getCourseId());
             
             if (lessons.isEmpty()) {
-                lessonsPanel.add(new JLabel("لا توجد دروس في هذا الكورس"));
+                lessonsPanel.add(new JLabel("No lessons found"));
             } else {
                 for (Lesson lesson : lessons) {
                     JPanel lessonPanel = createLessonPanel(lesson);
@@ -54,7 +54,7 @@ public class CourseDetailsFrame extends JFrame {
                 }
             }
         } catch (Exception e) {
-            lessonsPanel.add(new JLabel("خطأ في تحميل الدروس"));
+            lessonsPanel.add(new JLabel("Error loading lessons: " + e.getMessage()));
         }
         
         JScrollPane scrollPane = new JScrollPane(lessonsPanel);
@@ -69,13 +69,13 @@ public class CourseDetailsFrame extends JFrame {
         JLabel titleLabel = new JLabel(lesson.getTitle());
         titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         
-        JButton contentButton = new JButton("عرض المحتوى");
+        JButton contentButton = new JButton("View content");
         contentButton.addActionListener(e -> {
             showLessonContent(lesson);
         });
         
         JButton completeButton = new JButton(
-            lesson.isCompleted() ? "مكتمل ✓" : "إكمال الدرس"
+            lesson.isCompleted() ? "Completed" : "Complete lesson"
         );
         completeButton.setEnabled(!lesson.isCompleted());
 
@@ -83,10 +83,10 @@ public class CourseDetailsFrame extends JFrame {
             try {
                 student.completeLesson(lesson.getLessonId());
                 completeButton.setEnabled(false);
-                completeButton.setText("مكتمل ✓");
-                JOptionPane.showMessageDialog(this, "تم إكمال الدرس: " + lesson.getTitle());
+                completeButton.setText("Completed");
+                JOptionPane.showMessageDialog(this, "Lesson Completed: " + lesson.getTitle());
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "خطأ في حفظ التقدم");
+                JOptionPane.showMessageDialog(this, "Error completing lesson: " + ex.getMessage());
             }
         });
         
