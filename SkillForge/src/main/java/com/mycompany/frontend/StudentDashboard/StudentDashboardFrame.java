@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.UserAccountManagement.Student;
+import com.mycompany.UserAccountManagement.UserServices;
 import java.util.ArrayList;
 
 public class StudentDashboardFrame extends JFrame {
@@ -166,7 +167,7 @@ public class StudentDashboardFrame extends JFrame {
             for (int i = 0; i < allCourses.size(); i++) {
                 Course c = allCourses.get(i);
                 data[i][0] = c.getTitle();
-                data[i][1] = c.getInstructorId();
+                data[i][1] = UserServices.getUserNameById(c.getInstructorId());
                 data[i][2] = c.getDescription();
             }
 

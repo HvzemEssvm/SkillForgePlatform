@@ -7,6 +7,7 @@ package com.mycompany.frontend.InstructorDashboard;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Instructor;
+import com.mycompany.UserAccountManagement.UserServices;
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -163,7 +164,7 @@ public class CoursePanel extends JPanel{
                 } else {
                     StringBuilder studentList = new StringBuilder("Enrolled Students:\n\n");
                     for (String studentId : students) {
-                        studentList.append("- ").append(studentId).append("\n");
+                        studentList.append("- ").append("ID: ").append(studentId).append(", Name: ").append(UserServices.getUserNameById(studentId)).append("\n");
                     }
                     JOptionPane.showMessageDialog(this, studentList.toString());
                 }

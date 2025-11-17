@@ -131,4 +131,17 @@ public class UserServices {
         }
         return false;
     }
+    
+    public static String getUserNameById(String userId) throws IOException
+    {
+        userList = JsonHandler.readArrayFromFile(fileName);
+        for (int i =0;i<userList.size();i++) 
+        {
+            if(userList.get(i).get("userId").asText().equals(userId))
+            {
+                return userList.get(i).get("name").asText();
+            }
+        }
+        return "";
+    }
 }

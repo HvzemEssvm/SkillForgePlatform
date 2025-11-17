@@ -58,4 +58,10 @@
   "email" : "Galileo@Astro.com",
   "password" : "c85ba25e2767915e7b490313e1f9b81c52c1557f329fff333bc6532fd92dbcba",
   "myCourses" : [ ]
+}, {
+  "userId" : "s3",
+  "name" : "hania elsayed",
+  "email" : "hania@gmail.com",
+  "password" : "a4cb70b9d67b058e559243724134a3fb11d7e572fd4f4141cf52bd0a3a42a01d",
+  "myEnrolledCourses" : [ ]
 } ]
