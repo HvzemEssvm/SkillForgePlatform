@@ -15,10 +15,14 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Hazem
+ * 
  */
 public class Student extends User {
-    private final CourseServices courseManager;
+    private CourseServices courseManager;
+    
+    public Student() throws IOException
+    {courseManager = new CourseServices();}
+    
     
     public Student(String userId, String name, String email, String password) throws IOException {
         super(userId, name, email, password);
@@ -31,20 +35,12 @@ public class Student extends User {
     
     public void completeLesson(String lessonId) throws IOException {
         ArrayNode courseList = JsonHandler.readArrayFromFile(courseManager.getFileName());
-        
-        // Find the lesson to get the course index
         courseManager.findLessonById(lessonId);
-        
-        // Get the course from JSON
         JsonNode node = courseList.get(courseManager.getIndex());
         Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
-        
-        // Check if student is enrolled
         if (!course.getStudentIds().contains(getUserId())) {
             throw new IllegalArgumentException("You must enroll in this course first!");
         }
-        
-        // Find and update the lesson
         ArrayList<Lesson> lessons = course.getLessons();
         for (Lesson lesson : lessons) {
             if (lesson.getLessonId().equals(lessonId)) {
@@ -52,19 +48,16 @@ public class Student extends User {
                 break;
             }
         }
-        
         JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
         courseList.set(courseManager.getIndex(), jsonNode);
         JsonHandler.writeToFile(courseList, courseManager.getFileName());
     }
     
-    // View all available courses (not enrolled)
     public ArrayList<Course> viewAvailableCourses() throws IOException {
         ArrayList<Course> allCourses = courseManager.getAllCourses();
         ArrayList<Course> availableCourses = new ArrayList<>();
         
         for (Course course : allCourses) {
-            // Show courses the student is NOT enrolled in
             if (!course.getStudentIds().contains(getUserId())) {
                 availableCourses.add(course);
             }
@@ -73,12 +66,10 @@ public class Student extends User {
         return availableCourses;
     }
     
-    // View all enrolled courses
     public ArrayList<Course> getMyEnrolledCourses() throws IOException {
         return courseManager.getEnrolledCoursesByStudent(getUserId());
     }
     
-    // View lessons from an enrolled course
     public ArrayList<Lesson> getCourseLessons(String courseId) throws IOException {
         Course course = courseManager.findCourseById(courseId);
         
@@ -86,7 +77,6 @@ public class Student extends User {
             throw new IllegalArgumentException("Course not found");
         }
         
-        // Check if enrolled
         if (!course.getStudentIds().contains(getUserId())) {
             throw new IllegalArgumentException("You are not enrolled in this course!");
         }
