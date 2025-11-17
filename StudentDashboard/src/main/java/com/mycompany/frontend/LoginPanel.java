@@ -56,6 +56,7 @@ public class LoginPanel extends javax.swing.JPanel {
         btnBack.setBackground(new java.awt.Color(0, 0, 0));
         btnBack.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         btnBack.setText("Back");
+        btnBack.setAlignmentX(0.2F);
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
@@ -136,7 +137,6 @@ public class LoginPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
         if(userIdVerifier.verify(fieldUserId)&&passwordVerifier.verify(fieldPassword))
         {
             try {
@@ -159,7 +159,6 @@ public class LoginPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        // TODO add your handling code here:
         showHome();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -175,5 +174,11 @@ public class LoginPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
     public final void showHome() {
         mainFrame.getCardLayout().show(mainFrame.getContentPane(), "home");
+    }
+    
+    public void refreshFields()
+    {
+        this.fieldUserId.setText("");
+        this.fieldPassword.setText("");
     }
 }
