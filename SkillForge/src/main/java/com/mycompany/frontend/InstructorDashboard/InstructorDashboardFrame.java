@@ -7,10 +7,7 @@ package com.mycompany.frontend.InstructorDashboard;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Instructor;
-import com.mycompany.frontend.Main.MainFrame;
 import java.awt.CardLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,15 +26,6 @@ public class InstructorDashboardFrame extends javax.swing.JFrame {
     private Instructor instructor;
 
     public InstructorDashboardFrame(Instructor instructor) {
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                MainFrame mainFrame = new MainFrame();
-                mainFrame.setVisible(true);
-                JOptionPane.showMessageDialog(mainFrame,"Logged Out Successfully","Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        
         this.instructor = instructor;
         initComponents();
         cardLayout = new CardLayout();
@@ -92,7 +80,7 @@ public class InstructorDashboardFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(900, 600);
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
