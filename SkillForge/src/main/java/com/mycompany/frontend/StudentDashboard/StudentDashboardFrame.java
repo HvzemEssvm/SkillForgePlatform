@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.UserAccountManagement.Student;
-import com.mycompany.frontend.Main.MainFrame;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class StudentDashboardFrame extends JFrame {
@@ -25,19 +22,9 @@ public class StudentDashboardFrame extends JFrame {
     }
 
     private void initializeFrame() {
-        
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                MainFrame mainFrame = new MainFrame();
-                mainFrame.setVisible(true);
-                JOptionPane.showMessageDialog(mainFrame,"Logged Out Successfully","Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        
         setTitle("Student Dashboard - Skill Forge");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();
@@ -48,10 +35,37 @@ public class StudentDashboardFrame extends JFrame {
     private void createDashboard() {
         dashboardPanel = new JPanel(new BorderLayout());
         tabbedPane = new JTabbedPane();
-        dashboardPanel.add(tabbedPane);
+        dashboardPanel.add(tabbedPane, BorderLayout.CENTER);
 
         createEnrolledCoursesTab();
         createBrowseCoursesTab();
+
+        // Add logout button at the bottom
+        JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        logoutPanel.setBackground(new Color(245, 245, 250));
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.setFont(new Font("Arial", Font.BOLD, 14));
+        btnLogout.setBackground(new Color(220, 53, 69));
+        btnLogout.setForeground(Color.WHITE);
+        btnLogout.setFocusPainted(false);
+        btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnLogout.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        
+        btnLogout.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                this.dispose();
+                com.mycompany.frontend.Main.MainFrame mainFrame = new com.mycompany.frontend.Main.MainFrame();
+                mainFrame.setVisible(true);
+                JOptionPane.showMessageDialog(mainFrame, "Logged Out Successfully", "Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        
+        logoutPanel.add(btnLogout);
+        dashboardPanel.add(logoutPanel, BorderLayout.SOUTH);
 
         mainPanel.add(dashboardPanel, "DASHBOARD");
         cardLayout.show(mainPanel, "DASHBOARD");

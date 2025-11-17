@@ -6,8 +6,10 @@ package com.mycompany.frontend.InstructorDashboard;
 
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.UserAccountManagement.Instructor;
+import com.mycompany.frontend.Main.MainFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -27,6 +29,7 @@ public class DashboardPanel extends JPanel {
     private JList<String> courseList;
     private DefaultListModel<String> courseListModel;
     private JButton btnCreateCourse;
+    private JButton btnLogout;
     private InstructorDashboardFrame parent;
     private Instructor instructor;
 
@@ -36,21 +39,25 @@ public class DashboardPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
-        
+        // Create list for courses
         courseListModel = new DefaultListModel<>();
         courseList = new JList<>(courseListModel);
         JScrollPane scrollPane = new JScrollPane(courseList);
         scrollPane.setPreferredSize(new Dimension(200, 500));
         add(scrollPane, BorderLayout.CENTER);
 
-      
+        // Create button panel at the bottom
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         btnCreateCourse = new JButton("Create New Course");
-        add(btnCreateCourse, BorderLayout.SOUTH);
+        btnLogout = new JButton("Logout");
+        buttonPanel.add(btnCreateCourse);
+        buttonPanel.add(btnLogout);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        
+        // Load courses
         loadCourses();
 
-        
+        // Add list selection listener
         courseList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -73,7 +80,7 @@ public class DashboardPanel extends JPanel {
             }
         });
 
-
+        // Create course button action
         btnCreateCourse.addActionListener(e -> {
             String title = JOptionPane.showInputDialog(this, "Enter course title:");
             if (title != null && !title.trim().isEmpty()) {
@@ -87,6 +94,20 @@ public class DashboardPanel extends JPanel {
                         JOptionPane.showMessageDialog(this, "Error creating course: " + ex.getMessage());
                     }
                 }
+            }
+        });
+
+        // Logout button action
+        btnLogout.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                parent.dispose();
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+                JOptionPane.showMessageDialog(mainFrame, "Logged Out Successfully", "Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
