@@ -31,6 +31,14 @@ public class Student extends User {
     
     public void enroll(String courseId) throws IllegalArgumentException, IOException {
         courseManager.enrollStudentInCourse(courseId, getUserId());
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
     
     public void completeLesson(String lessonId) throws IOException {
@@ -51,6 +59,14 @@ public class Student extends User {
         JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
         courseList.set(courseManager.getIndex(), jsonNode);
         JsonHandler.writeToFile(courseList, courseManager.getFileName());
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
     
     public ArrayList<Course> viewAvailableCourses() throws IOException {

@@ -1,25 +1,13 @@
 [ {
   "courseId" : "C1",
-  "instructorId" : "instructor1",
-  "studentIds" : [ ],
-  "title" : "courseTest",
-  "description" : "DescriptiontEST",
+  "instructorId" : "i1",
+  "studentIds" : [ "s1", "s2" ],
+  "title" : "Physics",
+  "description" : "just Physics",
   "lessons" : [ {
     "lessonId" : "L1",
-    "title" : "lesson1",
-    "content" : "test",
-    "completed" : false
-  } ]
-}, {
-  "courseId" : "C2",
-  "instructorId" : "instructor1",
-  "studentIds" : [ ],
-  "title" : "الله يا بلادنا الله",
-  "description" : "وهوبا وهوبا وهااا",
-  "lessons" : [ {
-    "lessonId" : "L2",
-    "title" : "احلى مسا عليك",
-    "content" : "وه",
-    "completed" : false
+    "title" : "Lesson 1: Basics",
+    "content" : "just basics",
+    "completed" : true
   } ]
 } ]

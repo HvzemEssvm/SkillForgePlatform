@@ -3,5 +3,59 @@
   "name" : "Hazem Essam Elsayed",
   "email" : "hazem3ssam20@gmail.com",
   "password" : "9966c9c41782143fc47b4b5fe0b3dafb4c0166ff9365ebd10ede45af759e9dfb",
-  "myEnrolledCourses" : [ ]
+  "myEnrolledCourses" : [ {
+    "courseId" : "C1",
+    "instructorId" : "i1",
+    "studentIds" : [ "s1" ],
+    "title" : "Physics",
+    "description" : "just Physics",
+    "lessons" : [ {
+      "lessonId" : "L1",
+      "title" : "Lesson 1: Basics",
+      "content" : "just basics",
+      "completed" : true
+    } ]
+  } ]
+}, {
+  "userId" : "i1",
+  "name" : "Isaac Newton",
+  "email" : "IsaacNewton@AppleUnderTree.com",
+  "password" : "31e8b7d56d87837aaedd97454b5e98ef1abf715fd59951a505b6bf20fe1315bc",
+  "myCourses" : [ {
+    "courseId" : "C1",
+    "instructorId" : "i1",
+    "studentIds" : [ ],
+    "title" : "Physics",
+    "description" : "just Physics",
+    "lessons" : [ {
+      "lessonId" : "L1",
+      "title" : "Lesson 1: Basics",
+      "content" : "just basics",
+      "completed" : false
+    } ]
+  } ]
+}, {
+  "userId" : "s2",
+  "name" : "Ibrahim Mahmoud",
+  "email" : "nothing@gmail.com",
+  "password" : "366ed794c40ea6244a99439e09da3d08fcb7a4236eca7290719c7e4a9eff13af",
+  "myEnrolledCourses" : [ {
+    "courseId" : "C1",
+    "instructorId" : "i1",
+    "studentIds" : [ "s1", "s2" ],
+    "title" : "Physics",
+    "description" : "just Physics",
+    "lessons" : [ {
+      "lessonId" : "L1",
+      "title" : "Lesson 1: Basics",
+      "content" : "just basics",
+      "completed" : true
+    } ]
+  } ]
+}, {
+  "userId" : "i2",
+  "name" : "Galileo",
+  "email" : "Galileo@Astro.com",
+  "password" : "c85ba25e2767915e7b490313e1f9b81c52c1557f329fff333bc6532fd92dbcba",
+  "myCourses" : [ ]
 } ]

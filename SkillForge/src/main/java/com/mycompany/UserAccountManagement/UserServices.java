@@ -16,12 +16,11 @@ import java.util.ArrayList;
  * @author Hazem
  */
 public class UserServices {
-    private final String fileName;
-    private ArrayNode userList;
+    private static final String fileName = "users.json";
+    private static ArrayNode userList;
     
     public UserServices() throws IOException
     {
-        this.fileName = "users.json";
         JsonHandler.initializeFileIfNeeded(fileName);
         userList = JsonHandler.readArrayFromFile(fileName);
     }
@@ -96,7 +95,7 @@ public class UserServices {
         return null;
     }
     
-    public boolean updateUser(User user) throws Exception
+    public static boolean updateUser(User user) throws Exception
     {
         userList = JsonHandler.readArrayFromFile(fileName);
         

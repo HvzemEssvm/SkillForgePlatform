@@ -26,12 +26,22 @@ public class Instructor extends User {
         courseManager = new CourseServices();
     }
     
-    public void createCourse(String title, String description) throws IOException {
+    public void createCourse(String title, String description) throws Exception {
         courseManager.createCourse(getUserId(), title, description);
+        UserServices.updateUser(this);
     }
     
     public Lesson createLesson(String title, String content) throws IOException {
-        return courseManager.createLesson(title, content);
+        Lesson lesson = courseManager.createLesson(title, content);
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
+        return lesson;
     }
     
     public void uploadLesson(Lesson lesson, String courseId) throws IllegalArgumentException, IOException {
@@ -46,6 +56,15 @@ public class Instructor extends User {
         }
         
         courseManager.addLessonToCourse(courseId, lesson);
+        
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
     
     public void updateCourse(String courseId, String newTitle, String newDescription) throws IOException {
@@ -60,6 +79,15 @@ public class Instructor extends User {
         }
         
         courseManager.updateCourse(courseId, newDescription, newTitle);
+        
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
     
     public void deleteCourse(String courseId) throws IOException {
@@ -74,6 +102,15 @@ public class Instructor extends User {
         }
         
         courseManager.deleteCourseById(courseId);
+        
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
     
     public void updateLesson(String lessonId, String newTitle, String newContent) throws IOException {
@@ -88,6 +125,15 @@ public class Instructor extends User {
         }
         
         courseManager.updateLessonById(lessonId, newTitle, newContent);
+        
+        try
+        {
+            UserServices.updateUser(this);
+        }
+        catch(Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
     
     public void deleteLesson(String lessonId) throws IOException {
