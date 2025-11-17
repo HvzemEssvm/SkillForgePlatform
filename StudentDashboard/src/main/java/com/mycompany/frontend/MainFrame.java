@@ -49,22 +49,18 @@ public class MainFrame extends javax.swing.JFrame {
         
         loginPanel = new LoginPanel(this);
         add(loginPanel,"login");
-//        
-//        signupPanel = new SignupPanel(this);
-//        add(signupPanel, "signup");
-//        
+        
+        signupPanel = new SignupPanel(this);
+        add(signupPanel, "signup");
+        
 //        instructorPanel = new InstructorPanel(this);
 //        add(instructorPanel,"instructor");
-////        
+//        
 //        studentPanel = new StudentPanel(this);
 //        add(studentPanel,"student");
         
         cardLayout.show(getContentPane(),"home");
         setVisible(true);
-        
-//        loginPanel = new LoginPanel(this);
-//        mainPanel.add(loginPanel,"login");
-        
         
     }
 
@@ -139,11 +135,11 @@ public class MainFrame extends javax.swing.JFrame {
         return cardLayout;
     }
 
-    public JPanel getLoginPanel() {
+    public LoginPanel getLoginPanel() {
         return loginPanel;
     }
 
-    public JPanel getSignupPanel() {
+    public SignupPanel getSignupPanel() {
         return signupPanel;
     }
 
@@ -155,7 +151,7 @@ public class MainFrame extends javax.swing.JFrame {
 //        return instructorPanel;
 //    }
 
-    public JPanel getMainPanel() {
+    public MainPanel getMainPanel() {
         return mainPanel;
     }
     
@@ -164,7 +160,7 @@ public class MainFrame extends javax.swing.JFrame {
 //        instructorPanel.loadInstructorData(instructor);
 //        cardLayout.show(getContentPane(),"instructor");
     }
-//    
+    
     public void navigateToStudentPanel(Student student)
     {
 //        studentPanel.loadStudentData(student);

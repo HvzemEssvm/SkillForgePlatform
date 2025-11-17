@@ -45,6 +45,7 @@ public class MainPanel extends javax.swing.JPanel {
         BtnLogin.setForeground(new java.awt.Color(51, 51, 51));
         BtnLogin.setText("Login");
         BtnLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtnLogin.setMargin(new java.awt.Insets(3, 14, 3, 14));
         BtnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnLoginMouseEntered(evt);
@@ -62,8 +63,9 @@ public class MainPanel extends javax.swing.JPanel {
         BtnSignup.setBackground(new java.awt.Color(255, 255, 255));
         BtnSignup.setFont(new java.awt.Font("Bahnschrift", 1, 48)); // NOI18N
         BtnSignup.setForeground(new java.awt.Color(0, 0, 0));
-        BtnSignup.setText("Signup");
+        BtnSignup.setText("Sign up");
         BtnSignup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        BtnSignup.setMargin(new java.awt.Insets(3, 14, 3, 14));
         BtnSignup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnSignupMouseEntered(evt);
@@ -128,11 +130,13 @@ public class MainPanel extends javax.swing.JPanel {
 
     private void BtnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSignupActionPerformed
         // TODO add your handling code here:
+        this.mainFrame.getSignupPanel().refreshFields();
         mainFrame.getCardLayout().show(mainFrame.getContentPane(),"signup");
     }//GEN-LAST:event_BtnSignupActionPerformed
 
     private void BtnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLoginActionPerformed
         // TODO add your handling code here:
+        this.mainFrame.getLoginPanel().refreshFields();
         mainFrame.getCardLayout().show(mainFrame.getContentPane(),"login");
     }//GEN-LAST:event_BtnLoginActionPerformed
 

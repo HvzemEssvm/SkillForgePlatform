@@ -7,6 +7,7 @@ package com.mycompany.InputVerifiers;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
@@ -22,12 +23,12 @@ public class IsPasswordVerifier extends InputVerifier {
     @Override
     public boolean verify(JComponent input)
     {
-        JTextField field = (JTextField) input;
-        if(Validation.isPassword(field.getText()))
+        JPasswordField field = (JPasswordField) input;
+        if(Validation.isPassword(String.valueOf(field.getPassword())))
         {
             return true;
         }
-        JOptionPane.showMessageDialog(input, fieldName+" length MUST be >= 8, password MUST NOT contain whitespaces", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(input, fieldName+" length MUST be >= 8 and MUST NOT contain whitespaces", "Error", JOptionPane.ERROR_MESSAGE);
         return false;
     }
 }

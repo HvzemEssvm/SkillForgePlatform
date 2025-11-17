@@ -1,1 +1,7 @@
-[ ]
+[ {
+  "userId" : "s1",
+  "name" : "Hazem Essam Elsayed",
+  "email" : "hazem3ssam20@gmail.com",
+  "password" : "9966c9c41782143fc47b4b5fe0b3dafb4c0166ff9365ebd10ede45af759e9dfb",
+  "myEnrolledCourses" : [ ]
+} ]
