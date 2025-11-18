@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content: center; align-items: center;">
-<img width="300" height="200" alt="logo-removebg-preview" src="https://github.com/user-attachments/assets/5fa0de4e-767e-4be8-9396-43281d8999fe" style="filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));" />
-<img width="300" height="300" alt="java_logo-e1539639892954-768x313-removebg-preview" src="https://github.com/user-attachments/assets/ce92548c-e9aa-4881-96ad-c7774e8ef53d" style="filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));" />
+<img width="300" height="200" alt="logo-removebg-preview" src="https://github.com/user-attachments/assets/5fa0de4e-767e-4be8-9396-43281d8999fe"/>
+<img width="300" height="300" alt="java_logo-e1539639892954-768x313-removebg-preview" src="https://github.com/user-attachments/assets/ce92548c-e9aa-4881-96ad-c7774e8ef53d" />
 </div>
 
 ### Architecture Overview
