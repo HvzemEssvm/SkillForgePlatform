@@ -10,6 +10,7 @@ import com.mycompany.InputVerifiers.IsPasswordVerifier;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.User;
+import com.mycompany.UserAccountManagement.UserServices;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -251,12 +252,12 @@ public class SignupPanel extends javax.swing.JPanel {
                 User user;
                 if(btnInstructor.isSelected())
                 {
-                    user = this.mainFrame.getUserServices().signup(Instructor.class,
+                    user = UserServices.signup(Instructor.class,
                             fieldName.getText().trim(),fieldEmail.getText().trim(),String.valueOf(fieldPassword.getPassword()));
                 }
                 else 
                 {
-                    user = this.mainFrame.getUserServices().signup(Student.class,
+                    user = UserServices.signup(Student.class,
                             fieldName.getText().trim(),fieldEmail.getText().trim(),String.valueOf(fieldPassword.getPassword()));
                 }
                 JOptionPane.showMessageDialog(this, "Welcome to our platform!\nRemember your ID: " + user.getUserId() + " as it is a MUST for future login","Successful Operation!", JOptionPane.INFORMATION_MESSAGE);

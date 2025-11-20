@@ -15,7 +15,7 @@
     "courseId" : "C2",
     "instructorId" : "i1",
     "state" : "PENDING",
-    "studentIds" : [ "s1" ],
+    "studentIds" : [ "s1", "s3" ],
     "title" : "Course Two",
     "description" : "Two",
     "lessons" : [ ]
@@ -31,9 +31,21 @@
     "courseId" : "C5",
     "instructorId" : "i2",
     "state" : "PENDING",
-    "studentIds" : [ "s1", "s2" ],
+    "studentIds" : [ "s1", "s2", "s3" ],
     "title" : "Logic ||",
     "description" : "Logic",
     "lessons" : [ ]
+  }, {
+    "courseId" : "C6",
+    "instructorId" : "i3",
+    "state" : "PENDING",
+    "studentIds" : [ "s3" ],
+    "title" : "TestCourse",
+    "description" : "TestCourse",
+    "lessons" : [ {
+      "lessonId" : "L3",
+      "title" : "testLesson",
+      "content" : "TestLesson"
+    } ]
   } ]
 }
