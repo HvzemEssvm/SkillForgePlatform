@@ -1,10 +1,46 @@
 {
-  "students" : [ ],
+  "students" : [ {
+    "userId" : "s1",
+    "name" : "Zeyad",
+    "email" : "Zeyad@gmail.com",
+    "password" : "9b87cef01753a88e6aa7c2e8d185b8b9b021133c30fc668ee7a5733e6eaa1f99",
+    "enrollments" : [ {
+      "courseId" : "C1",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C2",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C3",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C5",
+      "completedLessons" : [ ]
+    } ]
+  }, {
+    "userId" : "s2",
+    "name" : "Hazem",
+    "email" : "Hazem@gmail.com",
+    "password" : "89ff82dba986724e212b391b39a264b36fb9389ca2e012a2cf3f4c596e066084",
+    "enrollments" : [ {
+      "courseId" : "C1",
+      "completedLessons" : [ "L2" ]
+    }, {
+      "courseId" : "C5",
+      "completedLessons" : [ ]
+    } ]
+  } ],
   "instructors" : [ {
     "userId" : "i1",
-    "name" : "yufkgy",
-    "email" : "jf@jhjh.fjfj",
-    "password" : "ba6cdd3cdea3e08a2eccb436d76d1a32c1cb81af5c4cdbab8c9b602e75af85e3",
-    "myCoursesIds" : [ "C1", "C2" ]
+    "name" : "Layla",
+    "email" : "Layla@gmail.com",
+    "password" : "16d2fad0a69713178508269974119f4fd0e33223cf7bc081644eecb375afdd59",
+    "myCoursesIds" : [ "C1", "C2", "C3" ]
+  }, {
+    "userId" : "i2",
+    "name" : "Magdy",
+    "email" : "Magdy@gmail.com",
+    "password" : "f0d845a941c9d21b724d078d509cd1ea620b504e2cae0c3eae368e729d27af1f",
+    "myCoursesIds" : [ "C5" ]
   } ]
 }
