@@ -4,6 +4,7 @@
  */
 package com.mycompany.UserAccountManagement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
@@ -16,144 +17,128 @@ import java.util.ArrayList;
  */
 public class Instructor extends User {
 
-    private CourseServices courseManager;
-    
-    public Instructor() throws IOException
-    {courseManager = new CourseServices();}
-    
+    public Instructor() {
+        super();
+    }
+
     public Instructor(String userId, String name, String email, String password) throws IOException {
         super(userId, name, email, password);
-        courseManager = new CourseServices();
     }
-    
+
     public void createCourse(String title, String description) throws Exception {
-        courseManager.createCourse(getUserId(), title, description);
+        CourseServices.createCourse(getUserId(), title, description);
         UserServices.updateUser(this);
     }
-    
+
     public Lesson createLesson(String title, String content) throws IOException {
-        Lesson lesson = courseManager.createLesson(title, content);
-        try
-        {
+        Lesson lesson = CourseServices.createLesson(title, content);
+        try {
             UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
         return lesson;
     }
-    
+
     public void uploadLesson(Lesson lesson, String courseId) throws IllegalArgumentException, IOException {
-        Course course = courseManager.findCourseById(courseId);
-        
+        Course course = CourseServices.findCourseById(courseId);
+
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to add lessons to this course!");
         }
-        
-        courseManager.addLessonToCourse(courseId, lesson);
-        
-        try
-        {
+
+        CourseServices.addLessonToCourse(courseId, lesson);
+
+        try {
             UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
     }
-    
+
     public void updateCourse(String courseId, String newTitle, String newDescription) throws IOException {
-        Course course = courseManager.findCourseById(courseId);
-        
+        Course course = CourseServices.findCourseById(courseId);
+
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to update this course!");
         }
-        
-        courseManager.updateCourse(courseId, newDescription, newTitle);
-        
-        try
-        {
+
+        CourseServices.updateCourse(courseId, newDescription, newTitle);
+
+        try {
             UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
     }
-    
+
     public void deleteCourse(String courseId) throws IOException {
-        Course course = courseManager.findCourseById(courseId);
-        
+        Course course = CourseServices.findCourseById(courseId);
+
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to delete this course!");
         }
-        
-        courseManager.deleteCourseById(courseId);
-        
-        try
-        {
+
+        CourseServices.deleteCourseById(courseId);
+
+        try {
             UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
     }
-    
+
     public void updateLesson(String lessonId, String newTitle, String newContent) throws IOException {
-        Course course = courseManager.findCourseByLessonId(lessonId);
-        
+        Course course = CourseServices.findCourseByLessonId(lessonId);
+
         if (course == null) {
             throw new IllegalArgumentException("Lesson not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to update this lesson!");
         }
-        
-        courseManager.updateLessonById(lessonId, newTitle, newContent);
-        
-        try
-        {
+
+        CourseServices.updateLessonById(lessonId, newTitle, newContent);
+
+        try {
             UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new IOException(e.getMessage());
         }
     }
-    
+
     public void deleteLesson(String lessonId) throws IOException {
-        Course course = courseManager.findCourseByLessonId(lessonId);
-        
+        Course course = CourseServices.findCourseByLessonId(lessonId);
+
         if (course == null) {
             throw new IllegalArgumentException("Lesson not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to delete this lesson!");
         }
-        
-        courseManager.deleteLessonById(lessonId);
+
+        CourseServices.deleteLessonById(lessonId);
     }
-    
+
+    @JsonIgnore
     public ArrayList<Course> getMyCourses() throws IOException {
-        ArrayList<Course> allCourses = courseManager.getAllCourses();
+        ArrayList<Course> allCourses = CourseServices.getAllCourses();
         ArrayList<Course> myCourses = new ArrayList<>();
-        
+
         for (Course course : allCourses) {
             if (course.getInstructorId().equals(getUserId())) {
                 myCourses.add(course);
@@ -161,32 +146,46 @@ public class Instructor extends User {
         }
         return myCourses;
     }
-    
+
+    public ArrayList<String> getMyCoursesIds() throws IOException {
+        ArrayList<Course> allCourses = CourseServices.getAllCourses();
+        ArrayList<String> myCourses = new ArrayList<>();
+
+        for (Course course : allCourses) {
+            if (course.getInstructorId().equals(getUserId())) {
+                myCourses.add(course.getCourseId());
+            }
+        }
+        return myCourses;
+    }
+
+    @JsonIgnore
     public ArrayList<String> getEnrolledStudents(String courseId) throws IOException {
-        Course course = courseManager.findCourseById(courseId);
-        
+        Course course = CourseServices.findCourseById(courseId);
+
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to view this course's students!");
         }
-        
-        return courseManager.getEnrolledStudents(courseId);
+
+        return CourseServices.getEnrolledStudents(courseId);
     }
-    
+
+    @JsonIgnore
     public ArrayList<Lesson> getCourseLessons(String courseId) throws IOException {
-        Course course = courseManager.findCourseById(courseId);
-        
+        Course course = CourseServices.findCourseById(courseId);
+
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
         }
-        
+
         if (!course.getInstructorId().equals(getUserId())) {
             throw new IllegalArgumentException("You don't have permission to view this course's lessons!");
         }
-        
-        return courseManager.getAllLessonsFromCourse(courseId);
+
+        return CourseServices.getAllLessonsFromCourse(courseId);
     }
 }

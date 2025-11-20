@@ -4,17 +4,16 @@
  */
 package com.mycompany.UserAccountManagement;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mycompany.InputVerifiers.Validation;
 import com.mycompany.JsonHandler.JsonHandler;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 /**
  * note that password must be >= 8 characters, and doesn't contain whitespace
+ * 
  * @author Hazem
  */
 public abstract class User {
@@ -22,54 +21,54 @@ public abstract class User {
     private String name;
     private String email;
     private String password;
-    
-    public User()
-    {}
-    
+
+    public User() {
+    }
+
     /**
      * 
      * @param userId
      * @param name
      * @param email
      * @param password
-     * @throws IllegalArgumentException 
+     * @throws IllegalArgumentException
      */
-    public User(String userId, String name, String email, String password) throws IllegalArgumentException
-    {
+    public User(String userId, String name, String email, String password) throws IllegalArgumentException {
         name = name.trim();
         email = email.trim();
         userId = userId.trim();
         password = password.trim();
 
-        validateArgs(name,email,password);
+        validateArgs(name, email, password);
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = getHashedPassword(password);
     }
-    
-    private static void validateArgs(String name, String email, String password)
-    {
-        if(!Validation.isEmail(email))
-        {
+
+    private static void validateArgs(String name, String email, String password) {
+        if (!Validation.isEmail(email)) {
             throw new IllegalArgumentException("Error: Invalid Email Input");
         }
-        
-        if(Validation.isAlphabetic(name) != 1)
-        {
+
+        if (Validation.isAlphabetic(name) != 1) {
             throw new IllegalArgumentException("Error: Invalid Name Input");
         }
-        
-        if(!Validation.isPassword(password))
-        {
-            throw new IllegalArgumentException("Error: password length MUST be >= 8, password MUST NOT contain whitespaces");
+
+        if (!Validation.isPassword(password)) {
+            throw new IllegalArgumentException(
+                    "Error: password length MUST be >= 8, password MUST NOT contain whitespaces");
         }
     }
-    
+
     public static String getHashedPassword(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encodedhash = digest.digest(input.getBytes(StandardCharsets.UTF_8)); // FYI: StandardCharsets.UTF_8 makes it standard output & consistent on all machines, References: https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb83888
+            byte[] encodedhash = digest.digest(input.getBytes(StandardCharsets.UTF_8)); // FYI: StandardCharsets.UTF_8
+                                                                                        // makes it standard output &
+                                                                                        // consistent on all machines,
+                                                                                        // References:
+                                                                                        // https://medium.com/@AlexanderObregon/what-is-sha-256-hashing-in-java-0d46dfb83888
             String hexString = new String();
             for (byte b : encodedhash) {
                 String hex = Integer.toHexString(0xff & b);
@@ -83,55 +82,39 @@ public abstract class User {
             throw new RuntimeException(e);
         }
     }
-    
-    public static String generateId(Class<? extends User> classType)
-    {
-       String generatedId;
-       if(classType == Instructor.class)
-       {
-           generatedId="i";
-       }
-       else if(classType == Student.class)
-       {
-           generatedId="s";
-       }
-       else
-       {
-           return null;
-       }
-       try
-       {
-            ArrayNode usersList = JsonHandler.readArrayFromFile("users.json");
-            int maxId = 0;
 
-            for (int i = 0; i < usersList.size(); i++) {
-                JsonNode node = usersList.get(i);
-                if (node.has("userId")) 
-                {
-                    String userIdStr = node.get("userId").asText();
-                    if(userIdStr.charAt(0)!=generatedId.charAt(0))
-                    {
-                        continue;
-                    }
-                    int tempUserId = Integer.parseInt(userIdStr.substring(1));
-                    if (tempUserId > maxId) {
-                        maxId = tempUserId;
-                    }
+    public static String generateId(Class<? extends User> classType) {
+        String generatedId;
+        ArrayList<? extends User> usersList;
+
+        if (classType == Instructor.class) {
+            generatedId = "i";
+            usersList = JsonHandler.instructors;
+        } else if (classType == Student.class) {
+            generatedId = "s";
+            usersList = JsonHandler.students;
+        } else {
+            return null;
+        }
+
+        int maxId = 0;
+        for (User user : usersList) {
+            String userIdStr = user.getUserId();
+            if (userIdStr != null && userIdStr.length() > 1) {
+                int tempUserId = Integer.parseInt(userIdStr.substring(1));
+                if (tempUserId > maxId) {
+                    maxId = tempUserId;
                 }
             }
-            generatedId = generatedId.concat("" + (maxId+1));
-       }
-       catch(IOException e)
-       {
-           generatedId = generatedId.concat("1");
-       }
-       return generatedId;
+        }
+        generatedId = generatedId.concat("" + (maxId + 1));
+
+        return generatedId;
     }
-    
+
     @Override
-    
-    public String toString()
-    {
+
+    public String toString() {
         return this.getUserId() + "," + this.getName() + "," + this.getEmail();
     }
 
@@ -178,6 +161,5 @@ public abstract class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
 }
