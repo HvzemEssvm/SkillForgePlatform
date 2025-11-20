@@ -5,9 +5,9 @@
 package com.mycompany.CourseManagement;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mycompany.JsonHandler.JsonHandler;
+import com.mycompany.UserAccountManagement.Enrollment;
+import com.mycompany.UserAccountManagement.Student;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,68 +17,94 @@ import java.util.ArrayList;
  */
 public class CourseServices {
 
-    private final String fileName;
-    private ArrayNode courseList;
-    private int index;
+    private static int foundAt;
 
-    public CourseServices() throws IOException {
-        this.fileName = "courses.json";
-        // Initialize file if it doesn't exist or is empty
-        JsonHandler.initializeFileIfNeeded(fileName);
-        courseList = JsonHandler.readArrayFromFile(fileName);
+    // Static initializer block to load data when class is first accessed
+    static {
+        JsonHandler.loadCourses();
     }
 
     // Course Management Methods
-    public ArrayList<Course> getAllCourses() throws JsonProcessingException, IOException {
-        courseList = JsonHandler.readArrayFromFile(getFileName());
-        ArrayList<Course> courses = new ArrayList<>();
-
-        for (int i = 0; i < courseList.size(); i++) {
-            JsonNode node = courseList.get(i);
-            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
-            courses.add(course);
-        }
-
-        return courses;
+    /**
+     * Reads course data from the 'courses.json' file and returns a list of
+     * Course objects.
+     *
+     * @return a list of Course objects parsed from the JSON file
+     * @throws IOException             if the file cannot be read
+     * @throws JsonProcessingException if the JSON is invalid or cannot be
+     *                                 mapped to Course
+     */
+    public static ArrayList<Course> getAllCourses() throws JsonProcessingException, IOException {
+        return new ArrayList<>(JsonHandler.courses);
     }
 
-    public Course createCourse(String instructorId, String title, String description)
+    /**
+     * Create a new course java object Then read the current list of courses in
+     * the 'courses.json' and save it to courseList ArrayNode Then convert the
+     * course java object to JSON node and add it to the courseList.
+     *
+     * @param instructorId
+     * @param title
+     * @param description
+     * @return Course java object
+     * @throws JsonProcessingException
+     * @throws IOException
+     */
+    public static Course createCourse(String instructorId, String title, String description)
             throws JsonProcessingException, IOException {
 
         Course course = new Course(instructorId, title, description);
-        JsonNode node = JsonHandler.convertJavatoJson(course);
-
-        courseList = JsonHandler.readArrayFromFile(getFileName());
-        courseList.add(node);
-        JsonHandler.writeToFile(courseList, getFileName());
+        JsonHandler.courses.add(course);
+        JsonHandler.saveCourses();
 
         return course;
     }
 
-    public Course findCourseById(String courseId) throws IllegalArgumentException, JsonProcessingException, IOException {
-        courseList = JsonHandler.readArrayFromFile(getFileName());
-        for (int i = 0; i < courseList.size(); i++) {
-            JsonNode node = courseList.get(i);
-            if (node.get("courseId").asText().equals(courseId)) {
-                index = i;
-                return JsonHandler.objectMapper.treeToValue(node, Course.class);
+    /**
+     * iterate over courseList ArrayNode and convert the node to course java
+     * object and check if getCourseId equals the given id if equal put foundAt
+     * to the index of course found in the ArrayNode and return the course
+     * object.
+     *
+     * @param courseId
+     * @return course java object
+     * @throws IllegalArgumentException
+     * @throws JsonProcessingException
+     * @throws IOException
+     */
+    public static Course findCourseById(String courseId)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
+        for (int i = 0; i < JsonHandler.courses.size(); i++) {
+            Course course = JsonHandler.courses.get(i);
+            if (course.getCourseId().equals(courseId)) {
+                foundAt = i;
+                return course;
             }
         }
         return null;
     }
 
-    public Course findCourseByLessonId(String lessonId) throws IOException {
-        courseList = JsonHandler.readArrayFromFile(getFileName());
-
-        for (int i = 0; i < courseList.size(); i++) {
-            JsonNode node = courseList.get(i);
-            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+    /**
+     * Helper method return the course object which have specific lesson Iterate
+     * over the courseList ArrayNode and convert each Node to java object Then
+     * get Lessons arrayList for each course and iterate over them to check if
+     * the given id in the lessons ArrayList if found put foundAt variable to
+     * the index of the course in the courseList and return the course java
+     * object.
+     *
+     * @param lessonId
+     * @return Course object which contain the specific lesson
+     * @throws IOException
+     */
+    public static Course findCourseByLessonId(String lessonId) throws IOException {
+        for (int i = 0; i < JsonHandler.courses.size(); i++) {
+            Course course = JsonHandler.courses.get(i);
 
             ArrayList<Lesson> lessons = course.getLessons();
             if (lessons != null) {
                 for (Lesson lesson : lessons) {
                     if (lesson.getLessonId().equals(lessonId)) {
-                        index = i;
+                        foundAt = i;
                         return course;
                     }
                 }
@@ -88,24 +114,47 @@ public class CourseServices {
         return null;
     }
 
-    public Course updateCourse(String courseId, String newDescription, String newTitle) throws IllegalArgumentException, IOException {
+    /**
+     * @param courseId
+     * @param newDescription
+     * @param newTitle
+     * @return the updated course java object
+     * @throws IllegalArgumentException
+     * @throws IOException
+     */
+    public static Course updateCourse(String courseId, String newDescription, String newTitle)
+            throws IllegalArgumentException, IOException {
         Course course = findCourseById(courseId);
         course.setDescription(newDescription);
         course.setTitle(newTitle);
-        JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
-        courseList.set(getIndex(), jsonNode);
-        JsonHandler.writeToFile(courseList, getFileName());
+        JsonHandler.saveCourses();
         return course;
     }
 
-    public boolean deleteCourseById(String courseId) throws IOException {
-        ArrayNode courseList = JsonHandler.readArrayFromFile(getFileName());
+    public static boolean deleteCourseById(String courseId) throws IOException {
+        for (int i = 0; i < JsonHandler.courses.size(); i++) {
+            Course course = JsonHandler.courses.get(i);
+            if (course.getCourseId().equals(courseId)) {
+                // Get enrolled students BEFORE removing the course
+                ArrayList<String> enrolledStudents = course.getStudentIds();
 
-        for (int i = 0; i < courseList.size(); i++) {
-            JsonNode node = courseList.get(i);
-            if (node.get("courseId").asText().equals(courseId)) {
-                courseList.remove(i);
-                JsonHandler.writeToFile(courseList, getFileName());
+                // Remove course from courses list
+                JsonHandler.courses.remove(i);
+
+                // Remove enrollment from all enrolled students
+                if (enrolledStudents != null) {
+                    for (String studentId : enrolledStudents) {
+                        Student student = JsonHandler.getStudent(studentId);
+                        if (student != null) {
+                            student.getEnrollments()
+                                    .removeIf(enrollment -> enrollment.getCourseId().equals(courseId));
+                        }
+                    }
+                }
+
+                // Save both files
+                JsonHandler.saveCourses();
+                JsonHandler.saveUsers();
                 return true;
             }
         }
@@ -113,21 +162,21 @@ public class CourseServices {
         return false;
     }
 
-    public Lesson addLessonToCourse(String courseId, Lesson lesson) throws IllegalArgumentException, JsonProcessingException, IOException {
+    public static Lesson addLessonToCourse(String courseId, Lesson lesson)
+            throws IllegalArgumentException, JsonProcessingException, IOException {
         Course course = findCourseById(courseId);
         course.addLesson(lesson);
-        JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
-        courseList.set(getIndex(), jsonNode);
-        JsonHandler.writeToFile(courseList, getFileName());
+        JsonHandler.saveCourses();
         return lesson;
     }
 
-    //------------------------
-    //Enroll course and return enrolled courses by a student
-    //------------------------
-    //Enroll student in a course
-    public boolean enrollStudentInCourse(String courseId, String studentId)
+    // ------------------------
+    // Enroll course and return enrolled courses by a student
+    // ------------------------
+    // Enroll student in a course
+    public static boolean enrollStudentInCourse(String courseId, String studentId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
+        Student student = JsonHandler.getStudent(studentId);
 
         Course course = findCourseById(courseId);
         if (course == null) {
@@ -146,29 +195,27 @@ public class CourseServices {
         boolean enrolled = course.enrollStudent(studentId);
 
         if (enrolled) {
-            JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
-            courseList.set(getIndex(), jsonNode);
-            JsonHandler.writeToFile(courseList, getFileName());
+            Enrollment enrollment = new Enrollment(courseId, new ArrayList<>());
+            student.getEnrollments().add(enrollment);
+
+            JsonHandler.saveCourses();
+            JsonHandler.saveUsers();
         }
 
         return enrolled;
     }
 
     // return list of enrolled courses by specific student
-    public ArrayList<Course> getEnrolledCoursesByStudent(String studentId)
+    public static ArrayList<Course> getEnrolledCoursesByStudent(String studentId)
             throws JsonProcessingException, IOException {
 
         if (studentId == null || studentId.trim().isEmpty()) {
             throw new IllegalArgumentException("Student ID cannot be null or empty");
         }
 
-        courseList = JsonHandler.readArrayFromFile(getFileName());
         ArrayList<Course> enrolledCourses = new ArrayList<>();
 
-        for (int i = 0; i < courseList.size(); i++) {
-            JsonNode node = courseList.get(i);
-            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
-
+        for (Course course : JsonHandler.courses) {
             ArrayList<String> studentIds = course.getStudentIds();
             if (studentIds != null && studentIds.contains(studentId)) {
                 enrolledCourses.add(course);
@@ -178,8 +225,8 @@ public class CourseServices {
         return enrolledCourses;
     }
 
-    //return list of students id who enrolled in specific course
-    public ArrayList<String> getEnrolledStudents(String courseId)
+    // return list of students id who enrolled in specific course
+    public static ArrayList<String> getEnrolledStudents(String courseId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -190,10 +237,10 @@ public class CourseServices {
         return course.getStudentIds();
     }
 
-    //--------------------------------------------------------
-    //Lesson Management Methods
-    //--------------------------------------------------------
-    public ArrayList<Lesson> getAllLessonsFromCourse(String courseId)
+    // --------------------------------------------------------
+    // Lesson Management Methods
+    // --------------------------------------------------------
+    public static ArrayList<Lesson> getAllLessonsFromCourse(String courseId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -204,12 +251,12 @@ public class CourseServices {
         return course.getLessons();
     }
 
-    public Lesson createLesson(String title, String content) throws IOException {
+    public static Lesson createLesson(String title, String content) {
         return new Lesson(title, content);
     }
 
     // Use this if you know already the course id which have the lesson
-    public Lesson findLessonById(String courseId, String lessonId)
+    public static Lesson findLessonById(String courseId, String lessonId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Course course = findCourseById(courseId);
@@ -232,20 +279,17 @@ public class CourseServices {
     }
 
     // Use this if you don't know the course id which have the lesson
-    public Lesson findLessonById(String lessonId)
+    public static Lesson findLessonById(String lessonId)
             throws JsonProcessingException, IOException {
 
-        courseList = JsonHandler.readArrayFromFile(getFileName());
-
-        for (int i = 0; i < courseList.size(); i++) {
-            JsonNode node = courseList.get(i);
-            Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
+        for (int i = 0; i < JsonHandler.courses.size(); i++) {
+            Course course = JsonHandler.courses.get(i);
 
             ArrayList<Lesson> lessons = course.getLessons();
             if (lessons != null) {
                 for (Lesson lesson : lessons) {
                     if (lesson.getLessonId().equals(lessonId)) {
-                        index = i; // Store index for later use
+                        foundAt = i; // Store index for later use
                         return lesson;
                     }
                 }
@@ -255,7 +299,7 @@ public class CourseServices {
         return null;
     }
 
-    public Lesson updateLessonById(String lessonId, String newTitle, String newContent)
+    public static Lesson updateLessonById(String lessonId, String newTitle, String newContent)
             throws IllegalArgumentException, JsonProcessingException, IOException {
 
         Lesson lesson = findLessonById(lessonId);
@@ -266,18 +310,12 @@ public class CourseServices {
 
         lesson.setTitle(newTitle);
         lesson.setContent(newContent);
-
-        JsonNode node = courseList.get(getIndex());
-        Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
-
-        JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
-        courseList.set(getIndex(), jsonNode);
-        JsonHandler.writeToFile(courseList, getFileName());
+        JsonHandler.saveCourses();
 
         return lesson;
     }
 
-    public boolean deleteLessonById(String lessonId)
+    public static boolean deleteLessonById(String lessonId)
             throws JsonProcessingException, IOException {
 
         Lesson lesson = findLessonById(lessonId);
@@ -286,9 +324,8 @@ public class CourseServices {
             return false;
         }
 
-        JsonNode node = courseList.get(getIndex());
-        Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
-
+        Course course = JsonHandler.courses.get(getIndex());
+        ArrayList<String> studentIds = course.getStudentIds();
         ArrayList<Lesson> lessons = course.getLessons();
         boolean removed = false;
 
@@ -300,27 +337,61 @@ public class CourseServices {
             }
         }
 
+        for (String studentId : studentIds) {
+            Student student = JsonHandler.getStudent(studentId);
+            for (Enrollment enrollment : student.getEnrollments()) {
+                if (enrollment.getCourseId().equals(course.getCourseId())) {
+                    enrollment.getCompletedLessons().remove(lessonId);
+                }
+            }
+        }
+
         if (removed) {
-            JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
-            courseList.set(getIndex(), jsonNode);
-            JsonHandler.writeToFile(courseList, getFileName());
+            JsonHandler.saveCourses();
+            JsonHandler.saveUsers();
         }
 
         return removed;
     }
 
-    /**
-     * @return the index
-     */
-    public int getIndex() {
-        return index;
+    // Check if lesson is completed
+    public static boolean isLessonCompleted(String studentId, String courseId, String lessonId) {
+        Student student = JsonHandler.getStudent(studentId);
+
+        for (Enrollment enrollment : student.getEnrollments()) {
+            if (enrollment.getCourseId().equals(courseId)) {
+                return enrollment.getCompletedLessons().contains(lessonId);
+            }
+        }
+        return false;
+    }
+
+    public static void markLessonCompleted(String studentId, String lessonId) {
+        String courseId;
+        Student student = JsonHandler.getStudent(studentId);
+        try {
+            Course course = findCourseByLessonId(lessonId);
+            courseId = course.getCourseId();
+        } catch (IOException ex) {
+            courseId = null;
+        }
+
+        for (Enrollment enrollment : student.getEnrollments()) {
+            if (enrollment.getCourseId().equals(courseId)) {
+                if (!enrollment.getCompletedLessons().contains(lessonId)) {
+                    enrollment.getCompletedLessons().add(lessonId);
+                    JsonHandler.saveUsers();
+                }
+                return;
+            }
+        }
     }
 
     /**
-     * @return the fileName
+     * @return the index
      */
-    public String getFileName() {
-        return fileName;
+    public static int getIndex() {
+        return foundAt;
     }
 
 }

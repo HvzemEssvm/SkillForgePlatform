@@ -15,6 +15,7 @@ public class StudentDashboardFrame extends JFrame {
     private JPanel mainPanel;
     private CardLayout cardLayout;
     private JPanel dashboardPanel;
+    private ArrayList<Course> currentAvailableCourses;
 
     public StudentDashboardFrame(Student student) {
         this.student = student;
@@ -51,20 +52,21 @@ public class StudentDashboardFrame extends JFrame {
         btnLogout.setFocusPainted(false);
         btnLogout.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnLogout.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
-        
+
         btnLogout.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to logout?",
-                "Confirm Logout",
-                JOptionPane.YES_NO_OPTION);
+                    "Are you sure you want to logout?",
+                    "Confirm Logout",
+                    JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 this.dispose();
                 com.mycompany.frontend.Main.MainFrame mainFrame = new com.mycompany.frontend.Main.MainFrame();
                 mainFrame.setVisible(true);
-                JOptionPane.showMessageDialog(mainFrame, "Logged Out Successfully", "Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(mainFrame, "Logged Out Successfully", "Successful Operation!",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
-        
+
         logoutPanel.add(btnLogout);
         dashboardPanel.add(logoutPanel, BorderLayout.SOUTH);
 
@@ -88,9 +90,8 @@ public class StudentDashboardFrame extends JFrame {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(220, 220, 220)),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
+                BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
         JLabel titleLabel = new JLabel("My Enrolled Courses", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -143,9 +144,8 @@ public class StudentDashboardFrame extends JFrame {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(220, 220, 220)),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
+                BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
         JLabel titleLabel = new JLabel("Browse Available Courses", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -161,20 +161,19 @@ public class StudentDashboardFrame extends JFrame {
         coursesTable.setGridColor(new Color(230, 230, 230));
 
         try {
-            ArrayList<Course> allCourses = student.viewAvailableCourses();
-            Object[][] data = new Object[allCourses.size()][3];
+            currentAvailableCourses = student.viewAvailableCourses();
+            Object[][] data = new Object[currentAvailableCourses.size()][3];
 
-            for (int i = 0; i < allCourses.size(); i++) {
-                Course c = allCourses.get(i);
+            for (int i = 0; i < currentAvailableCourses.size(); i++) {
+                Course c = currentAvailableCourses.get(i);
                 data[i][0] = c.getTitle();
                 data[i][1] = UserServices.getUserNameById(c.getInstructorId());
                 data[i][2] = c.getDescription();
             }
 
             coursesTable.setModel(new javax.swing.table.DefaultTableModel(
-                data,
-                new String[]{"Title", "Instructor", "Description"}
-            ) {
+                    data,
+                    new String[] { "Title", "Instructor", "Description" }) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
                     return false;
@@ -213,10 +212,14 @@ public class StudentDashboardFrame extends JFrame {
             int selectedRow = coursesTable.getSelectedRow();
             if (selectedRow >= 0) {
                 try {
-                    ArrayList<Course> availableCourses = student.viewAvailableCourses();
-                    student.enroll(availableCourses.get(selectedRow).getCourseId());
-                    JOptionPane.showMessageDialog(this, "Enrollment successful!");
-                    refreshEnrolledCoursesTab();
+                    if (currentAvailableCourses != null && selectedRow < currentAvailableCourses.size()) {
+                        student.enroll(currentAvailableCourses.get(selectedRow).getCourseId());
+                        JOptionPane.showMessageDialog(this, "Enrollment successful!");
+                        refreshEnrolledCoursesTab();
+                        refreshBrowseCoursesTab();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Invalid course selection. Please refresh and try again.");
+                    }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Enrollment failed: " + ex.getMessage());
                 }
@@ -230,108 +233,113 @@ public class StudentDashboardFrame extends JFrame {
         tabbedPane.addTab("Browse Courses", browseCoursesPanel);
     }
 
-private JPanel createCourseCard(Course course) {
-    JPanel card = new JPanel(new BorderLayout(15, 15));
-    card.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
-        BorderFactory.createEmptyBorder(20, 20, 20, 20)
-    ));
-    card.setBackground(Color.WHITE);
-    card.setMaximumSize(new Dimension(700, 150));
-    card.setPreferredSize(new Dimension(700, 150));
+    private JPanel createCourseCard(Course course) {
+        JPanel card = new JPanel(new BorderLayout(15, 15));
+        card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
+        card.setBackground(Color.WHITE);
+        card.setMaximumSize(new Dimension(700, 150));
+        card.setPreferredSize(new Dimension(700, 150));
 
-    JPanel infoPanel = new JPanel();
-    infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-    infoPanel.setBackground(Color.WHITE);
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        infoPanel.setBackground(Color.WHITE);
 
-    JLabel titleLabel = new JLabel(course.getTitle());
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-    titleLabel.setForeground(new Color(40, 40, 40));
-    titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel titleLabel = new JLabel(course.getTitle());
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(new Color(40, 40, 40));
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-    JLabel descLabel = new JLabel("<html>" + course.getDescription() + "</html>");
-    descLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-    descLabel.setForeground(new Color(100, 100, 100));
-    descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel descLabel = new JLabel("<html>" + course.getDescription() + "</html>");
+        descLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        descLabel.setForeground(new Color(100, 100, 100));
+        descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-    infoPanel.add(titleLabel);
-    infoPanel.add(Box.createVerticalStrut(10));
-    infoPanel.add(descLabel);
+        infoPanel.add(titleLabel);
+        infoPanel.add(Box.createVerticalStrut(10));
+        infoPanel.add(descLabel);
 
-    card.add(infoPanel, BorderLayout.CENTER);
+        card.add(infoPanel, BorderLayout.CENTER);
 
-    JButton detailsButton = new JButton("View Details →");
-    detailsButton.setFont(new Font("Arial", Font.BOLD, 13));
-    detailsButton.setBackground(new Color(70, 130, 180));
-    detailsButton.setForeground(Color.WHITE);
-    detailsButton.setFocusPainted(false);
-    detailsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    detailsButton.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
-    detailsButton.addActionListener(e -> {
-        showCourseDetails(course);
-    });
+        JButton detailsButton = new JButton("View Details →");
+        detailsButton.setFont(new Font("Arial", Font.BOLD, 13));
+        detailsButton.setBackground(new Color(70, 130, 180));
+        detailsButton.setForeground(Color.WHITE);
+        detailsButton.setFocusPainted(false);
+        detailsButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        detailsButton.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        detailsButton.addActionListener(e -> {
+            showCourseDetails(course);
+        });
 
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-    buttonPanel.setBackground(Color.WHITE);
-    buttonPanel.add(detailsButton);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(detailsButton);
 
-    card.add(buttonPanel, BorderLayout.EAST);
-    return card;
-}
-
- private void refreshEnrolledCoursesTab() {
-    enrolledCoursesPanel.removeAll();
-
-    // Header panel
-    JPanel headerPanel = new JPanel(new BorderLayout());
-    headerPanel.setBackground(Color.WHITE);
-    headerPanel.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(220, 220, 220)),
-        BorderFactory.createEmptyBorder(20, 20, 20, 20)
-    ));
-
-    JLabel titleLabel = new JLabel("My Enrolled Courses", JLabel.CENTER);
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-    titleLabel.setForeground(new Color(50, 50, 50));
-    headerPanel.add(titleLabel, BorderLayout.CENTER);
-    enrolledCoursesPanel.add(headerPanel, BorderLayout.NORTH);
-
-    JPanel coursesPanel = new JPanel();
-    coursesPanel.setLayout(new BoxLayout(coursesPanel, BoxLayout.Y_AXIS));
-    coursesPanel.setBackground(new Color(245, 245, 250));
-    coursesPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-    try {
-        ArrayList<Course> enrolledCourses = student.getMyEnrolledCourses();
-        if (enrolledCourses.isEmpty()) {
-            JLabel emptyLabel = new JLabel("No Enrolled Courses Yet");
-            emptyLabel.setFont(new Font("Arial", Font.ITALIC, 16));
-            emptyLabel.setForeground(Color.GRAY);
-            emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            coursesPanel.add(Box.createVerticalGlue());
-            coursesPanel.add(emptyLabel);
-            coursesPanel.add(Box.createVerticalGlue());
-        } else {
-            for (Course course : enrolledCourses) {
-                JPanel courseCard = createCourseCard(course);
-                courseCard.setAlignmentX(Component.CENTER_ALIGNMENT);
-                coursesPanel.add(courseCard);
-                coursesPanel.add(Box.createVerticalStrut(15));
-            }
-        }
-    } catch (Exception e) {
-        JLabel errorLabel = new JLabel("Error loading courses");
-        errorLabel.setForeground(Color.RED);
-        errorLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        coursesPanel.add(errorLabel);
+        card.add(buttonPanel, BorderLayout.EAST);
+        return card;
     }
 
-    JScrollPane scrollPane = new JScrollPane(coursesPanel);
-    scrollPane.setBorder(null);
-    scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-    enrolledCoursesPanel.add(scrollPane, BorderLayout.CENTER);
+    private void refreshEnrolledCoursesTab() {
+        enrolledCoursesPanel.removeAll();
 
-    enrolledCoursesPanel.revalidate();
-    enrolledCoursesPanel.repaint();
-}
+        // Header panel
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(220, 220, 220)),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
+
+        JLabel titleLabel = new JLabel("My Enrolled Courses", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(50, 50, 50));
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+        enrolledCoursesPanel.add(headerPanel, BorderLayout.NORTH);
+
+        JPanel coursesPanel = new JPanel();
+        coursesPanel.setLayout(new BoxLayout(coursesPanel, BoxLayout.Y_AXIS));
+        coursesPanel.setBackground(new Color(245, 245, 250));
+        coursesPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        try {
+            ArrayList<Course> enrolledCourses = student.getMyEnrolledCourses();
+            if (enrolledCourses.isEmpty()) {
+                JLabel emptyLabel = new JLabel("No Enrolled Courses Yet");
+                emptyLabel.setFont(new Font("Arial", Font.ITALIC, 16));
+                emptyLabel.setForeground(Color.GRAY);
+                emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                coursesPanel.add(Box.createVerticalGlue());
+                coursesPanel.add(emptyLabel);
+                coursesPanel.add(Box.createVerticalGlue());
+            } else {
+                for (Course course : enrolledCourses) {
+                    JPanel courseCard = createCourseCard(course);
+                    courseCard.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    coursesPanel.add(courseCard);
+                    coursesPanel.add(Box.createVerticalStrut(15));
+                }
+            }
+        } catch (Exception e) {
+            JLabel errorLabel = new JLabel("Error loading courses");
+            errorLabel.setForeground(Color.RED);
+            errorLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+            coursesPanel.add(errorLabel);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(coursesPanel);
+        scrollPane.setBorder(null);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        enrolledCoursesPanel.add(scrollPane, BorderLayout.CENTER);
+
+        enrolledCoursesPanel.revalidate();
+        enrolledCoursesPanel.repaint();
+    }
+
+    private void refreshBrowseCoursesTab() {
+        tabbedPane.removeAll();
+        createEnrolledCoursesTab();
+        createBrowseCoursesTab();
+        tabbedPane.setSelectedIndex(1); // Keep Browse Courses tab selected
+    }
 }
