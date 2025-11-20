@@ -5,10 +5,7 @@
 package com.mycompany.CourseManagement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.mycompany.JsonHandler.JsonHandler;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -19,6 +16,7 @@ public class Course {
 
     private String courseId;
     private String instructorId;
+    private Status state;
 
     @JsonProperty(defaultValue = "[]")
     private ArrayList<String> studentIds;
@@ -32,36 +30,35 @@ public class Course {
     public Course() {
         this.studentIds = new ArrayList<>();
         this.lessons = new ArrayList<>();
+        state = Status.PENDING;
     }
 
-    public Course(String instructorId, String title, String description) throws IOException {
+    public Course(String instructorId, String title, String description) {
         this.instructorId = instructorId;
         this.title = title;
         this.description = description;
-        this.courseId = "C"+generateNextCourseId();
+        this.courseId = "C" + generateNextCourseId();
         this.studentIds = new ArrayList<>();
         this.lessons = new ArrayList<>();
+        this.state = Status.PENDING;
     }
 
-    private int generateNextCourseId() throws IOException {
-        try {
-            ArrayNode courseList = JsonHandler.readArrayFromFile("courses.json");
-            int maxId = 0;
+    private int generateNextCourseId() {
+        int maxId = 0;
 
-            for (int i = 0; i < courseList.size(); i++) {
-                JsonNode node = courseList.get(i);
-                if (node.has("courseId")) {
-                    String id = node.get("courseId").asText().substring(1);
-                    if (Integer.parseInt(id) > maxId) {
-                        maxId = Integer.parseInt(id);
+        if (JsonHandler.courses != null) {
+            for (Course course : JsonHandler.courses) {
+                if (course.getCourseId() != null && course.getCourseId().length() > 1) {
+                    String id = course.getCourseId().substring(1);
+                    int courseNum = Integer.parseInt(id);
+                    if (courseNum > maxId) {
+                        maxId = courseNum;
                     }
                 }
             }
-
-            return maxId + 1;
-        } catch (IOException e) {
-            return 1; // If file doesn't exist or is empty, start from 1
         }
+
+        return maxId + 1;
     }
 
     /**
@@ -137,6 +134,20 @@ public class Course {
             lessons = new ArrayList<>();
         }
         return lessons;
+    }
+
+    /**
+     * @return the state
+     */
+    public Status getState() {
+        return this.state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(Status state) {
+        this.state = state;
     }
 
     @Override

@@ -4,10 +4,9 @@
  */
 package com.mycompany.CourseManagement;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mycompany.JsonHandler.JsonHandler;
-import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,47 +17,43 @@ public class Lesson {
     private String lessonId;
     private String title;
     private String content;
+
+    @JsonIgnore
     private boolean completed;
 
     public Lesson() {
     }
 
-    public Lesson(String title, String content) throws IOException {
-        this.lessonId = "L"+generateNextLessonId();
+    public Lesson(String title, String content) {
+        this.lessonId = "L" + generateNextLessonId();
         this.title = title;
         this.content = content;
         this.completed = false;
     }
 
-    private int generateNextLessonId() throws IOException {
-        try {
-            ArrayNode courseList = JsonHandler.readArrayFromFile("courses.json");
-            int maxId = 0;
-            
-            for (int i = 0; i < courseList.size(); i++) {
-                JsonNode courseNode = courseList.get(i);
-                
-                if (courseNode.has("lessons") && courseNode.get("lessons").isArray()) {
-                    ArrayNode lessons = (ArrayNode) courseNode.get("lessons");
-                    
-                    for (int j = 0; j < lessons.size(); j++) {
-                        JsonNode lessonNode = lessons.get(j);
-                        if (lessonNode.has("lessonId")) {
-                            String id = lessonNode.get("lessonId").asText().substring(1);
-                            if (Integer.parseInt(id) > maxId) {
-                                maxId = Integer.parseInt(id);
+    private int generateNextLessonId() {
+        int maxId = 0;
+
+        if (JsonHandler.courses != null) {
+            for (Course course : JsonHandler.courses) {
+                ArrayList<Lesson> lessons = course.getLessons();
+                if (lessons != null) {
+                    for (Lesson lesson : lessons) {
+                        if (lesson.getLessonId() != null && lesson.getLessonId().length() > 1) {
+                            String id = lesson.getLessonId().substring(1);
+                            int lessonNum = Integer.parseInt(id);
+                            if (lessonNum > maxId) {
+                                maxId = lessonNum;
                             }
                         }
                     }
                 }
             }
-            
-            return maxId + 1;
-        } catch (IOException e) {
-            return 1; // If file doesn't exist or is empty, start from 1
         }
+
+        return maxId + 1;
     }
-    
+
     /**
      * @return the lessonId
      */

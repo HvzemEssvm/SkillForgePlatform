@@ -4,99 +4,71 @@
  */
 package com.mycompany.UserAccountManagement;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
-import com.mycompany.JsonHandler.JsonHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  *
- * 
+ *
  */
 public class Student extends User {
-    private CourseServices courseManager;
-    
-    public Student() throws IOException
-    {courseManager = new CourseServices();}
-    
-    
-    public Student(String userId, String name, String email, String password) throws IOException {
+
+    private ArrayList<Enrollment> enrollments;
+
+    public Student() {
+        super();
+        this.enrollments = new ArrayList<>();
+    }
+
+    public Student(String userId, String name, String email, String password) {
         super(userId, name, email, password);
-        courseManager = new CourseServices();
+        this.enrollments = new ArrayList<>();
     }
-    
+
     public void enroll(String courseId) throws IllegalArgumentException, IOException {
-        courseManager.enrollStudentInCourse(courseId, getUserId());
-        try
-        {
-            UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
-            throw new IOException(e.getMessage());
-        }
+        CourseServices.enrollStudentInCourse(courseId, getUserId());
     }
-    
-    public void completeLesson(String lessonId) throws IOException {
-        ArrayNode courseList = JsonHandler.readArrayFromFile(courseManager.getFileName());
-        courseManager.findLessonById(lessonId);
-        JsonNode node = courseList.get(courseManager.getIndex());
-        Course course = JsonHandler.objectMapper.treeToValue(node, Course.class);
-        if (!course.getStudentIds().contains(getUserId())) {
-            throw new IllegalArgumentException("You must enroll in this course first!");
-        }
-        ArrayList<Lesson> lessons = course.getLessons();
-        for (Lesson lesson : lessons) {
-            if (lesson.getLessonId().equals(lessonId)) {
-                lesson.setCompleted(true);
-                break;
-            }
-        }
-        JsonNode jsonNode = JsonHandler.convertJavatoJson(course);
-        courseList.set(courseManager.getIndex(), jsonNode);
-        JsonHandler.writeToFile(courseList, courseManager.getFileName());
-        try
-        {
-            UserServices.updateUser(this);
-        }
-        catch(Exception e)
-        {
-            throw new IOException(e.getMessage());
-        }
+
+    public void completeLesson(String userId, String lessonId) throws IOException {
+        CourseServices.markLessonCompleted(userId, lessonId);
     }
-    
+
+    @JsonIgnore
     public ArrayList<Course> viewAvailableCourses() throws IOException {
-        ArrayList<Course> allCourses = courseManager.getAllCourses();
-        ArrayList<Course> availableCourses = new ArrayList<>();
-        
-        for (Course course : allCourses) {
-            if (!course.getStudentIds().contains(getUserId())) {
-                availableCourses.add(course);
-            }
-        }
-        
-        return availableCourses;
+        ArrayList<Course> allCourses = CourseServices.getAllCourses();
+        ArrayList<Course> enrolledCourses = getMyEnrolledCourses();
+        allCourses.removeAll(enrolledCourses);
+
+        return allCourses;
     }
-    
+
+    @JsonIgnore
     public ArrayList<Course> getMyEnrolledCourses() throws IOException {
-        return courseManager.getEnrolledCoursesByStudent(getUserId());
+        return CourseServices.getEnrolledCoursesByStudent(getUserId());
     }
-    
+
+    @JsonIgnore
     public ArrayList<Lesson> getCourseLessons(String courseId) throws IOException {
-        Course course = courseManager.findCourseById(courseId);
-        
+        Course course = CourseServices.findCourseById(courseId);
+
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
         }
-        
-        if (!course.getStudentIds().contains(getUserId())) {
-            throw new IllegalArgumentException("You are not enrolled in this course!");
+
+        return CourseServices.getAllLessonsFromCourse(courseId);
+    }
+
+    /**
+     * @return the enrolledCourses
+     */
+    public ArrayList<Enrollment> getEnrollments() {
+        if (enrollments == null) {
+            enrollments = new ArrayList<>();
         }
-        
-        return courseManager.getAllLessonsFromCourse(courseId);
+        return enrollments;
     }
 }

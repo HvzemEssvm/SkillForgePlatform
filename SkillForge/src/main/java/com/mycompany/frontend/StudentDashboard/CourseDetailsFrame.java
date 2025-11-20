@@ -3,6 +3,7 @@ package com.mycompany.frontend.StudentDashboard;
 import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
+import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Student;
 import java.util.ArrayList;
@@ -147,16 +148,21 @@ public class CourseDetailsFrame extends JPanel {
             showLessonContent(lesson);
         });
 
+        // Check if lesson is completed for this student
+        boolean isCompleted = CourseServices.isLessonCompleted(
+            student.getUserId(), course.getCourseId(), lesson.getLessonId()
+        );
+        
         JButton completeButton = new JButton(
-            lesson.isCompleted() ? "✓ Completed" : "Mark Complete"
+            isCompleted ? "✓ Completed" : "Mark Complete"
         );
         completeButton.setFont(new Font("Arial", Font.PLAIN, 12));
-        completeButton.setEnabled(!lesson.isCompleted());
+        completeButton.setEnabled(!isCompleted);
         completeButton.setFocusPainted(false);
         completeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         completeButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
 
-        if (lesson.isCompleted()) {
+        if (isCompleted) {
             completeButton.setBackground(new Color(40, 167, 69));
             completeButton.setForeground(Color.WHITE);
         } else {
@@ -166,7 +172,7 @@ public class CourseDetailsFrame extends JPanel {
 
         completeButton.addActionListener(e -> {
             try {
-                student.completeLesson(lesson.getLessonId());
+                student.completeLesson(student.getUserId(),lesson.getLessonId());
                 completeButton.setEnabled(false);
                 completeButton.setText("✓ Completed");
                 completeButton.setBackground(new Color(40, 167, 69));
