@@ -4,16 +4,21 @@
  */
 package com.mycompany.frontend.AdminDashboard;
 
+import com.mycompany.frontend.Main.MainFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Hazem
  */
 public class AdminDashboardPanel extends javax.swing.JPanel {
 
+    private final AdminDashboardFrame adminDashboardFrame;
     /**
      * Creates new form AdminDashboardPanel
      */
-    public AdminDashboardPanel(AdminDashboardFrame adminDashboardPanel) {
+    public AdminDashboardPanel(AdminDashboardFrame adminDashboardFrame) {
+        this.adminDashboardFrame = adminDashboardFrame;
         initComponents();
     }
 
@@ -26,19 +31,153 @@ public class AdminDashboardPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnLogOut = new javax.swing.JButton();
+        labelTitle = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        coursesManagement = new javax.swing.JPanel();
+        scrollPending = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        usersManagement = new javax.swing.JPanel();
+
+        setBackground(new java.awt.Color(255, 255, 255));
+        setForeground(new java.awt.Color(0, 0, 0));
+        setMaximumSize(new java.awt.Dimension(1280, 720));
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        btnLogOut.setBackground(new java.awt.Color(255, 0, 51));
+        btnLogOut.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
+        btnLogOut.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogOut.setText("Log Out");
+        btnLogOut.setMargin(new java.awt.Insets(5, 14, 3, 14));
+        btnLogOut.setOpaque(true);
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
+
+        labelTitle.setBackground(new java.awt.Color(255, 255, 255));
+        labelTitle.setFont(new java.awt.Font("Copperplate Gothic Bold", 1, 48)); // NOI18N
+        labelTitle.setForeground(new java.awt.Color(0, 0, 0));
+        labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitle.setText("Admin Control Panel");
+        labelTitle.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black, java.awt.Color.black));
+
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jTabbedPane1.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
+
+        scrollPending.setBackground(new java.awt.Color(255, 255, 255));
+        scrollPending.setForeground(new java.awt.Color(0, 0, 0));
+        scrollPending.setOpaque(true);
+
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Course Name", "Course ID", "View Details", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scrollPending.setViewportView(jTable1);
+
+        javax.swing.GroupLayout coursesManagementLayout = new javax.swing.GroupLayout(coursesManagement);
+        coursesManagement.setLayout(coursesManagementLayout);
+        coursesManagementLayout.setHorizontalGroup(
+            coursesManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coursesManagementLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPending, javax.swing.GroupLayout.DEFAULT_SIZE, 1125, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        coursesManagementLayout.setVerticalGroup(
+            coursesManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coursesManagementLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPending, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Courses ", coursesManagement);
+
+        javax.swing.GroupLayout usersManagementLayout = new javax.swing.GroupLayout(usersManagement);
+        usersManagement.setLayout(usersManagementLayout);
+        usersManagementLayout.setHorizontalGroup(
+            usersManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1137, Short.MAX_VALUE)
+        );
+        usersManagementLayout.setVerticalGroup(
+            usersManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 632, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Users", usersManagement);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTitle))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogOut;
+    private javax.swing.JPanel coursesManagement;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel labelTitle;
+    private javax.swing.JScrollPane scrollPending;
+    private javax.swing.JPanel usersManagement;
     // End of variables declaration//GEN-END:variables
+
+    public final void logOutCallback()
+    {
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to logout?",
+                "Confirm Logout",
+                JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                adminDashboardFrame.dispose();
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+                JOptionPane.showMessageDialog(mainFrame, "Logged Out Successfully", "Successful Operation!", JOptionPane.INFORMATION_MESSAGE);
+            }
+    }
 }
