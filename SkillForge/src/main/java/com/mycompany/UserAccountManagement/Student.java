@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
+import com.mycompany.CourseManagement.Status;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -39,10 +40,10 @@ public class Student extends User {
 
     @JsonIgnore
     public ArrayList<Course> viewAvailableCourses() throws IOException {
-        ArrayList<Course> allCourses = CourseServices.getAllCourses();
+        ArrayList<Course> allCourses = CourseServices.getCoursesByStatus(Status.APPROVED);
         ArrayList<Course> enrolledCourses = getMyEnrolledCourses();
         allCourses.removeAll(enrolledCourses);
-
+        
         return allCourses;
     }
 
@@ -55,7 +56,7 @@ public class Student extends User {
     public ArrayList<Lesson> getCourseLessons(String courseId) throws IOException {
         Course course = CourseServices.findCourseById(courseId);
 
-        if (course == null) {
+        if (course == null||course.getStatus()!=Status.APPROVED) {
             throw new IllegalArgumentException("Course not found");
         }
 

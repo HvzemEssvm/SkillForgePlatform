@@ -394,4 +394,25 @@ public class CourseServices {
         return foundAt;
     }
 
+    public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException,JsonProcessingException
+    {
+        ArrayList<Course> courses = new ArrayList<>();
+        for(Course  course   :   CourseServices.getAllCourses())
+        {
+            if(course.getStatus()==status)
+            {
+                courses.add(course);
+            }
+        }
+        return courses;
+    }
+    
+    public static Course updateCourseStatus(String courseId,Status status) throws IllegalArgumentException, IOException
+    {
+        Course course = CourseServices.findCourseById(courseId);
+        course.setStatus(status);
+        JsonHandler.saveCourses();
+        return course;
+    }
+    
 }

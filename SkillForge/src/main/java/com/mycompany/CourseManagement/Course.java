@@ -16,7 +16,7 @@ public class Course {
 
     private String courseId;
     private String instructorId;
-    private Status state;
+    private Status status;
 
     @JsonProperty(defaultValue = "[]")
     private ArrayList<String> studentIds;
@@ -30,7 +30,7 @@ public class Course {
     public Course() {
         this.studentIds = new ArrayList<>();
         this.lessons = new ArrayList<>();
-        state = Status.PENDING;
+        status = Status.PENDING;
     }
 
     public Course(String instructorId, String title, String description) {
@@ -40,7 +40,7 @@ public class Course {
         this.courseId = "C" + generateNextCourseId();
         this.studentIds = new ArrayList<>();
         this.lessons = new ArrayList<>();
-        this.state = Status.PENDING;
+        this.status = Status.PENDING;
     }
 
     private int generateNextCourseId() {
@@ -137,17 +137,17 @@ public class Course {
     }
 
     /**
-     * @return the state
+     * @return the status
      */
-    public Status getState() {
-        return this.state;
+    public Status getStatus() {
+        return this.status;
     }
 
     /**
-     * @param state the state to set
+     * @param status the status to set
      */
-    public void setState(Status state) {
-        this.state = state;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

@@ -62,6 +62,6 @@
     "name" : "TestInstructor",
     "email" : "test@gmail.com",
     "password" : "626aa60100e38a2b0a8c9b3512116bfb3ff9db5b986b21b27c2989e011629435",
-    "myCoursesIds" : [ "C6" ]
+    "myCoursesIds" : [ "C6", "C7" ]
   } ]
 }
