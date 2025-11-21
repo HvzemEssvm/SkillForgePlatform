@@ -30,6 +30,7 @@ public class CoursePanel extends JPanel{
 
     private JLabel lblCourseTitle;
     private JLabel lblCourseDescription;
+    private JLabel lblCourseStatus;
     private JButton btnEditCourse;
     private JButton btnDeleteCourse;
     private JButton btnCreateLesson;
@@ -52,7 +53,10 @@ public class CoursePanel extends JPanel{
         JPanel titlePanel = new JPanel();
         lblCourseTitle = new JLabel("Course: " + course.getTitle());
         lblCourseDescription = new JLabel("Description: " + course.getDescription());
+        lblCourseStatus = new JLabel("- Status: " + course.getStatus().toString());
         titlePanel.add(lblCourseTitle);
+        titlePanel.add(lblCourseStatus);
+//        titlePanel.add(lblCourseDescription);
 
         JPanel buttonPanel1 = new JPanel();
         btnBack = new JButton("Back to Dashboard");

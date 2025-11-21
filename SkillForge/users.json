@@ -50,18 +50,18 @@
     "name" : "Layla",
     "email" : "Layla@gmail.com",
     "password" : "16d2fad0a69713178508269974119f4fd0e33223cf7bc081644eecb375afdd59",
-    "myCoursesIds" : [ "C1", "C2", "C3" ]
+    "myCoursesIds" : [ ]
   }, {
     "userId" : "i2",
     "name" : "Magdy",
     "email" : "Magdy@gmail.com",
     "password" : "f0d845a941c9d21b724d078d509cd1ea620b504e2cae0c3eae368e729d27af1f",
-    "myCoursesIds" : [ "C5" ]
+    "myCoursesIds" : [ ]
   }, {
     "userId" : "i3",
     "name" : "TestInstructor",
     "email" : "test@gmail.com",
     "password" : "626aa60100e38a2b0a8c9b3512116bfb3ff9db5b986b21b27c2989e011629435",
-    "myCoursesIds" : [ "C6" ]
+    "myCoursesIds" : [ "C1" ]
   } ]
 }
