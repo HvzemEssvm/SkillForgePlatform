@@ -31,7 +31,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         
-        setTitle("SkillForge Platform🔨");
+        setTitle("SkillForge Platform");
         setSize(1280, 720);
         setMinimumSize(new Dimension(1280,720));
         setLocationRelativeTo(null);
