@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
+import com.mycompany.CourseManagement.StudentProgress;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -18,10 +19,14 @@ import java.util.ArrayList;
 public class Student extends User {
 
     private ArrayList<Enrollment> enrollments;
+    private StudentProgress progress;
+
 
     public Student() {
         super();
         this.enrollments = new ArrayList<>();
+        
+
     }
 
     public Student(String userId, String name, String email, String password) {
@@ -71,4 +76,14 @@ public class Student extends User {
         }
         return enrollments;
     }
+    public StudentProgress getProgress() {
+    if (progress == null) {
+        progress = new StudentProgress(getUserId(), getName());
+    }
+    return progress;} 
+
+
+    public void setProgress(StudentProgress progress) {
+        this.progress = progress;}
+
 }
