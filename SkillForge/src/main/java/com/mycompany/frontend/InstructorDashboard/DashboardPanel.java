@@ -5,6 +5,7 @@
 package com.mycompany.frontend.InstructorDashboard;
 
 import com.mycompany.CourseManagement.Course;
+import com.mycompany.CourseManagement.Status;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.frontend.Main.MainFrame;
 import java.awt.BorderLayout;
@@ -62,7 +63,7 @@ public class DashboardPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    String selected = courseList.getSelectedValue();
+                    String selected = courseList.getSelectedValue().split("-")[0].trim();
                     if (selected != null) {
                         try {
                             ArrayList<Course> courses = instructor.getMyCourses();
@@ -121,7 +122,7 @@ public class DashboardPanel extends JPanel {
         try {
             ArrayList<Course> courses = instructor.getMyCourses();
             for (Course c : courses) {
-                courseListModel.addElement(c.getTitle());
+                courseListModel.addElement(c.getTitle()+(" - ")+c.getStatus().toString());
             }
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error loading courses: " + ex.getMessage());

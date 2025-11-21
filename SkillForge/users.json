@@ -29,6 +29,21 @@
       "courseId" : "C5",
       "completedLessons" : [ ]
     } ]
+  }, {
+    "userId" : "s3",
+    "name" : "Hazem Essam Elsayed",
+    "email" : "Hazem@gmail.com",
+    "password" : "46db433fda5ece6f12d3378751ff008d6aecdaf15d5c6529da853357c97d1905",
+    "enrollments" : [ {
+      "courseId" : "C5",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C2",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C6",
+      "completedLessons" : [ "L3" ]
+    } ]
   } ],
   "instructors" : [ {
     "userId" : "i1",
@@ -42,5 +57,11 @@
     "email" : "Magdy@gmail.com",
     "password" : "f0d845a941c9d21b724d078d509cd1ea620b504e2cae0c3eae368e729d27af1f",
     "myCoursesIds" : [ "C5" ]
+  }, {
+    "userId" : "i3",
+    "name" : "TestInstructor",
+    "email" : "test@gmail.com",
+    "password" : "626aa60100e38a2b0a8c9b3512116bfb3ff9db5b986b21b27c2989e011629435",
+    "myCoursesIds" : [ "C6", "C7" ]
   } ]
 }

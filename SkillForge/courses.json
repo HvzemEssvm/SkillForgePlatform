@@ -2,7 +2,7 @@
   "courses" : [ {
     "courseId" : "C1",
     "instructorId" : "i1",
-    "state" : "PENDING",
+    "status" : "PENDING",
     "studentIds" : [ "s1", "s2" ],
     "title" : "Course One eidted",
     "description" : "edit",
@@ -14,15 +14,15 @@
   }, {
     "courseId" : "C2",
     "instructorId" : "i1",
-    "state" : "PENDING",
-    "studentIds" : [ "s1" ],
+    "status" : "PENDING",
+    "studentIds" : [ "s1", "s3" ],
     "title" : "Course Two",
     "description" : "Two",
     "lessons" : [ ]
   }, {
     "courseId" : "C3",
     "instructorId" : "i1",
-    "state" : "PENDING",
+    "status" : "PENDING",
     "studentIds" : [ "s1" ],
     "title" : "Course Three",
     "description" : "Three",
@@ -30,10 +30,30 @@
   }, {
     "courseId" : "C5",
     "instructorId" : "i2",
-    "state" : "PENDING",
-    "studentIds" : [ "s1", "s2" ],
+    "status" : "PENDING",
+    "studentIds" : [ "s1", "s2", "s3" ],
     "title" : "Logic ||",
     "description" : "Logic",
+    "lessons" : [ ]
+  }, {
+    "courseId" : "C6",
+    "instructorId" : "i3",
+    "status" : "PENDING",
+    "studentIds" : [ "s3" ],
+    "title" : "TestCourse",
+    "description" : "TestCourse",
+    "lessons" : [ {
+      "lessonId" : "L3",
+      "title" : "testLesson",
+      "content" : "TestLesson"
+    } ]
+  }, {
+    "courseId" : "C7",
+    "instructorId" : "i3",
+    "status" : "PENDING",
+    "studentIds" : [ ],
+    "title" : "testCourse2",
+    "description" : "testCourse2",
     "lessons" : [ ]
   } ]
 }

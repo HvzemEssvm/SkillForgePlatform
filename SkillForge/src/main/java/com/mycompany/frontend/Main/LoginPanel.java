@@ -8,6 +8,7 @@ import com.mycompany.InputVerifiers.IsEmptyVerifier;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.User;
+import com.mycompany.UserAccountManagement.UserServices;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -140,18 +141,14 @@ public class LoginPanel extends javax.swing.JPanel {
         if(userIdVerifier.verify(fieldUserId)&&passwordVerifier.verify(fieldPassword))
         {
             try {
-                User user  = this.mainFrame.getUserServices().login(fieldUserId.getText(),String.valueOf(fieldPassword.getPassword()));
+                User user  = UserServices.login(fieldUserId.getText(),String.valueOf(fieldPassword.getPassword()));
                 if(user == null)
                 {
                     JOptionPane.showMessageDialog(this, "Invalid Credentials", "Error", JOptionPane.ERROR_MESSAGE);
-                }else if(user.getUserId().charAt(0)=='i')
-                {
-                    this.mainFrame.navigateToInstructorPanel((Instructor)user);
-                }else if(user.getUserId().charAt(0)=='s')
-                {
-                    this.mainFrame.navigateToStudentFrame((Student)user);
                 }else
-                {}
+                {
+                    this.mainFrame.navigateToUserFrame(user);
+                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
