@@ -2,7 +2,7 @@
   "courses" : [ {
     "courseId" : "C1",
     "instructorId" : "i1",
-    "status" : "PENDING",
+    "status" : "APPROVED",
     "studentIds" : [ "s1", "s2" ],
     "title" : "Course One eidted",
     "description" : "edit",
@@ -22,7 +22,7 @@
   }, {
     "courseId" : "C3",
     "instructorId" : "i1",
-    "status" : "PENDING",
+    "status" : "APPROVED",
     "studentIds" : [ "s1" ],
     "title" : "Course Three",
     "description" : "Three",

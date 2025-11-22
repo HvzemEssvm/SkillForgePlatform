@@ -4,9 +4,11 @@
  */
 package com.mycompany.frontend.Main;
 
+import com.mycompany.UserAccountManagement.Admin;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.User;
+import com.mycompany.frontend.AdminDashboard.AdminDashboardFrame;
 import com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame;
 import com.mycompany.frontend.StudentDashboard.StudentDashboardFrame;
 import java.awt.CardLayout;
@@ -121,6 +123,11 @@ public class MainFrame extends javax.swing.JFrame {
         {
             StudentDashboardFrame studentDashboardFrame = new StudentDashboardFrame((Student)user);
             studentDashboardFrame.setVisible(true);
+        }
+        else if(user instanceof Admin)
+        {
+            AdminDashboardFrame adminDashboardFrame = new AdminDashboardFrame();
+            adminDashboardFrame.setVisible(true);
         }
         this.dispose();
     }

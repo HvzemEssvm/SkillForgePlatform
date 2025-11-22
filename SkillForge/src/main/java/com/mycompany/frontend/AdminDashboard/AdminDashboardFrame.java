@@ -20,13 +20,13 @@ public class AdminDashboardFrame extends javax.swing.JFrame {
      * Creates new form AdminDashboardFrame
      */
     public AdminDashboardFrame() {
+        initComponents();
         setTitle("Admin Control");
         setSize(1280,720);
         setMinimumSize(new Dimension(1280,720));
         setLocationRelativeTo(null);
         cardLayout = new CardLayout();
         setLayout(cardLayout);
-        initComponents();
         
         adminDashboardPanel = new AdminDashboardPanel(this);
         add(adminDashboardPanel,"home");
