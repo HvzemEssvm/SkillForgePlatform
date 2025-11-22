@@ -126,19 +126,27 @@ public class UserServices {
     }
 
     public static String getUserNameById(String userId) throws IOException {
+        User user = getUserById(userId);
+        if(user==null)
+            return "";
+        
+        return user.getName();
+    }
+    
+    public static User getUserById(String userId) throws IOException {
         if (userId.charAt(0) == 'i') {
             for (Instructor instructor : JsonHandler.instructors) {
                 if (instructor.getUserId().equals(userId)) {
-                    return instructor.getName();
+                    return instructor;
                 }
             }
         } else {
             for (Student student : JsonHandler.students) {
                 if (student.getUserId().equals(userId)) {
-                    return student.getName();
+                    return student;
                 }
             }
         }
-        return "";
+        return null;
     }
 }

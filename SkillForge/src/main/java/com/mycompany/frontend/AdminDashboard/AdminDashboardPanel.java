@@ -55,6 +55,7 @@ public class AdminDashboardPanel extends javax.swing.JPanel {
             this.table = table;
             button = new JButton();
             button.setOpaque(true);
+            button.setFont(new java.awt.Font("Segoe UI", 1, 18));
             button.addActionListener(this);
         }
 
@@ -148,6 +149,8 @@ public class AdminDashboardPanel extends javax.swing.JPanel {
         sorter.setSortable(3, false);
         tableCourses.setRowSorter(sorter);
         
+        coursesManagement.setName("coursesManagement");
+        jTabbedPane1.setSelectedComponent(coursesManagement);
     }
 
     /**
@@ -196,6 +199,11 @@ public class AdminDashboardPanel extends javax.swing.JPanel {
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         jTabbedPane1.setFont(new java.awt.Font("Bahnschrift", 1, 24)); // NOI18N
         jTabbedPane1.setOpaque(true);
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
+            }
+        });
 
         coursesManagement.setLayout(new java.awt.CardLayout());
 
@@ -314,6 +322,17 @@ public class AdminDashboardPanel extends javax.swing.JPanel {
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
     logOutCallback();
     }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // TODO add your handling code here:
+        Component selectedComponent = jTabbedPane1.getSelectedComponent();
+        if(selectedComponent == null||selectedComponent.getName()==null)
+            return;
+        if(selectedComponent.getName().equals(coursesManagement.getName()))
+        {
+            ((CardLayout)coursesManagement.getLayout()).show(coursesManagement, "card2");
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

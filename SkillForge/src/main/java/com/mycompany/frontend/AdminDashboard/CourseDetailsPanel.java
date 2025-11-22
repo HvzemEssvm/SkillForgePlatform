@@ -5,6 +5,12 @@
 package com.mycompany.frontend.AdminDashboard;
 
 import com.mycompany.CourseManagement.Course;
+import com.mycompany.CourseManagement.Lesson;
+import com.mycompany.UserAccountManagement.UserServices;
+import java.awt.CardLayout;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -13,11 +19,51 @@ import javax.swing.JPanel;
  */
 public class CourseDetailsPanel extends javax.swing.JPanel {
 
+    private JPanel parent;
+    private Course course;
     /**
      * Creates new form courseDetails
      */
     public CourseDetailsPanel(JPanel parent,Course course) {
+        this.parent = parent;
+        this.course = course;
         initComponents();
+        courseDetails.append("Course Title: ");
+        courseDetails.append(course.getTitle());
+        courseDetails.append("\nnCourse ID: ");
+        courseDetails.append(course.getCourseId());
+        courseDetails.append("\nnCourse Status: ");
+        courseDetails.append(course.getStatus().toString());
+        courseDetails.append("\nnCourse Description:\n");
+        courseDetails.append(course.getDescription());
+        courseDetails.append("\n\nInstructor Name: ");
+        try {
+            courseDetails.append(UserServices.getUserNameById(course.getInstructorId()));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            closePanel();
+        }
+        courseDetails.append("\nnInstructor ID: ");
+        courseDetails.append(course.getInstructorId());
+        courseDetails.append("\nnLessons:\n");
+        ArrayList<Lesson> lessons = course.getLessons();
+        if(lessons.isEmpty())
+        {
+            courseDetails.append("No lessons to preview");
+        }
+        else
+        {
+            for(Lesson lesson : lessons)
+            {
+                courseDetails.append("\nLesson ID: ");
+                courseDetails.append(lesson.getLessonId());
+                courseDetails.append("\nLesson Title: ");
+                courseDetails.append(lesson.getTitle());
+                courseDetails.append("\nLesson Content:\n");
+                courseDetails.append(lesson.getContent());
+            }
+        }
+        courseDetails.append("\n\nEnd Of Details");
     }
 
     /**
@@ -29,32 +75,67 @@ public class CourseDetailsPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
+        scrollCourseDetails = new javax.swing.JScrollPane();
+        courseDetails = new javax.swing.JTextArea();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("dadasdasd");
+        btnBack.setBackground(new java.awt.Color(255, 255, 255));
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/btnBack.png"))); // NOI18N
+        btnBack.setBorder(null);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        courseDetails.setEditable(false);
+        courseDetails.setColumns(20);
+        courseDetails.setFont(new java.awt.Font("Bahnschrift", 0, 24)); // NOI18N
+        courseDetails.setLineWrap(true);
+        courseDetails.setRows(5);
+        scrollCourseDetails.setViewportView(courseDetails);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(129, 129, 129)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(392, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollCourseDetails, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(95, 95, 95)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(scrollCourseDetails, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        closePanel();
+    }//GEN-LAST:event_btnBackActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JTextArea courseDetails;
+    private javax.swing.JScrollPane scrollCourseDetails;
     // End of variables declaration//GEN-END:variables
+
+    private void closePanel()
+    {
+         parent.remove(this);
+        parent.revalidate();
+        parent.repaint();
+        ((CardLayout)parent.getLayout()).show(parent, "card2");  
+    }
+        
 }
