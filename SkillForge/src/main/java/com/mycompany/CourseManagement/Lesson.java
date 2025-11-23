@@ -1,22 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.CourseManagement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mycompany.JsonHandler.JsonHandler;
+import com.mycompany.QuizManagement.Quiz;
+
 import java.util.ArrayList;
 
 /**
- *
- * @author Zeyad
+ * Lesson entity with Quiz support
+ * @author Lab8_Team
  */
 public class Lesson {
 
     private String lessonId;
     private String title;
     private String content;
+    
+    // NEW: Quiz for this lesson
+    private Quiz quiz;
 
     @JsonIgnore
     private boolean completed;
@@ -29,6 +30,15 @@ public class Lesson {
         this.title = title;
         this.content = content;
         this.completed = false;
+        this.quiz = null; // Quiz can be added later
+    }
+    
+    public Lesson(String title, String content, Quiz quiz) {
+        this.lessonId = "L" + generateNextLessonId();
+        this.title = title;
+        this.content = content;
+        this.completed = false;
+        this.quiz = quiz;
     }
 
     private int generateNextLessonId() {
@@ -54,60 +64,51 @@ public class Lesson {
         return maxId + 1;
     }
 
-    /**
-     * @return the lessonId
-     */
-
     public String getLessonId() {
         return lessonId;
     }
 
-    /**
-     * @return the title
-     */
     public String getTitle() {
         return title;
     }
 
-    /**
-     * @param title the title to set
-     */
     public void setTitle(String title) {
         this.title = title;
     }
 
-    /**
-     * @return the content
-     */
     public String getContent() {
         return content;
     }
 
-    /**
-     * @param content the content to set
-     */
     public void setContent(String content) {
         this.content = content;
+    }
+    
+    /**
+     * @return the quiz
+     */
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    /**
+     * @param quiz the quiz to set
+     */
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
     }
 
     @Override
     public String toString() {
-        return String.format("Lesson[ID=%s, Title='%s', Content='%s']",
-                lessonId, title, content);
+        return String.format("Lesson[ID=%s, Title='%s', Content='%s', HasQuiz=%b]",
+                lessonId, title, content, quiz != null);
     }
 
-    /**
-     * @return the completed
-     */
     public boolean isCompleted() {
         return completed;
     }
 
-    /**
-     * @param completed the completed to set
-     */
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
-
 }
