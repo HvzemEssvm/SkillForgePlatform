@@ -22,23 +22,18 @@ import java.util.HashMap;
  */
 public class Student extends User {
 
-    private ArrayList<Enrollment> enrollments;
     private HashMap<String, CourseProgress> courseProgress; // courseId -> CourseProgress
     private ArrayList<String> certificateIds;
 
-
     public Student() {
         super();
-        this.enrollments = new ArrayList<>();
         this.courseProgress = new HashMap<>();
         this.certificateIds = new ArrayList<>();
-        
 
     }
 
     public Student(String userId, String name, String email, String password) {
         super(userId, name, email, password);
-        this.enrollments = new ArrayList<>();
         this.courseProgress = new HashMap<>();
         this.certificateIds = new ArrayList<>();
     }
@@ -76,34 +71,24 @@ public class Student extends User {
         return CourseServices.getAllLessonsFromCourse(courseId);
     }
 
-    /**
-     * @return the enrolledCourses
-     */
-    public ArrayList<Enrollment> getEnrollments() {
-        if (enrollments == null) {
-            enrollments = new ArrayList<>();
-        }
-        return enrollments;
-    }
     // Add method to submit quiz and update progress
     public void submitQuiz(QuizAttempt quizAttempt) throws IOException, Exception {
         String courseId = quizAttempt.getCourseId();
-        
+
         // Get or create course progress
         CourseProgress progress = getCourseProgress(courseId);
-        
-        
+
         progress.addQuizAttempt(quizAttempt);
-        
+
         // Check if course is completed and generate certificate
         if (progress.isReadyForCertificate() && !hasCertificateForCourse(courseId)) {
             generateCertificate(courseId, progress.getOverallScore());
         }
-        
+
         // Save changes
         UserServices.updateUser(this);
-}
-    
+    }
+
     private void generateCertificate(String courseId, double finalScore) throws IOException {
         Course course = CourseServices.findCourseById(courseId);
         if (course != null) {
@@ -112,7 +97,6 @@ public class Student extends User {
         }
     }
 
-    
     public CourseProgress getCourseProgress(String courseId) {
         if (!courseProgress.containsKey(courseId)) {
             courseProgress.put(courseId, new CourseProgress());
@@ -120,18 +104,18 @@ public class Student extends User {
         return courseProgress.get(courseId);
     }
 
-    
     public void markLessonCompleted(String courseId, String lessonId) throws IOException, Exception {
         CourseProgress progress = getCourseProgress(courseId);
         progress.updateLessonStatus(lessonId, true);
-        
+
         // Check if course is completed
         if (progress.isReadyForCertificate() && !hasCertificateForCourse(courseId)) {
             generateCertificate(courseId, progress.getOverallScore());
         }
-        
+
         UserServices.updateUser(this);
     }
+
     // Check if student has certificate for course
     public boolean hasCertificateForCourse(String courseId) throws IOException {
         return CertificateService.hasCertificate(getUserId(), courseId);
@@ -153,6 +137,7 @@ public class Student extends User {
         CourseProgress progress = courseProgress.get(courseId);
         return progress != null ? progress.getOverallScore() : 0.0;
     }
+
     public HashMap<String, CourseProgress> getCourseProgressMap() {
         if (courseProgress == null) {
             courseProgress = new HashMap<>();

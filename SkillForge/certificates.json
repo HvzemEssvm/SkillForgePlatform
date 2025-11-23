@@ -1,0 +1,10 @@
+[ {
+  "certificateId" : "CERT_1763932238389_fca16a9a",
+  "studentId" : "s1",
+  "studentName" : "Alice Williams",
+  "courseId" : "C1",
+  "courseTitle" : "Java Programming Fundamentals",
+  "instructorName" : "Sarah Johnson",
+  "finalScore" : 80.0,
+  "issueDate" : 1763932238464
+} ]
