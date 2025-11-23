@@ -1,19 +1,267 @@
 {
   "students" : [ {
     "userId" : "s1",
-    "name" : "Hazem Essam",
-    "email" : "hazem@gmail.com",
-    "password" : "46db433fda5ece6f12d3378751ff008d6aecdaf15d5c6529da853357c97d1905",
+    "name" : "Alice Williams",
+    "email" : "alice.williams@student.com",
+    "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
     "enrollments" : [ {
       "courseId" : "C1",
-      "completedLessons" : [ "L1" ]
+      "completedLessons" : [ "L1", "L2", "L3" ],
+      "quizResults" : [ {
+        "lessonId" : "L1",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:19.8648983",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 0, 1, 2, 3, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.0018973",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.520896",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 0, 1, 2, 3, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.5368966",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      }, {
+        "lessonId" : "L3",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.5408949",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 2, 3, 0, 1, 3 ]
+      }, {
+        "lessonId" : "L4",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.5488998",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 3, 0, 1, 2, 0 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.0698789",
+        "attemptNumber" : 3,
+        "studentAnswers" : [ 0, 1, 2, 3, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.099898",
+        "attemptNumber" : 3,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.2378831",
+        "attemptNumber" : 4,
+        "studentAnswers" : [ 0, 1, 2, 3, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.2579149",
+        "attemptNumber" : 4,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      }, {
+        "lessonId" : "L3",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.2608803",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 2, 3, 0, 1, 3 ]
+      }, {
+        "lessonId" : "L4",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.2718789",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 3, 0, 1, 2, 0 ]
+      } ],
+      "completionPercentage" : "100%",
+      "averageScore" : 80.0
+    } ],
+    "certificates" : [ {
+      "certId" : "2c0eb92f-f146-4e9a-8bad-dbeb9e57958f",
+      "courseId" : "C1",
+      "courseTitle" : "Java Programming Fundamentals",
+      "studentId" : "s1",
+      "studentName" : "Alice Williams",
+      "issueDate" : "2025-11-23T01:57:20.609897600Z",
+      "filePath" : "certificates/2c0eb92f-f146-4e9a-8bad-dbeb9e57958f.json"
+    }, {
+      "certId" : "110c302d-4e96-4424-a28a-bb3d38242539",
+      "courseId" : "C1",
+      "courseTitle" : "Java Programming Fundamentals",
+      "studentId" : "s1",
+      "studentName" : "Alice Williams",
+      "issueDate" : "2025-11-23T14:09:24.342882400Z",
+      "filePath" : "certificates/110c302d-4e96-4424-a28a-bb3d38242539.json"
     } ]
+  }, {
+    "userId" : "s2",
+    "name" : "Bob Smith",
+    "email" : "bob.smith@student.com",
+    "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "enrollments" : [ {
+      "courseId" : "C1",
+      "completedLessons" : [ "L2" ],
+      "quizResults" : [ {
+        "lessonId" : "L1",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T03:57:20.0678973",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 0, 1, 2, 0, 1 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T03:57:20.1678968",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 0, 1, 2, 0, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T03:57:20.1909025",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 1, 2, 3, 1, 2 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.2218978",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T16:09:24.1078811",
+        "attemptNumber" : 3,
+        "studentAnswers" : [ 0, 1, 2, 0, 1 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T16:09:24.1198829",
+        "attemptNumber" : 4,
+        "studentAnswers" : [ 0, 1, 2, 0, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T16:09:24.1238787",
+        "attemptNumber" : 3,
+        "studentAnswers" : [ 1, 2, 3, 1, 2 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.1348837",
+        "attemptNumber" : 4,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      } ],
+      "completionPercentage" : "25%",
+      "averageScore" : 70.0
+    } ],
+    "certificates" : [ ]
+  }, {
+    "userId" : "s3",
+    "name" : "Carol Davis",
+    "email" : "carol.davis@student.com",
+    "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "enrollments" : [ {
+      "courseId" : "C1",
+      "completedLessons" : [ "L2" ],
+      "quizResults" : [ {
+        "lessonId" : "L1",
+        "score" : 40,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T03:57:20.2638956",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 0, 1, 3, 0, 1 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T03:57:20.2838956",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 0, 1, 2, 0, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T03:57:20.2898956",
+        "attemptNumber" : 1,
+        "studentAnswers" : [ 1, 2, 3, 1, 2 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T03:57:20.2978981",
+        "attemptNumber" : 2,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 40,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T16:09:24.1388846",
+        "attemptNumber" : 3,
+        "studentAnswers" : [ 0, 1, 3, 0, 1 ]
+      }, {
+        "lessonId" : "L1",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T16:09:24.1418823",
+        "attemptNumber" : 4,
+        "studentAnswers" : [ 0, 1, 2, 0, 1 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 60,
+        "passed" : false,
+        "attemptDate" : "2025-11-23T16:09:24.1568784",
+        "attemptNumber" : 3,
+        "studentAnswers" : [ 1, 2, 3, 1, 2 ]
+      }, {
+        "lessonId" : "L2",
+        "score" : 80,
+        "passed" : true,
+        "attemptDate" : "2025-11-23T16:09:24.167879",
+        "attemptNumber" : 4,
+        "studentAnswers" : [ 1, 2, 3, 0, 2 ]
+      } ],
+      "completionPercentage" : "25%",
+      "averageScore" : 70.0
+    } ],
+    "certificates" : [ ]
   } ],
   "instructors" : [ {
     "userId" : "i1",
-    "name" : "Hazem Essam",
-    "email" : "hazem@gmail.com",
-    "password" : "46db433fda5ece6f12d3378751ff008d6aecdaf15d5c6529da853357c97d1905",
-    "myCoursesIds" : [ "C1", "C2" ]
+    "name" : "Sarah Johnson",
+    "email" : "sarah.johnson@skillforge.com",
+    "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "myCoursesIds" : [ ]
+  }, {
+    "userId" : "i2",
+    "name" : "Sarah Johnson",
+    "email" : "sarah.johnson@skillforge.com",
+    "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "myCoursesIds" : [ "C1", "C4" ]
   } ]
 }

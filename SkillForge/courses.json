@@ -1,23 +1,114 @@
 {
   "courses" : [ {
     "courseId" : "C1",
-    "instructorId" : "i1",
+    "instructorId" : "i2",
     "status" : "APPROVED",
-    "studentIds" : [ "s1" ],
-    "title" : "The Complete Stock Trading Course",
-    "description" : "Here is a description for the course title: The Complete Stock Trading Course 2025.  \uD83D\uDCB0 Course Description: The Complete Stock Trading Course 2025 This comprehensive course is designed to take aspiring and intermediate traders from foundational market concepts to advanced technical analysis and strategic portfolio management. Focused on real-world execution and modern market dynamics, you will gain the skills necessary to identify profitable opportunities, manage risk effectively, and build a sustainable trading plan for the year 2025 and beyond.  Key Learning Modules Market Foundations: Understand the core structure of the stock market, including exchanges, brokers, market makers, and the difference between long-term investing and short-term trading.  Reading the Charts (Technical Analysis): Master essential charting tools and patterns. Learn to use indicators like Moving Averages (MA), Relative Strength Index (RSI), and MACD to predict price movements.Candlestick Patterns & Price Action: Decipher the language of price action using candlestick patterns (Doji, Hammer, Engulfing patterns) to find high-probability entry and exit points.  Risk Management & Position Sizing: Learn the critical rules for capital preservation. Master calculating the appropriate position size for any trade to ensure your losses are always within acceptable limits.  Fundamental Analysis Basics: Understand how to read key financial statements (Income Statement, Balance Sheet) and interpret essential valuation metrics (P/E ratio, EPS) to gauge the health of a company.  Developing a Trading System: Combine technical and risk management principles into a robust, back-testable trading strategy suitable for day trading, swing trading, or position trading in the current economic climate.",
+    "studentIds" : [ "s1", "s2", "s4" ],
+    "title" : "Java Programming Fundamentals",
+    "description" : "Learn Java from basics to advanced concepts",
     "lessons" : [ {
       "lessonId" : "L1",
-      "title" : "Mastering Candlestick Patterns for High-Probability Entry Signals",
-      "content" : "1. Introduction: Beyond the Line Chart (0:00 - 1:30) \"Hello, and welcome back to our advanced trading modules. Up until now, we’ve looked at price movement generally. But to gain a real edge, we need to understand the story behind every price bar. That story is told by the candlestick.  A single candlestick tells you four things: Open, High, Low, and Close. The body shows you the net movement, and the wicks (or shadows) show you the extremes reached during that period.  Green (or white) bodies signal buyers were in control, pushing the price higher than the open. Red (or black) bodies signal sellers were in control, pushing the price lower than the open. Understanding this battle is the first step.\"  2. Identifying Key Reversal Signals (1:30 - 4:00) \"When looking for high-probability trade setups, we are primarily seeking signals that indicate the current trend is about to reverse. These patterns are most powerful when they appear after a sustained move up or down.  A. The Hammer (Bullish Reversal) \"The Hammer is a powerful buying signal. It has a small body near the top of the range and a long lower wick (at least twice the length of the body). It appears after a strong downtrend. The meaning? Sellers tried to push the price way down, but strong buying pressure brought the price back up near the open. This shows rejection of lower prices and a potential bullish shift.\"  B. The Shooting Star (Bearish Reversal) \"The Shooting Star is the Hammer’s bearish counterpart. It has a small body near the bottom of the range and a long upper wick. It appears after a strong uptrend. Here, buyers tried to push the price way up, but heavy selling pressure drove the price back down near the open. This shows rejection of higher prices and signals a potential bearish shift.\"  C. Engulfing Patterns (Strongest Signal) \"The Engulfing Pattern is considered one of the strongest reversal signals. A Bullish Engulfing pattern occurs when a large green body completely covers (engulfs) the small red body of the previous day. This shows a massive shift in momentum from sellers to buyers. The reverse is true for a Bearish Engulfing pattern.\"  3. Continuation Patterns for Trending Markets (4:00 - 6:30) \"Not all patterns signal a reversal; some show that the market is just pausing before continuing in the existing direction.  A. The Doji \"The Doji occurs when the open and close are nearly identical, resulting in a very thin body. It signals indecision in the market. A Doji after a long uptrend might signal a reversal, but in a consolidating market, it might just be noise. You need confirmation from the next candle.\"  B. Flags and Pennants \"While technically chart patterns, they are built from candles. Flags show a short, sharp counter-trend move within a tight channel after a large surge. This is merely a pause to 'recharge' before breaking out and continuing the initial trend. They offer excellent entry points for continuation trades.\"  4. Implementation and Risk Management (6:30 - 10:00) \"Identifying the pattern is only half the battle. We must implement it with a clear entry and exit strategy.  For all reversal patterns, our entry should always be confirmed by the next candle. For example, after a Bullish Hammer, wait for the next candle to close higher than the Hammer’s high before entering.  Entry Signal: Once the confirming candle closes, enter the trade.  Stop-Loss (SL): Your risk limit must be placed immediately beyond the extreme of the pattern. For a bullish reversal, place your stop below the low of the Hammer or Engulfing pattern. If the price reaches that point, the pattern has failed, and you exit.  Take-Profit (TP): Set a target based on the nearest resistance/support level or by using a favorable Risk-Reward Ratio, ideally 1:2 or better."
+      "title" : "Introduction to Java2",
+      "content" : "This lesson covers introduction to java in detail.2",
+      "quiz" : {
+        "quizId" : "quiz_L1",
+        "questions" : [ {
+          "questionText" : "Question 1 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 2 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 3 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 4 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 5 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0
+      }
+    }, {
+      "lessonId" : "L2",
+      "title" : "Variables and Data Types",
+      "content" : "This lesson covers variables and data types in detail.",
+      "quiz" : {
+        "quizId" : "quiz_L2",
+        "questions" : [ {
+          "questionText" : "Question 1 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 2 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 3 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 4 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 5 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0
+      }
+    }, {
+      "lessonId" : "L3",
+      "title" : "Control Flow Statements",
+      "content" : "This lesson covers if-else, loops, and switch statements.",
+      "quiz" : {
+        "quizId" : "quiz_L3",
+        "questions" : [ {
+          "questionText" : "Question 1 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 2 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 3 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 4 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 5 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0
+      }
     } ]
   }, {
-    "courseId" : "C2",
-    "instructorId" : "i1",
-    "status" : "REJECTED",
+    "courseId" : "C4",
+    "instructorId" : "i2",
+    "status" : "PENDING",
     "studentIds" : [ ],
-    "title" : "tobeRej",
-    "description" : "tobeRej",
-    "lessons" : [ ]
+    "title" : "Test",
+    "description" : "Description",
+    "lessons" : [ {
+      "lessonId" : "L9",
+      "title" : "title",
+      "content" : "test title content",
+      "quiz" : null
+    } ]
   } ]
 }
