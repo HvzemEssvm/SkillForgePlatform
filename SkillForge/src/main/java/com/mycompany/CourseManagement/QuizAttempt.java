@@ -12,6 +12,7 @@ public class QuizAttempt {
     private String quizId;
     private String lessonId;
     private String courseId;
+    private String studentId;
     private int scorePercent;
     private boolean passed;
     private String attemptTime; //Instant().now().tostring()
@@ -34,6 +35,9 @@ public class QuizAttempt {
     public void setCourseId(String courseId)
     { 
         this.courseId = courseId; }
+    
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
 
     public int getScorePercent() { return scorePercent; }
     public void setScorePercent(int scorePercent) 

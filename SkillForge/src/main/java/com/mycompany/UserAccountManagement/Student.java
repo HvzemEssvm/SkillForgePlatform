@@ -48,7 +48,7 @@ public class Student extends User {
         CourseServices.enrollStudentInCourse(courseId, getUserId());
     }
 
-    public void completeLesson(String userId, String lessonId) throws IOException {
+    public void completeLesson(String userId, String lessonId) throws IOException, Exception {
         CourseServices.markLessonCompleted(userId, lessonId);
     }
 
