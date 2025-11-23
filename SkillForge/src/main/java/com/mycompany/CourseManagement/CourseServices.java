@@ -10,6 +10,7 @@ import com.mycompany.UserAccountManagement.Enrollment;
 import com.mycompany.UserAccountManagement.Student;
 import java.io.IOException;
 import java.util.ArrayList;
+import com.mycompany.CourseManagement.QuizAttempt;
 
 /**
  *
@@ -384,7 +385,7 @@ public class CourseServices {
         return false;
     }
 
-    public static void markLessonCompleted(String studentId, String lessonId) {
+    public static void markLessonCompleted(String studentId, String lessonId) throws Exception {
         String courseId;
         Student student = JsonHandler.getStudent(studentId);
 
@@ -395,8 +396,12 @@ public class CourseServices {
         try {
             Course course = findCourseByLessonId(lessonId);
             courseId = course.getCourseId();
+             if (student != null && course != null) {
+                student.markLessonCompleted(course.getCourseId(), lessonId);}
+            
         } catch (IOException ex) {
             courseId = null;
+            System.err.println("Error marking lesson completed: " + ex.getMessage());
         }
 
         for (Enrollment enrollment : student.getEnrollments()) {
@@ -416,7 +421,37 @@ public class CourseServices {
     public static int getIndex() {
         return foundAt;
     }
+    public static void submitQuizAttempt(QuizAttempt quizAttempt) throws IOException, Exception {
+       
+       
+        Student student = JsonHandler.getStudent(quizAttempt.getStudentId());
+        if (student != null) {
+            student.submitQuiz(quizAttempt);
+        } else {
+            throw new IOException("Student not found: " + quizAttempt.getStudentId());
+        }
+    }
+    
+    
+    public static boolean isCourseCompleted(String studentId, String courseId) throws IOException {
+        return CertificateService.isCourseCompleted(studentId, courseId);
+    }
 
+    
+    public static double getCourseProgress(String studentId, String courseId) throws IOException {
+        Student student = JsonHandler.getStudent(studentId);
+        if (student != null)
+        {return student.getCourseProgressPercentage(courseId);}
+        return 0.0;
+    }
+
+    // Add method to get course score
+    public static double getCourseScore(String studentId, String courseId) throws IOException {
+        Student student = JsonHandler.getStudent(studentId);
+        if (student != null) {
+            return student.getCourseScore(courseId);}
+        return 0.0;
+    }
     public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException, JsonProcessingException {
         ArrayList<Course> courses = new ArrayList<>();
         for (Course course : CourseServices.getAllCourses()) {
