@@ -48,10 +48,12 @@ public class LessonPanel extends JPanel {
         JButton btnBack = new JButton("Back to Course");
         JButton btnEditLesson = new JButton("Edit Lesson");
         JButton btnDeleteLesson = new JButton("Delete Lesson");
+        JButton btnLessonAnalytics = new JButton("Lesson Analytics");
 
         buttonPanel.add(btnBack);
         buttonPanel.add(btnEditLesson);
         buttonPanel.add(btnDeleteLesson);
+        buttonPanel.add(btnLessonAnalytics);
 
         add(topPanel, BorderLayout.NORTH);
         add(new JScrollPane(txtContent), BorderLayout.CENTER);
@@ -75,6 +77,10 @@ public class LessonPanel extends JPanel {
                     JOptionPane.showMessageDialog(this, "Error deleting lesson: " + ex.getMessage());
                 }
             }
+        });
+
+        btnLessonAnalytics.addActionListener(e -> {
+            parent.showLessonAnalytics(course.getCourseId(), lesson.getLessonId());
         });
     }
 

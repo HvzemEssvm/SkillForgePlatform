@@ -134,6 +134,11 @@ public class QuizServices {
         Student student = JsonHandler.getStudent(studentId);
         ArrayList<QuizResult> results = new ArrayList<>();
 
+        // Return empty list if student not found
+        if (student == null) {
+            return results;
+        }
+
         for (Enrollment enrollment : student.getEnrollments()) {
             if (enrollment.getCourseId().equals(courseId)) {
                 for (QuizResult result : enrollment.getQuizResults()) {

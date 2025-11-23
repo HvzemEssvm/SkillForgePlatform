@@ -52,6 +52,12 @@ public class AnalyticsServices {
 
         for (String studentId : studentIds) {
             Student student = JsonHandler.getStudent(studentId);
+
+            // Skip if student not found
+            if (student == null) {
+                continue;
+            }
+
             Enrollment enrollment = getEnrollmentForCourse(student, courseId);
 
             if (enrollment != null) {
@@ -128,6 +134,12 @@ public class AnalyticsServices {
 
         for (String studentId : studentIds) {
             Student student = JsonHandler.getStudent(studentId);
+
+            // Skip if student not found
+            if (student == null) {
+                continue;
+            }
+
             Enrollment enrollment = getEnrollmentForCourse(student, courseId);
 
             if (enrollment != null) {
@@ -208,6 +220,12 @@ public class AnalyticsServices {
         Map<String, Integer> performanceMap = new HashMap<>();
 
         for (String studentId : course.getStudentIds()) {
+            // Skip if student not found
+            Student student = JsonHandler.getStudent(studentId);
+            if (student == null) {
+                continue;
+            }
+
             int bestScore = QuizServices.getBestScore(studentId, courseId, lessonId);
             if (bestScore >= 0) {
                 performanceMap.put(studentId, bestScore);

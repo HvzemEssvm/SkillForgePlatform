@@ -87,6 +87,33 @@ public class InstructorDashboardFrame extends javax.swing.JFrame {
         cardLayout.show(cardsPanel, "LESSONFORM");
     }
 
+    public void showCourseAnalytics(String courseId) {
+        com.mycompany.frontend.Charts.CourseAnalyticsPanel cap = new com.mycompany.frontend.Charts.CourseAnalyticsPanel(
+                this, courseId);
+
+        cardsPanel.add(cap, "COURSEANALYTICS");
+
+        cardLayout.show(cardsPanel, "COURSEANALYTICS");
+    }
+
+    public void showLessonAnalytics(String courseId, String lessonId) {
+        com.mycompany.frontend.Charts.LessonAnalyticsPanel lap = new com.mycompany.frontend.Charts.LessonAnalyticsPanel(
+                this, courseId, lessonId);
+
+        cardsPanel.add(lap, "LESSONANALYTICS");
+
+        cardLayout.show(cardsPanel, "LESSONANALYTICS");
+    }
+
+    public void showStudentPerformance(String studentId, String courseId) {
+        com.mycompany.frontend.Charts.StudentPerformancePanel spp = new com.mycompany.frontend.Charts.StudentPerformancePanel(
+                this, studentId, courseId);
+
+        cardsPanel.add(spp, "STUDENTPERFORMANCE");
+
+        cardLayout.show(cardsPanel, "STUDENTPERFORMANCE");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

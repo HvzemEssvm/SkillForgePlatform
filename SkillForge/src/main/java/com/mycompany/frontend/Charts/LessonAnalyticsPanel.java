@@ -1,12 +1,12 @@
 package com.mycompany.frontend.Charts;
 
 import com.mycompany.Analytics.AnalyticsServices;
-import com.mycompany.Analytics.CourseAnalytics;
 import com.mycompany.Analytics.LessonAnalytics;
-import com.mycompany.Analytics.StudentPerformance;
+import com.mycompany.UserAccountManagement.UserServices;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.io.IOException;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -17,43 +17,40 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- * Course Analytics Panel - Shows comprehensive course statistics
- * 
- * @author Lab8_Team
+ * Lesson Analytics Panel - Shows detailed lesson statistics
  */
-public class CourseAnalyticsPanel extends javax.swing.JPanel {
+public class LessonAnalyticsPanel extends javax.swing.JPanel {
 
     private com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame parent;
     private String courseId;
-    private CourseAnalytics analytics;
+    private String lessonId;
+    private LessonAnalytics analytics;
 
     /**
-     * Creates new form CourseAnalyticsPanel
+     * Creates new form LessonAnalyticsPanel
      */
-    public CourseAnalyticsPanel() {
+    public LessonAnalyticsPanel() {
         initComponents();
     }
 
     /**
-     * Creates new form with course data
-     * 
-     * @param parent
-     * @param courseId
+     * Creates new form with lesson data
      */
-    public CourseAnalyticsPanel(com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame parent,
-            String courseId) {
+    public LessonAnalyticsPanel(com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame parent,
+            String courseId, String lessonId) {
         this.parent = parent;
         this.courseId = courseId;
+        this.lessonId = lessonId;
         initComponents();
         loadAnalytics();
     }
 
     /**
-     * Load analytics data from backend
+     * Load analytics data
      */
     private void loadAnalytics() {
         try {
-            analytics = AnalyticsServices.getCourseAnalytics(courseId);
+            analytics = AnalyticsServices.getLessonAnalytics(courseId, lessonId);
             displayStatistics();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this,
@@ -63,62 +60,44 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Display statistics in labels
+     * Display statistics
      */
     private void displayStatistics() {
         if (analytics == null)
             return;
 
-        courseTitleLabel.setText(analytics.getCourseTitle());
-        totalStudentsLabel.setText(String.valueOf(analytics.getTotalStudents()));
-        activeStudentsLabel.setText(String.valueOf(analytics.getActiveStudents()));
-
-        // Calculate completed students (100% completion)
-        int completedStudents = 0;
-        for (StudentPerformance sp : analytics.getStudentPerformances()) {
-            if (sp.getCompletionPercentage() >= 100.0) {
-                completedStudents++;
-            }
-        }
-        completedStudentsLabel.setText(String.valueOf(completedStudents));
-
-        avgCompletionLabel.setText(String.format("%.2f%%", analytics.getAverageCompletionPercentage()));
+        lessonTitleLabel.setText(analytics.getLessonTitle());
+        studentsCompletedLabel.setText(String.valueOf(analytics.getStudentsCompleted()));
+        studentsAttemptedLabel.setText(String.valueOf(analytics.getStudentsAttempted()));
+        totalAttemptsLabel.setText(String.valueOf(analytics.getTotalAttempts()));
         avgScoreLabel.setText(String.format("%.2f%%", analytics.getAverageScore()));
+        passRateLabel.setText(String.format("%.2f%%", analytics.getPassRate()));
     }
 
     /**
-     * Create dataset for lesson average scores chart
+     * Create dataset for student scores comparison
      */
-    private DefaultCategoryDataset createLessonScoresDataset() {
+    private DefaultCategoryDataset createStudentScoresDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        if (analytics != null) {
-            for (LessonAnalytics la : analytics.getLessonAnalytics()) {
-                dataset.addValue(la.getAverageScore(), "Average Score", la.getLessonTitle());
+        try {
+            Map<String, Integer> performanceMap = AnalyticsServices.getQuizPerformanceComparison(courseId, lessonId);
+
+            for (Map.Entry<String, Integer> entry : performanceMap.entrySet()) {
+                String studentName = UserServices.getUserNameById(entry.getKey());
+                dataset.addValue(entry.getValue(), "Score", studentName);
             }
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading student scores: " + ex.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return dataset;
     }
 
     /**
-     * Create dataset for student performance comparison
-     */
-    private DefaultCategoryDataset createStudentPerformanceDataset() {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        if (analytics != null) {
-            for (StudentPerformance sp : analytics.getStudentPerformances()) {
-                dataset.addValue(sp.getAverageScore(), "Score", sp.getStudentName());
-                dataset.addValue(sp.getCompletionPercentage(), "Completion", sp.getStudentName());
-            }
-        }
-
-        return dataset;
-    }
-
-    /**
-     * Show charts in a new window
+     * Show charts window
      */
     private void showChartsWindow() {
         if (analytics == null) {
@@ -128,60 +107,35 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
             return;
         }
 
-        // Create new frame for charts
-        javax.swing.JFrame chartFrame = new javax.swing.JFrame("Course Analytics Charts");
+        javax.swing.JFrame chartFrame = new javax.swing.JFrame(
+                "Lesson Analytics Charts - " + analytics.getLessonTitle());
         chartFrame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-        chartFrame.setSize(1000, 600);
-        chartFrame.setLayout(new GridLayout(1, 2, 10, 10));
+        chartFrame.setSize(800, 500);
+        chartFrame.setLayout(new GridLayout(1, 1));
 
-        // Chart 1: Lesson Average Scores
-        JFreeChart lessonChart = ChartFactory.createBarChart(
-                "Average Score per Lesson",
-                "Lessons",
-                "Average Score (%)",
-                createLessonScoresDataset(),
+        // Create student scores chart
+        JFreeChart chart = ChartFactory.createBarChart(
+                "Student Quiz Scores",
+                "Students",
+                "Score (%)",
+                createStudentScoresDataset(),
                 PlotOrientation.VERTICAL,
                 false,
                 true,
                 false);
 
-        CategoryPlot lessonPlot = lessonChart.getCategoryPlot();
-        lessonPlot.setBackgroundPaint(Color.WHITE);
-        lessonPlot.setRangeGridlinePaint(Color.LIGHT_GRAY);
-        BarRenderer lessonRenderer = (BarRenderer) lessonPlot.getRenderer();
-        lessonRenderer.setSeriesPaint(0, new Color(51, 153, 255));
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0, new Color(255, 153, 51));
 
-        ChartPanel lessonChartPanel = new ChartPanel(lessonChart);
-
-        // Chart 2: Student Performance
-        JFreeChart studentChart = ChartFactory.createBarChart(
-                "Student Performance Overview",
-                "Students",
-                "Percentage",
-                createStudentPerformanceDataset(),
-                PlotOrientation.VERTICAL,
-                true,
-                true,
-                false);
-
-        CategoryPlot studentPlot = studentChart.getCategoryPlot();
-        studentPlot.setBackgroundPaint(Color.WHITE);
-        studentPlot.setRangeGridlinePaint(Color.LIGHT_GRAY);
-        BarRenderer studentRenderer = (BarRenderer) studentPlot.getRenderer();
-        studentRenderer.setSeriesPaint(0, new Color(255, 153, 51));
-        studentRenderer.setSeriesPaint(1, new Color(51, 204, 51));
-
-        ChartPanel studentChartPanel = new ChartPanel(studentChart);
-
-        chartFrame.add(lessonChartPanel);
-        chartFrame.add(studentChartPanel);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartFrame.add(chartPanel);
         chartFrame.setLocationRelativeTo(this);
         chartFrame.setVisible(true);
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
@@ -189,18 +143,18 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
         mainPanel = new javax.swing.JPanel();
         titlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        courseTitleLabel = new javax.swing.JLabel();
+        lessonTitleLabel = new javax.swing.JLabel();
         statsPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        totalStudentsLabel = new javax.swing.JLabel();
+        studentsCompletedLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        activeStudentsLabel = new javax.swing.JLabel();
+        studentsAttemptedLabel = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        completedStudentsLabel = new javax.swing.JLabel();
+        totalAttemptsLabel = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        avgCompletionLabel = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         avgScoreLabel = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        passRateLabel = new javax.swing.JLabel();
         buttonPanel = new javax.swing.JPanel();
         backButton = new javax.swing.JButton();
         viewChartsButton = new javax.swing.JButton();
@@ -210,15 +164,15 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        titlePanel.setBackground(new java.awt.Color(51, 153, 255));
+        titlePanel.setBackground(new java.awt.Color(255, 153, 51));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Course Analytics");
+        jLabel1.setText("Lesson Analytics");
 
-        courseTitleLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        courseTitleLabel.setForeground(new java.awt.Color(255, 255, 255));
-        courseTitleLabel.setText("Loading...");
+        lessonTitleLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lessonTitleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        lessonTitleLabel.setText("Loading...");
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
@@ -228,7 +182,7 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
                                 .addGap(30, 30, 30)
                                 .addGroup(
                                         titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(courseTitleLabel)
+                                                .addComponent(lessonTitleLabel)
                                                 .addComponent(jLabel1))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         titlePanelLayout.setVerticalGroup(
@@ -237,43 +191,43 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
                                 .addGap(20, 20, 20)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(courseTitleLabel)
+                                .addComponent(lessonTitleLabel)
                                 .addContainerGap(20, Short.MAX_VALUE)));
 
         statsPanel.setBackground(new java.awt.Color(255, 255, 255));
-        statsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Course Statistics",
+        statsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lesson Statistics",
                 javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                 new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Total Students:");
+        jLabel2.setText("Students Completed:");
 
-        totalStudentsLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        totalStudentsLabel.setText("0");
+        studentsCompletedLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        studentsCompletedLabel.setText("0");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Active Students:");
+        jLabel4.setText("Students Attempted Quiz:");
 
-        activeStudentsLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        activeStudentsLabel.setText("0");
+        studentsAttemptedLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        studentsAttemptedLabel.setText("0");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Completed Students:");
+        jLabel6.setText("Total Quiz Attempts:");
 
-        completedStudentsLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        completedStudentsLabel.setText("0");
+        totalAttemptsLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        totalAttemptsLabel.setText("0");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setText("Average Completion:");
-
-        avgCompletionLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        avgCompletionLabel.setText("0.00%");
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setText("Average Score:");
+        jLabel8.setText("Average Score:");
 
         avgScoreLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         avgScoreLabel.setText("0.00%");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel10.setText("Pass Rate:");
+
+        passRateLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passRateLabel.setText("0.00%");
 
         javax.swing.GroupLayout statsPanelLayout = new javax.swing.GroupLayout(statsPanel);
         statsPanel.setLayout(statsPanelLayout);
@@ -286,23 +240,23 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
                                                 .addGroup(statsPanelLayout.createSequentialGroup()
                                                         .addComponent(jLabel2)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(totalStudentsLabel))
+                                                        .addComponent(studentsCompletedLabel))
                                                 .addGroup(statsPanelLayout.createSequentialGroup()
                                                         .addComponent(jLabel4)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(activeStudentsLabel))
+                                                        .addComponent(studentsAttemptedLabel))
                                                 .addGroup(statsPanelLayout.createSequentialGroup()
                                                         .addComponent(jLabel6)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(completedStudentsLabel))
+                                                        .addComponent(totalAttemptsLabel))
                                                 .addGroup(statsPanelLayout.createSequentialGroup()
                                                         .addComponent(jLabel8)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(avgCompletionLabel))
+                                                        .addComponent(avgScoreLabel))
                                                 .addGroup(statsPanelLayout.createSequentialGroup()
                                                         .addComponent(jLabel10)
                                                         .addGap(18, 18, 18)
-                                                        .addComponent(avgScoreLabel)))
+                                                        .addComponent(passRateLabel)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         statsPanelLayout.setVerticalGroup(
                 statsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,27 +265,27 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
                                 .addGroup(
                                         statsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel2)
-                                                .addComponent(totalStudentsLabel))
+                                                .addComponent(studentsCompletedLabel))
                                 .addGap(18, 18, 18)
                                 .addGroup(
                                         statsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel4)
-                                                .addComponent(activeStudentsLabel))
+                                                .addComponent(studentsAttemptedLabel))
                                 .addGap(18, 18, 18)
                                 .addGroup(
                                         statsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel6)
-                                                .addComponent(completedStudentsLabel))
+                                                .addComponent(totalAttemptsLabel))
                                 .addGap(18, 18, 18)
                                 .addGroup(
                                         statsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel8)
-                                                .addComponent(avgCompletionLabel))
+                                                .addComponent(avgScoreLabel))
                                 .addGap(18, 18, 18)
                                 .addGroup(
                                         statsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                 .addComponent(jLabel10)
-                                                .addComponent(avgScoreLabel))
+                                                .addComponent(passRateLabel))
                                 .addContainerGap(30, Short.MAX_VALUE)));
 
         buttonPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -346,10 +300,10 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
             }
         });
 
-        viewChartsButton.setBackground(new java.awt.Color(51, 153, 255));
+        viewChartsButton.setBackground(new java.awt.Color(255, 153, 51));
         viewChartsButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         viewChartsButton.setForeground(new java.awt.Color(255, 255, 255));
-        viewChartsButton.setText("View Charts");
+        viewChartsButton.setText("View Student Scores");
         viewChartsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewChartsButtonActionPerformed(evt);
@@ -375,7 +329,7 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
                                 .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(viewChartsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                .addComponent(viewChartsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 180,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
@@ -441,24 +395,24 @@ public class CourseAnalyticsPanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify
-    private javax.swing.JLabel activeStudentsLabel;
-    private javax.swing.JLabel avgCompletionLabel;
     private javax.swing.JLabel avgScoreLabel;
     private javax.swing.JButton backButton;
     private javax.swing.JPanel buttonPanel;
-    private javax.swing.JLabel completedStudentsLabel;
-    private javax.swing.JLabel courseTitleLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel lessonTitleLabel;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel passRateLabel;
     private javax.swing.JButton refreshButton;
     private javax.swing.JPanel statsPanel;
+    private javax.swing.JLabel studentsAttemptedLabel;
+    private javax.swing.JLabel studentsCompletedLabel;
     private javax.swing.JPanel titlePanel;
-    private javax.swing.JLabel totalStudentsLabel;
+    private javax.swing.JLabel totalAttemptsLabel;
     private javax.swing.JButton viewChartsButton;
     // End of variables declaration
 }
