@@ -159,4 +159,15 @@ public class Student extends User {
     public void setCertificateIds(ArrayList<String> certificateIds) {
         this.certificateIds = certificateIds;
     }
+    
+       private ArrayList<String> certificates = new ArrayList<>();
+
+    public ArrayList<String> getCertificates() {
+        return certificates;
+    }
+    
+    public void setCertificates(ArrayList<String> certificates) {
+        this.certificates = certificates;
+    }
+}
 }
