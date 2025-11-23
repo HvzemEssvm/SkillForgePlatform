@@ -4,6 +4,7 @@
  */
 package com.mycompany.frontend.Main;
 
+import com.mycompany.CourseManagement.QuizDataInitializer;
 import com.mycompany.UserAccountManagement.Admin;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
@@ -74,27 +75,35 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+public static void main(String args[]) {
+    /* Set the Nimbus look and feel */
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+     * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
+    } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+        logger.log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+    
+    // ===== إضافة هذا الكود =====
+    try {
+        QuizDataInitializer.initializeSampleQuizzes();
+    } catch (Exception e) {
+        System.out.println("Error initializing sample quizzes: " + e.getMessage());
+    }
+    // ===========================
+  
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
+}
 
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -131,7 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         this.dispose();
     }
-    
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

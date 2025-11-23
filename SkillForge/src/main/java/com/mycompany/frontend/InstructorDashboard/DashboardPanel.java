@@ -11,6 +11,7 @@ import com.mycompany.frontend.Main.MainFrame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -19,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -30,6 +32,7 @@ public class DashboardPanel extends JPanel {
     private JList<String> courseList;
     private DefaultListModel<String> courseListModel;
     private JButton btnCreateCourse;
+    private JButton btnAddQuiz;
     private JButton btnLogout;
     private InstructorDashboardFrame parent;
     private Instructor instructor;
@@ -49,9 +52,18 @@ public class DashboardPanel extends JPanel {
 
         // Create button panel at the bottom
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        
         btnCreateCourse = new JButton("Create New Course");
+        btnCreateCourse.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        btnAddQuiz = new JButton("Add Quiz");
+        btnAddQuiz.setFont(new Font("Arial", Font.BOLD, 14));
+        
         btnLogout = new JButton("Logout");
+        btnLogout.setFont(new Font("Arial", Font.BOLD, 14));
+        
         buttonPanel.add(btnCreateCourse);
+        buttonPanel.add(btnAddQuiz);
         buttonPanel.add(btnLogout);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -63,12 +75,13 @@ public class DashboardPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    String selected = courseList.getSelectedValue().split("-")[0].trim();
-                    if (selected != null) {
+                    String selectedValue = courseList.getSelectedValue();
+                    if (selectedValue != null) {
+                        String selectedTitle = selectedValue.split("-")[0].trim();
                         try {
                             ArrayList<Course> courses = instructor.getMyCourses();
                             for (Course c : courses) {
-                                if (c.getTitle().equals(selected)) {
+                                if (c.getTitle().equals(selectedTitle)) {
                                     parent.showCoursePanel(c);
                                     break;
                                 }
@@ -98,6 +111,28 @@ public class DashboardPanel extends JPanel {
             }
         });
 
+        // Add Quiz button action - الإصدارة البسيطة
+        btnAddQuiz.addActionListener(e -> {
+            // تحقق أولاً إذا فيه كورسات
+            try {
+                ArrayList<Course> courses = instructor.getMyCourses();
+                if (courses.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "You need to create a course first!");
+                    return;
+                }
+                
+                // فتح واجهة إضافة الكويز
+                AddQuizWizard wizard = new AddQuizWizard(
+                    (javax.swing.JFrame) SwingUtilities.getWindowAncestor(this), 
+                    instructor
+                );
+                wizard.setVisible(true);
+                
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
+        });
+
         // Logout button action
         btnLogout.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this,
@@ -122,10 +157,15 @@ public class DashboardPanel extends JPanel {
         try {
             ArrayList<Course> courses = instructor.getMyCourses();
             for (Course c : courses) {
-                courseListModel.addElement(c.getTitle()+(" - ")+c.getStatus().toString());
+                courseListModel.addElement(c.getTitle() + " - " + c.getStatus().toString());
             }
+            
+            // إذا مفيش كورسات، نعطل زر إضافة الكويز
+            btnAddQuiz.setEnabled(!courses.isEmpty());
+            
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error loading courses: " + ex.getMessage());
+            btnAddQuiz.setEnabled(false);
         }
     }
 }

@@ -3,8 +3,11 @@ package com.mycompany.frontend.StudentDashboard;
 import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.Course;
+import com.mycompany.CourseManagement.CourseServices;
+import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.UserServices;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class StudentDashboardFrame extends JFrame {
@@ -42,7 +45,6 @@ public class StudentDashboardFrame extends JFrame {
         createEnrolledCoursesTab();
         createBrowseCoursesTab();
 
-        // Add logout button at the bottom
         JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         logoutPanel.setBackground(new Color(245, 245, 250));
         JButton btnLogout = new JButton("Logout");
@@ -77,6 +79,7 @@ public class StudentDashboardFrame extends JFrame {
     private void showCourseDetails(Course course) {
         CourseDetailsFrame detailsPanel = new CourseDetailsFrame(course, student, () -> {
             cardLayout.show(mainPanel, "DASHBOARD");
+            refreshEnrolledCoursesTab();
         });
         mainPanel.add(detailsPanel, "DETAILS");
         cardLayout.show(mainPanel, "DETAILS");
@@ -86,7 +89,6 @@ public class StudentDashboardFrame extends JFrame {
         enrolledCoursesPanel = new JPanel(new BorderLayout());
         enrolledCoursesPanel.setBackground(new Color(245, 245, 250));
 
-        // Header panel
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -140,7 +142,6 @@ public class StudentDashboardFrame extends JFrame {
         browseCoursesPanel = new JPanel(new BorderLayout());
         browseCoursesPanel.setBackground(new Color(245, 245, 250));
 
-        // Header panel
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -196,7 +197,6 @@ public class StudentDashboardFrame extends JFrame {
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         browseCoursesPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // Button panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 15));
         buttonPanel.setBackground(new Color(245, 245, 250));
 
@@ -284,7 +284,6 @@ public class StudentDashboardFrame extends JFrame {
     private void refreshEnrolledCoursesTab() {
         enrolledCoursesPanel.removeAll();
 
-        // Header panel
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -340,6 +339,58 @@ public class StudentDashboardFrame extends JFrame {
         tabbedPane.removeAll();
         createEnrolledCoursesTab();
         createBrowseCoursesTab();
-        tabbedPane.setSelectedIndex(1); // Keep Browse Courses tab selected
+        tabbedPane.setSelectedIndex(1);
+    }
+
+    public void checkAndUpdateMarkCompleteButton(String lessonId) {
+        try {
+            boolean isCompleted = CourseServices.isLessonCompleted(student.getUserId(), lessonId);
+            updateMarkCompleteButton(lessonId, !isCompleted);
+        } catch (IOException ex) {
+        }
+    }
+
+    public void updateMarkCompleteButton(String lessonId, boolean enabled) {
+        Component[] components = mainPanel.getComponents();
+        for (Component comp : components) {
+            if (comp instanceof CourseDetailsFrame) {
+                updateMarkCompleteButtonInDetailsFrame((CourseDetailsFrame) comp, lessonId, enabled);
+            }
+        }
+    }
+
+    private void updateMarkCompleteButtonInDetailsFrame(CourseDetailsFrame detailsFrame, String lessonId, boolean enabled) {
+        try {
+            java.lang.reflect.Method method = detailsFrame.getClass().getMethod("updateLessonButton", String.class, boolean.class);
+            method.invoke(detailsFrame, lessonId, enabled);
+        } catch (Exception e) {
+        }
+    }
+
+    public void refreshDashboard() {
+        refreshEnrolledCoursesTab();
+        refreshBrowseCoursesTab();
+    }
+
+    public String getStudentId() {
+        return student.getUserId();
+    }
+
+    public void showLessonCompletedNotification(String lessonId) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Lesson lesson = CourseServices.findLessonById(lessonId);
+                String lessonTitle = (lesson != null) ? lesson.getTitle() : "the lesson";
+                
+                JOptionPane.showMessageDialog(this,
+                    "Congratulations! You have successfully completed: " + lessonTitle + "\n" +
+                    "The lesson has been marked as complete automatically.",
+                    "Lesson Completed",
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                refreshDashboard();
+            } catch (Exception ex) {
+            }
+        });
     }
 }

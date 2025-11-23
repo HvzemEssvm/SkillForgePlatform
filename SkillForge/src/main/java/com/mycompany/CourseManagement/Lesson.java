@@ -17,6 +17,7 @@ public class Lesson {
     private String lessonId;
     private String title;
     private String content;
+    private String quizId; // إضافة هذا الحقل الجديد
 
     @JsonIgnore
     private boolean completed;
@@ -29,6 +30,7 @@ public class Lesson {
         this.title = title;
         this.content = content;
         this.completed = false;
+        this.quizId = null; // قيمة ابتدائية
     }
 
     private int generateNextLessonId() {
@@ -57,7 +59,6 @@ public class Lesson {
     /**
      * @return the lessonId
      */
-
     public String getLessonId() {
         return lessonId;
     }
@@ -90,6 +91,20 @@ public class Lesson {
         this.content = content;
     }
 
+    /**
+     * @return the quizId
+     */
+    public String getQuizId() {
+        return quizId;
+    }
+
+    /**
+     * @param quizId the quizId to set
+     */
+    public void setQuizId(String quizId) {
+        this.quizId = quizId;
+    }
+
     @Override
     public String toString() {
         return String.format("Lesson[ID=%s, Title='%s', Content='%s']",
@@ -109,5 +124,4 @@ public class Lesson {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
-
 }

@@ -72,4 +72,16 @@ public class Student extends User {
         }
         return enrollments;
     }
+    
+       private ArrayList<String> certificates = new ArrayList<>();
+
+    // أضف الـ Getter
+    public ArrayList<String> getCertificates() {
+        return certificates;
+    }
+    
+    // وأضف الـ Setter إذا محتاج
+    public void setCertificates(ArrayList<String> certificates) {
+        this.certificates = certificates;
+    }
 }

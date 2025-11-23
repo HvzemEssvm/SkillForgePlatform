@@ -7,13 +7,93 @@
     "enrollments" : [ {
       "courseId" : "C1",
       "completedLessons" : [ "L1" ]
-    } ]
+    } ],
+    "certificates" : [ ]
+  }, {
+    "userId" : "s2",
+    "name" : "nouralden",
+    "email" : "nouralden@15.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "enrollments" : [ ],
+    "certificates" : [ ]
+  }, {
+    "userId" : "s3",
+    "name" : "nour",
+    "email" : "nour@sdfgnjsd.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "enrollments" : [ {
+      "courseId" : "C1",
+      "completedLessons" : [ "L1" ]
+    } ],
+    "certificates" : [ ]
+  }, {
+    "userId" : "s4",
+    "name" : "nour",
+    "email" : "asdlnjfgolk@hbdisjfka.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "enrollments" : [ {
+      "courseId" : "C1",
+      "completedLessons" : [ "L1" ]
+    }, {
+      "courseId" : "C5",
+      "completedLessons" : [ "L6", "L7", "L8" ]
+    }, {
+      "courseId" : "C6",
+      "completedLessons" : [ "L9", "L10" ]
+    }, {
+      "courseId" : "C10",
+      "completedLessons" : [ "L21", "L22" ]
+    }, {
+      "courseId" : "C13",
+      "completedLessons" : [ "L30", "L31", "L32" ]
+    }, {
+      "courseId" : "C25",
+      "completedLessons" : [ "L68", "L66" ]
+    }, {
+      "courseId" : "C32",
+      "completedLessons" : [ "L87", "L88", "L89" ]
+    }, {
+      "courseId" : "C33",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C34",
+      "completedLessons" : [ "L93", "L94" ]
+    }, {
+      "courseId" : "C36",
+      "completedLessons" : [ "L99", "L100", "L101" ]
+    }, {
+      "courseId" : "C35",
+      "completedLessons" : [ "L96", "L97", "L98" ]
+    }, {
+      "courseId" : "C31",
+      "completedLessons" : [ ]
+    }, {
+      "courseId" : "C30",
+      "completedLessons" : [ ]
+    } ],
+    "certificates" : [ "CERT1763931700487", "CERT1763931733132", "CERT1763931768079", "CERT1763931813555" ]
+  }, {
+    "userId" : "s5",
+    "name" : "op",
+    "email" : "op@sklhjfiogl.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "enrollments" : [ {
+      "courseId" : "C5",
+      "completedLessons" : [ "L6" ]
+    } ],
+    "certificates" : [ ]
   } ],
   "instructors" : [ {
     "userId" : "i1",
     "name" : "Hazem Essam",
     "email" : "hazem@gmail.com",
     "password" : "46db433fda5ece6f12d3378751ff008d6aecdaf15d5c6529da853357c97d1905",
-    "myCoursesIds" : [ "C1", "C2" ]
+    "myCoursesIds" : [ "C1", "C2", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12", "C13", "C14", "C15", "C16", "C17", "C18", "C19", "C20", "C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28", "C29", "C30", "C31", "C32", "C33", "C34", "C35", "C36" ]
+  }, {
+    "userId" : "i2",
+    "name" : "ali",
+    "email" : "ali@ss.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "myCoursesIds" : [ "C3", "C4", "C37" ]
   } ]
 }
