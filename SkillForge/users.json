@@ -5,17 +5,6 @@
     "email" : "alice.williams@student.com",
     "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
     "certificateIds" : [ "CERT_1763932238389_fca16a9a" ],
-    "certificates" : [ {
-      "certificateId" : "CERT_1763932238389_fca16a9a",
-      "studentId" : "s1",
-      "studentName" : "Alice Williams",
-      "courseId" : "C1",
-      "courseTitle" : "Java Programming Fundamentals",
-      "issueDate" : 1763932238464,
-      "instructorName" : "Sarah Johnson",
-      "finalScore" : 80.0,
-      "formattedDate" : "November 23, 2025"
-    } ],
     "courseProgressMap" : {
       "C1" : {
         "lessonStatus" : {
@@ -109,14 +98,24 @@
         "progressPercentage" : 100.0,
         "readyForCertificate" : true
       }
-    }
+    },
+    "certificates" : [ {
+      "certificateId" : "CERT_1763932238389_fca16a9a",
+      "studentId" : "s1",
+      "studentName" : "Alice Williams",
+      "courseId" : "C1",
+      "courseTitle" : "Java Programming Fundamentals",
+      "issueDate" : 1763932238464,
+      "instructorName" : "Sarah Johnson",
+      "finalScore" : 80.0,
+      "formattedDate" : "November 23, 2025"
+    } ]
   }, {
     "userId" : "s2",
     "name" : "Bob Smith",
     "email" : "bob.smith@student.com",
     "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
     "certificateIds" : [ ],
-    "certificates" : [ ],
     "courseProgressMap" : {
       "C1" : {
         "lessonStatus" : {
@@ -163,14 +162,14 @@
         "progressPercentage" : 50.0,
         "readyForCertificate" : false
       }
-    }
+    },
+    "certificates" : [ ]
   }, {
     "userId" : "s3",
     "name" : "Carol Davis",
     "email" : "carol.davis@student.com",
     "password" : "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
     "certificateIds" : [ ],
-    "certificates" : [ ],
     "courseProgressMap" : {
       "C1" : {
         "lessonStatus" : {
@@ -262,7 +261,8 @@
         "progressPercentage" : 50.0,
         "readyForCertificate" : false
       }
-    }
+    },
+    "certificates" : [ ]
   } ],
   "instructors" : [ {
     "userId" : "i1",

@@ -4,6 +4,7 @@
  */
 package com.mycompany.CourseManagement;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @author menna
  */
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CourseProgress {
     private Map<String, String> lessonStatus = new HashMap<>(); // lessonId -> PASSED or INCOMPLETE
     private List<QuizAttempt> quizAttempts = new ArrayList<>();
@@ -72,7 +73,6 @@ public class CourseProgress {
         this.overallScore = overallScore;
     }
 
-    
     public void updateLessonStatus(String lessonId, boolean passed) {
         lessonStatus.put(lessonId, passed ? "PASSED" : "INCOMPLETE");
         checkCourseCompletion();
@@ -93,9 +93,8 @@ public class CourseProgress {
             }
         }
 
-        
         calculateOverallScore();
-        
+
         // If not already completed, mark as completed
         if (!completed) {
             completed = true;
@@ -118,7 +117,7 @@ public class CourseProgress {
         for (QuizAttempt attempt : quizAttempts) {
             String lessonId = attempt.getLessonId();
             int score = attempt.getScorePercent();
-            
+
             if (!bestScores.containsKey(lessonId) || score > bestScores.get(lessonId)) {
                 bestScores.put(lessonId, score);
             }
@@ -141,20 +140,20 @@ public class CourseProgress {
 
     // Check if course is ready for certificate
     public boolean isReadyForCertificate() {
-        return completed && overallScore >= 70.0; 
+        return completed && overallScore >= 70.0;
     }
 
-    
     public double getProgressPercentage() {
-        if (lessonStatus.isEmpty()) return 0.0;
-        
+        if (lessonStatus.isEmpty())
+            return 0.0;
+
         int passedCount = 0;
         for (String status : lessonStatus.values()) {
             if (status.equals("PASSED")) {
                 passedCount++;
             }
         }
-        
+
         return (double) passedCount / lessonStatus.size() * 100.0;
     }
 }
