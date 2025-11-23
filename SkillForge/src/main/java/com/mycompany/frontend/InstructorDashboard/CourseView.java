@@ -34,6 +34,8 @@ public class CourseView extends javax.swing.JPanel {
     private JButton btnDeleteCourse;
     private JButton btnViewStudents;
     private JButton btnCreateLesson;
+    private JButton btnCourseAnalytics;
+    private JButton btnStudentPerformance;
 
     private JList<String> lessonList;
     private DefaultListModel<String> lessonListModel;
@@ -179,7 +181,15 @@ public class CourseView extends javax.swing.JPanel {
         btnViewStudents = createStyledButton("View Enrolled Students", new Color(103, 58, 183), Color.WHITE);
         btnViewStudents.setPreferredSize(new Dimension(220, 40));
 
+        btnCourseAnalytics = createStyledButton("Course Analytics", new Color(33, 150, 243), Color.WHITE);
+        btnCourseAnalytics.setPreferredSize(new Dimension(180, 40));
+
+        btnStudentPerformance = createStyledButton("Student Performance", new Color(76, 175, 80), Color.WHITE);
+        btnStudentPerformance.setPreferredSize(new Dimension(200, 40));
+
         bottomPanel.add(btnViewStudents);
+        bottomPanel.add(btnCourseAnalytics);
+        bottomPanel.add(btnStudentPerformance);
 
         return bottomPanel;
     }
@@ -311,7 +321,6 @@ public class CourseView extends javax.swing.JPanel {
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-
         lessonList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && lessonList.getSelectedIndex() >= 0) {
                 try {
@@ -324,6 +333,48 @@ public class CourseView extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Error loading lesson: " + ex.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+
+        btnCourseAnalytics.addActionListener(e -> {
+            parent.showCourseAnalytics(course.getCourseId());
+        });
+
+        btnStudentPerformance.addActionListener(e -> {
+            try {
+                ArrayList<String> students = instructor.getEnrolledStudents(course.getCourseId());
+                if (students.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No students enrolled in this course yet.",
+                            "Student Performance", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Create student selection dialog
+                    String[] studentOptions = new String[students.size()];
+                    for (int i = 0; i < students.size(); i++) {
+                        String studentId = students.get(i);
+                        String name = UserServices.getUserNameById(studentId);
+                        studentOptions[i] = name + " (" + studentId + ")";
+                    }
+
+                    String selectedStudent = (String) JOptionPane.showInputDialog(
+                            this,
+                            "Select a student to view performance:",
+                            "Student Performance",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            studentOptions,
+                            studentOptions[0]);
+
+                    if (selectedStudent != null) {
+                        // Extract student ID from the selection
+                        String studentId = selectedStudent.substring(
+                                selectedStudent.lastIndexOf("(") + 1,
+                                selectedStudent.lastIndexOf(")"));
+                        parent.showStudentPerformance(studentId, course.getCourseId());
+                    }
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error loading students: " + ex.getMessage(),
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
