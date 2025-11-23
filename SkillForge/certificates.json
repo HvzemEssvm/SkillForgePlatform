@@ -1,25 +1,10 @@
 [ {
-  "studentId" : "s4",
-  "certificateId" : "CERT1763931700487",
-  "certificateUrl" : "certificates/CERT1763931700487.json",
-  "issueDate" : 1763931700487,
-  "courseId" : "C1"
-}, {
-  "studentId" : "s4",
-  "certificateId" : "CERT1763931733132",
-  "certificateUrl" : "certificates/CERT1763931733132.json",
-  "issueDate" : 1763931733132,
-  "courseId" : "C25"
-}, {
-  "studentId" : "s4",
-  "certificateId" : "CERT1763931768079",
-  "certificateUrl" : "certificates/CERT1763931768079.json",
-  "issueDate" : 1763931768079,
-  "courseId" : "C13"
-}, {
-  "studentId" : "s4",
-  "certificateId" : "CERT1763931813555",
-  "certificateUrl" : "certificates/CERT1763931813555.json",
-  "issueDate" : 1763931813555,
-  "courseId" : "C32"
+  "certificateId" : "CERT_1763932238389_fca16a9a",
+  "studentId" : "s1",
+  "studentName" : "Alice Williams",
+  "courseId" : "C1",
+  "courseTitle" : "Java Programming Fundamentals",
+  "instructorName" : "Sarah Johnson",
+  "finalScore" : 80.0,
+  "issueDate" : 1763932238464
 } ]

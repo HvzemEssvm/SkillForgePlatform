@@ -2,10 +2,10 @@ package com.mycompany.CourseManagement;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mycompany.JsonHandler.JsonHandler;
-import com.mycompany.UserAccountManagement.Enrollment;
 import com.mycompany.UserAccountManagement.Student;
 import java.io.IOException;
 import java.util.ArrayList;
+import com.mycompany.CourseManagement.QuizAttempt;
 
 public class CourseServices {
     private static int foundAt;
@@ -70,12 +70,12 @@ public class CourseServices {
                 ArrayList<String> enrolledStudents = course.getStudentIds();
                 JsonHandler.courses.remove(i);
 
+                // Remove CourseProgress from all enrolled students
                 if (enrolledStudents != null) {
                     for (String studentId : enrolledStudents) {
                         Student student = JsonHandler.getStudent(studentId);
                         if (student != null) {
-                            student.getEnrollments()
-                                    .removeIf(enrollment -> enrollment.getCourseId().equals(courseId));
+                            student.getCourseProgressMap().remove(courseId);
                         }
                     }
                 }
@@ -99,6 +99,11 @@ public class CourseServices {
     public static boolean enrollStudentInCourse(String courseId, String studentId)
             throws IllegalArgumentException, JsonProcessingException, IOException {
         Student student = JsonHandler.getStudent(studentId);
+
+        if (student == null) {
+            throw new IllegalArgumentException("Student with ID " + studentId + " not found");
+        }
+
         Course course = findCourseById(courseId);
         if (course == null) {
             throw new IllegalArgumentException("Course with ID " + courseId + " not found");
@@ -108,15 +113,22 @@ public class CourseServices {
             throw new IllegalArgumentException("Student ID cannot be null or empty");
         }
 
+        // Check if already enrolled in course's student list
         ArrayList<String> studentIds = course.getStudentIds();
         if (studentIds.contains(studentId)) {
             return false;
         }
 
+        // Check if CourseProgress already exists
+        if (student.getCourseProgressMap().containsKey(courseId)) {
+            return false; // Already enrolled
+        }
+
         boolean enrolled = course.enrollStudent(studentId);
         if (enrolled) {
-            Enrollment enrollment = new Enrollment(courseId, new ArrayList<>());
-            student.getEnrollments().add(enrollment);
+            // Initialize CourseProgress for this course
+            CourseProgress progress = student.getCourseProgress(courseId);
+
             JsonHandler.saveCourses();
             JsonHandler.saveUsers();
         }
@@ -230,11 +242,13 @@ public class CourseServices {
             }
         }
 
+        // Remove lesson status from all enrolled students
         for (String studentId : studentIds) {
             Student student = JsonHandler.getStudent(studentId);
-            for (Enrollment enrollment : student.getEnrollments()) {
-                if (enrollment.getCourseId().equals(course.getCourseId())) {
-                    enrollment.getCompletedLessons().remove(lessonId);
+            if (student != null) {
+                CourseProgress progress = student.getCourseProgress(course.getCourseId());
+                if (progress != null && progress.getLessonStatus() != null) {
+                    progress.getLessonStatus().remove(lessonId);
                 }
             }
         }
@@ -248,32 +262,34 @@ public class CourseServices {
 
     public static boolean isLessonCompleted(String studentId, String courseId, String lessonId) {
         Student student = JsonHandler.getStudent(studentId);
-        for (Enrollment enrollment : student.getEnrollments()) {
-            if (enrollment.getCourseId().equals(courseId)) {
-                return enrollment.getCompletedLessons().contains(lessonId);
-            }
+
+        if (student == null) {
+            return false;
         }
-        return false;
+
+        CourseProgress progress = student.getCourseProgress(courseId);
+        if (progress == null || progress.getLessonStatus() == null) {
+            return false;
+        }
+
+        return "PASSED".equals(progress.getLessonStatus().get(lessonId));
     }
 
-    public static void markLessonCompleted(String studentId, String lessonId) {
-        String courseId;
+    public static void markLessonCompleted(String studentId, String lessonId) throws Exception {
         Student student = JsonHandler.getStudent(studentId);
-        try {
-            Course course = findCourseByLessonId(lessonId);
-            courseId = course.getCourseId();
-        } catch (IOException ex) {
-            courseId = null;
+
+        if (student == null) {
+            return;
         }
 
-        for (Enrollment enrollment : student.getEnrollments()) {
-            if (enrollment.getCourseId().equals(courseId)) {
-                if (!enrollment.getCompletedLessons().contains(lessonId)) {
-                    enrollment.getCompletedLessons().add(lessonId);
-                    JsonHandler.saveUsers();
-                }
-                return;
+        try {
+            Course course = findCourseByLessonId(lessonId);
+            if (course != null) {
+                student.markLessonCompleted(course.getCourseId(), lessonId);
+                JsonHandler.saveUsers();
             }
+        } catch (IOException ex) {
+            System.err.println("Error marking lesson completed: " + ex.getMessage());
         }
     }
 
@@ -281,24 +297,57 @@ public class CourseServices {
         return foundAt;
     }
 
-    public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException,JsonProcessingException {
+    public static void submitQuizAttempt(QuizAttempt quizAttempt) throws IOException, Exception {
+
+        Student student = JsonHandler.getStudent(quizAttempt.getStudentId());
+        if (student != null) {
+            student.submitQuiz(quizAttempt);
+        } else {
+            throw new IOException("Student not found: " + quizAttempt.getStudentId());
+        }
+    }
+
+    public static boolean isCourseCompleted(String studentId, String courseId) throws IOException {
+        return CertificateService.isCourseCompleted(studentId, courseId);
+    }
+
+    public static double getCourseProgress(String studentId, String courseId) throws IOException {
+        Student student = JsonHandler.getStudent(studentId);
+        if (student != null) {
+            return student.getCourseProgressPercentage(courseId);
+        }
+        return 0.0;
+    }
+
+    // Add method to get course score
+    public static double getCourseScore(String studentId, String courseId) throws IOException {
+        Student student = JsonHandler.getStudent(studentId);
+        if (student != null) {
+            return student.getCourseScore(courseId);
+        }
+        return 0.0;
+    }
+
+    public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException, JsonProcessingException {
         ArrayList<Course> courses = new ArrayList<>();
-        for(Course course : CourseServices.getAllCourses()) {
-            if(course.getStatus()==status) {
+        for (Course course : CourseServices.getAllCourses()) {
+            if (course.getStatus() == status) {
                 courses.add(course);
             }
         }
         return courses;
     }
-    
-    public static Course updateCourseStatus(String courseId,Status status) throws IllegalArgumentException, IOException {
+
+    public static Course updateCourseStatus(String courseId, Status status)
+            throws IllegalArgumentException, IOException {
         Course course = CourseServices.findCourseById(courseId);
         course.setStatus(status);
         JsonHandler.saveCourses();
         return course;
     }
-    
-    public static Course updateCourseStatus(String courseId,String status) throws IllegalArgumentException, IOException {
+
+    public static Course updateCourseStatus(String courseId, String status)
+            throws IllegalArgumentException, IOException {
         Course course = CourseServices.findCourseById(courseId);
         course.setStatus(Status.valueOf(status));
         JsonHandler.saveCourses();

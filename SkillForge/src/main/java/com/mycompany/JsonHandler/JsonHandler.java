@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
  */
 public class JsonHandler {
 
-    public static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
 
     public static ArrayList<Course> courses;
     public static ArrayList<Student> students;
@@ -72,7 +74,8 @@ public class JsonHandler {
             UsersWrapper uw = objectMapper.readValue(usersFile, UsersWrapper.class);
             students = uw.students != null ? uw.students : new ArrayList<>();
             instructors = uw.instructors != null ? uw.instructors : new ArrayList<>();
-            // System.out.println("Loaded " + students.size() + " students and " + instructors.size() + " instructors");
+            // System.out.println("Loaded " + students.size() + " students and " +
+            // instructors.size() + " instructors");
         } catch (IOException e) {
             System.err.println("Error loading users: " + e.getMessage());
             e.printStackTrace();

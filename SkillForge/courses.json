@@ -3,807 +3,257 @@
     "courseId" : "C1",
     "instructorId" : "i1",
     "status" : "APPROVED",
-    "studentIds" : [ "s1", "s3", "s4" ],
-    "title" : "The Complete Stock Trading Course",
-    "description" : "Here is a description for the course title: The Complete Stock Trading Course 2025.  \uD83D\uDCB0 Course Description: The Complete Stock Trading Course 2025 This comprehensive course is designed to take aspiring and intermediate traders from foundational market concepts to advanced technical analysis and strategic portfolio management. Focused on real-world execution and modern market dynamics, you will gain the skills necessary to identify profitable opportunities, manage risk effectively, and build a sustainable trading plan for the year 2025 and beyond.  Key Learning Modules Market Foundations: Understand the core structure of the stock market, including exchanges, brokers, market makers, and the difference between long-term investing and short-term trading.  Reading the Charts (Technical Analysis): Master essential charting tools and patterns. Learn to use indicators like Moving Averages (MA), Relative Strength Index (RSI), and MACD to predict price movements.Candlestick Patterns & Price Action: Decipher the language of price action using candlestick patterns (Doji, Hammer, Engulfing patterns) to find high-probability entry and exit points.  Risk Management & Position Sizing: Learn the critical rules for capital preservation. Master calculating the appropriate position size for any trade to ensure your losses are always within acceptable limits.  Fundamental Analysis Basics: Understand how to read key financial statements (Income Statement, Balance Sheet) and interpret essential valuation metrics (P/E ratio, EPS) to gauge the health of a company.  Developing a Trading System: Combine technical and risk management principles into a robust, back-testable trading strategy suitable for day trading, swing trading, or position trading in the current economic climate.",
+    "studentIds" : [ "s1", "s2", "s3" ],
+    "title" : "Java Programming Fundamentals",
+    "description" : "Learn Java from basics to advanced concepts",
     "lessons" : [ {
       "lessonId" : "L1",
-      "title" : "Mastering Candlestick Patterns for High-Probability Entry Signals",
-      "content" : "1. Introduction: Beyond the Line Chart (0:00 - 1:30) \"Hello, and welcome back to our advanced trading modules. Up until now, we’ve looked at price movement generally. But to gain a real edge, we need to understand the story behind every price bar. That story is told by the candlestick.  A single candlestick tells you four things: Open, High, Low, and Close. The body shows you the net movement, and the wicks (or shadows) show you the extremes reached during that period.  Green (or white) bodies signal buyers were in control, pushing the price higher than the open. Red (or black) bodies signal sellers were in control, pushing the price lower than the open. Understanding this battle is the first step.\"  2. Identifying Key Reversal Signals (1:30 - 4:00) \"When looking for high-probability trade setups, we are primarily seeking signals that indicate the current trend is about to reverse. These patterns are most powerful when they appear after a sustained move up or down.  A. The Hammer (Bullish Reversal) \"The Hammer is a powerful buying signal. It has a small body near the top of the range and a long lower wick (at least twice the length of the body). It appears after a strong downtrend. The meaning? Sellers tried to push the price way down, but strong buying pressure brought the price back up near the open. This shows rejection of lower prices and a potential bullish shift.\"  B. The Shooting Star (Bearish Reversal) \"The Shooting Star is the Hammer’s bearish counterpart. It has a small body near the bottom of the range and a long upper wick. It appears after a strong uptrend. Here, buyers tried to push the price way up, but heavy selling pressure drove the price back down near the open. This shows rejection of higher prices and signals a potential bearish shift.\"  C. Engulfing Patterns (Strongest Signal) \"The Engulfing Pattern is considered one of the strongest reversal signals. A Bullish Engulfing pattern occurs when a large green body completely covers (engulfs) the small red body of the previous day. This shows a massive shift in momentum from sellers to buyers. The reverse is true for a Bearish Engulfing pattern.\"  3. Continuation Patterns for Trending Markets (4:00 - 6:30) \"Not all patterns signal a reversal; some show that the market is just pausing before continuing in the existing direction.  A. The Doji \"The Doji occurs when the open and close are nearly identical, resulting in a very thin body. It signals indecision in the market. A Doji after a long uptrend might signal a reversal, but in a consolidating market, it might just be noise. You need confirmation from the next candle.\"  B. Flags and Pennants \"While technically chart patterns, they are built from candles. Flags show a short, sharp counter-trend move within a tight channel after a large surge. This is merely a pause to 'recharge' before breaking out and continuing the initial trend. They offer excellent entry points for continuation trades.\"  4. Implementation and Risk Management (6:30 - 10:00) \"Identifying the pattern is only half the battle. We must implement it with a clear entry and exit strategy.  For all reversal patterns, our entry should always be confirmed by the next candle. For example, after a Bullish Hammer, wait for the next candle to close higher than the Hammer’s high before entering.  Entry Signal: Once the confirming candle closes, enter the trade.  Stop-Loss (SL): Your risk limit must be placed immediately beyond the extreme of the pattern. For a bullish reversal, place your stop below the low of the Hammer or Engulfing pattern. If the price reaches that point, the pattern has failed, and you exit.  Take-Profit (TP): Set a target based on the nearest resistance/support level or by using a favorable Risk-Reward Ratio, ideally 1:2 or better.",
-      "quizId" : "QUIZ_L1_1763937006338"
+      "title" : "Introduction to Java",
+      "content" : "This lesson covers introduction to java in detail.",
+      "quiz" : {
+        "quizId" : "quiz_L1",
+        "questions" : [ {
+          "questionText" : "Question 1 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 2 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 3 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 4 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 5 for Introduction to Java?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 66.67
+      }
+    }, {
+      "lessonId" : "L2",
+      "title" : "Variables and Data Types",
+      "content" : "This lesson covers variables and data types in detail.",
+      "quiz" : {
+        "quizId" : "quiz_L2",
+        "questions" : [ {
+          "questionText" : "Question 1 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 2 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 3 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 4 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 5 for Variables and Data Types?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 80.0
+      }
+    }, {
+      "lessonId" : "L3",
+      "title" : "Control Flow Statements",
+      "content" : "This lesson covers if-else, loops, and switch statements.",
+      "quiz" : {
+        "quizId" : "quiz_L3",
+        "questions" : [ {
+          "questionText" : "Question 1 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 2 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 3 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 4 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 5 for Control Flow Statements?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 80.0
+      }
+    }, {
+      "lessonId" : "L4",
+      "title" : "Methods and Functions",
+      "content" : "This lesson covers method declaration and usage.",
+      "quiz" : {
+        "quizId" : "quiz_L4",
+        "questions" : [ {
+          "questionText" : "Question 1 for Methods and Functions?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 2 for Methods and Functions?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 3 for Methods and Functions?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 4 for Methods and Functions?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 5 for Methods and Functions?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 80.0
+      }
     } ]
   }, {
     "courseId" : "C2",
     "instructorId" : "i1",
-    "status" : "REJECTED",
-    "studentIds" : [ ],
-    "title" : "tobeRej",
-    "description" : "tobeRej",
-    "lessons" : [ ]
-  }, {
-    "courseId" : "C3",
-    "instructorId" : "i2",
-    "status" : "PENDING",
-    "studentIds" : [ ],
-    "title" : "nour",
-    "description" : "dddddddddddd",
-    "lessons" : [ {
-      "lessonId" : "L2",
-      "title" : "l1",
-      "content" : "dddd",
-      "quizId" : "QUIZ_L2_1763937006664"
-    }, {
-      "lessonId" : "L3",
-      "title" : "l2",
-      "content" : "ssdsd",
-      "quizId" : null
-    }, {
-      "lessonId" : "L4",
-      "title" : "dd",
-      "content" : "dd",
-      "quizId" : null
-    }, {
-      "lessonId" : "L5",
-      "title" : "dd",
-      "content" : "",
-      "quizId" : null
-    } ]
-  }, {
-    "courseId" : "C4",
-    "instructorId" : "i2",
-    "status" : "PENDING",
-    "studentIds" : [ ],
-    "title" : "sdsdfqwetq",
-    "description" : "asdrftweqtw",
-    "lessons" : [ ]
-  }, {
-    "courseId" : "C5",
-    "instructorId" : "i1",
     "status" : "APPROVED",
-    "studentIds" : [ "s4", "s5" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
+    "studentIds" : [ "s1", "s3" ],
+    "title" : "Python for Data Science",
+    "description" : "Master Python for data analysis and machine learning",
     "lessons" : [ {
+      "lessonId" : "L5",
+      "title" : "Python Basics",
+      "content" : "This lesson covers python basics in detail.",
+      "quiz" : {
+        "quizId" : "quiz_L5",
+        "questions" : [ {
+          "questionText" : "Question 1 for Python Basics?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 2 for Python Basics?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 3 for Python Basics?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 4 for Python Basics?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 5 for Python Basics?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 70.0
+      }
+    }, {
       "lessonId" : "L6",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ193"
+      "title" : "NumPy and Pandas",
+      "content" : "This lesson covers numpy and pandas in detail.",
+      "quiz" : {
+        "quizId" : "quiz_L6",
+        "questions" : [ {
+          "questionText" : "Question 1 for NumPy and Pandas?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 2 for NumPy and Pandas?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 3 for NumPy and Pandas?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 4 for NumPy and Pandas?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 5 for NumPy and Pandas?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 80.0
+      }
     }, {
       "lessonId" : "L7",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ440"
+      "title" : "Data Visualization",
+      "content" : "This lesson covers matplotlib and seaborn.",
+      "quiz" : {
+        "quizId" : "quiz_L7",
+        "questions" : [ {
+          "questionText" : "Question 1 for Data Visualization?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 2 for Data Visualization?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 3 for Data Visualization?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 4 for Data Visualization?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 5 for Data Visualization?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0
+      }
     }, {
       "lessonId" : "L8",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ260"
-    } ]
-  }, {
-    "courseId" : "C6",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L9",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ850"
-    }, {
-      "lessonId" : "L10",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ839"
-    }, {
-      "lessonId" : "L11",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ927"
-    } ]
-  }, {
-    "courseId" : "C7",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L12",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ756"
-    }, {
-      "lessonId" : "L13",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ853"
-    }, {
-      "lessonId" : "L14",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ208"
-    } ]
-  }, {
-    "courseId" : "C8",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L15",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ721"
-    }, {
-      "lessonId" : "L16",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ980"
-    }, {
-      "lessonId" : "L17",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ78"
-    } ]
-  }, {
-    "courseId" : "C9",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L18",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ771"
-    }, {
-      "lessonId" : "L19",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ924"
-    }, {
-      "lessonId" : "L20",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ220"
-    } ]
-  }, {
-    "courseId" : "C10",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L21",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ776"
-    }, {
-      "lessonId" : "L22",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ819"
-    }, {
-      "lessonId" : "L23",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ748"
-    } ]
-  }, {
-    "courseId" : "C11",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L24",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ424"
-    }, {
-      "lessonId" : "L25",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ670"
-    }, {
-      "lessonId" : "L26",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ13"
-    } ]
-  }, {
-    "courseId" : "C12",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L27",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ485"
-    }, {
-      "lessonId" : "L28",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ43"
-    }, {
-      "lessonId" : "L29",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ183"
-    } ]
-  }, {
-    "courseId" : "C13",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L30",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ155"
-    }, {
-      "lessonId" : "L31",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ910"
-    }, {
-      "lessonId" : "L32",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ231"
-    } ]
-  }, {
-    "courseId" : "C14",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L33",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ194"
-    }, {
-      "lessonId" : "L34",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ111"
-    }, {
-      "lessonId" : "L35",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ122"
-    } ]
-  }, {
-    "courseId" : "C15",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L36",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ503"
-    }, {
-      "lessonId" : "L37",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ47"
-    }, {
-      "lessonId" : "L38",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ999"
-    } ]
-  }, {
-    "courseId" : "C16",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L39",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ103"
-    }, {
-      "lessonId" : "L40",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ274"
-    }, {
-      "lessonId" : "L41",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ949"
-    } ]
-  }, {
-    "courseId" : "C17",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L42",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ319"
-    }, {
-      "lessonId" : "L43",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ724"
-    }, {
-      "lessonId" : "L44",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ700"
-    } ]
-  }, {
-    "courseId" : "C18",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L45",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ885"
-    }, {
-      "lessonId" : "L46",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ7"
-    }, {
-      "lessonId" : "L47",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ630"
-    } ]
-  }, {
-    "courseId" : "C19",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L48",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ622"
-    }, {
-      "lessonId" : "L49",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ711"
-    }, {
-      "lessonId" : "L50",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ772"
-    } ]
-  }, {
-    "courseId" : "C20",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L51",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ503"
-    }, {
-      "lessonId" : "L52",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ812"
-    }, {
-      "lessonId" : "L53",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ825"
-    } ]
-  }, {
-    "courseId" : "C21",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L54",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ455"
-    }, {
-      "lessonId" : "L55",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ938"
-    }, {
-      "lessonId" : "L56",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ213"
-    } ]
-  }, {
-    "courseId" : "C22",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L57",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ728"
-    }, {
-      "lessonId" : "L58",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ419"
-    }, {
-      "lessonId" : "L59",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ323"
-    } ]
-  }, {
-    "courseId" : "C23",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L60",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ338"
-    }, {
-      "lessonId" : "L61",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ658"
-    }, {
-      "lessonId" : "L62",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ45"
-    } ]
-  }, {
-    "courseId" : "C24",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L63",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ941"
-    }, {
-      "lessonId" : "L64",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ247"
-    }, {
-      "lessonId" : "L65",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ580"
-    } ]
-  }, {
-    "courseId" : "C25",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L66",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ311"
-    }, {
-      "lessonId" : "L67",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ213"
-    }, {
-      "lessonId" : "L68",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ862"
-    } ]
-  }, {
-    "courseId" : "C26",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L69",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ876"
-    }, {
-      "lessonId" : "L70",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ708"
-    }, {
-      "lessonId" : "L71",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ124"
-    } ]
-  }, {
-    "courseId" : "C27",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L72",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ770"
-    }, {
-      "lessonId" : "L73",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ688"
-    }, {
-      "lessonId" : "L74",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ750"
-    } ]
-  }, {
-    "courseId" : "C28",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L75",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ442"
-    }, {
-      "lessonId" : "L76",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ813"
-    }, {
-      "lessonId" : "L77",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ805"
-    } ]
-  }, {
-    "courseId" : "C29",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L78",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ348"
-    }, {
-      "lessonId" : "L79",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ618"
-    }, {
-      "lessonId" : "L80",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ71"
-    } ]
-  }, {
-    "courseId" : "C30",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L81",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ412"
-    }, {
-      "lessonId" : "L82",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ943"
-    }, {
-      "lessonId" : "L83",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ958"
-    } ]
-  }, {
-    "courseId" : "C31",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L84",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ939"
-    }, {
-      "lessonId" : "L85",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ752"
-    }, {
-      "lessonId" : "L86",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ617"
-    } ]
-  }, {
-    "courseId" : "C32",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L87",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ920"
-    }, {
-      "lessonId" : "L88",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ552"
-    }, {
-      "lessonId" : "L89",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ202"
-    } ]
-  }, {
-    "courseId" : "C33",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L90",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ303"
-    }, {
-      "lessonId" : "L91",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ254"
-    }, {
-      "lessonId" : "L92",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ765"
-    } ]
-  }, {
-    "courseId" : "C34",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L93",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ1763933559903"
-    }, {
-      "lessonId" : "L94",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ1763933559904"
-    }, {
-      "lessonId" : "L95",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ1763933559906"
-    } ]
-  }, {
-    "courseId" : "C35",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L96",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QZ1763933977574"
-    }, {
-      "lessonId" : "L97",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QZ1763933977575"
-    }, {
-      "lessonId" : "L98",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QZ1763933977577"
-    } ]
-  }, {
-    "courseId" : "C36",
-    "instructorId" : "i1",
-    "status" : "APPROVED",
-    "studentIds" : [ "s4" ],
-    "title" : "Java Programming",
-    "description" : "Learn Java from scratch",
-    "lessons" : [ {
-      "lessonId" : "L99",
-      "title" : "Introduction to Java",
-      "content" : "Java is a programming language...",
-      "quizId" : "QUIZ_L99_1763934292893"
-    }, {
-      "lessonId" : "L100",
-      "title" : "OOP Concepts",
-      "content" : "Object-Oriented Programming concepts...",
-      "quizId" : "QUIZ_L100_1763934292894"
-    }, {
-      "lessonId" : "L101",
-      "title" : "Data Types",
-      "content" : "Primitive and reference data types...",
-      "quizId" : "QUIZ_L101_1763934292897"
-    } ]
-  }, {
-    "courseId" : "C37",
-    "instructorId" : "i2",
-    "status" : "PENDING",
-    "studentIds" : [ ],
-    "title" : "jjj",
-    "description" : "kkk",
-    "lessons" : [ {
-      "lessonId" : "L102",
-      "title" : "hhh",
-      "content" : "hhh",
-      "quizId" : null
+      "title" : "Machine Learning Intro",
+      "content" : "This lesson covers basic ML concepts.",
+      "quiz" : {
+        "quizId" : "quiz_L8",
+        "questions" : [ {
+          "questionText" : "Question 1 for Machine Learning Intro?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "Question 2 for Machine Learning Intro?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "Question 3 for Machine Learning Intro?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 1
+        }, {
+          "questionText" : "Question 4 for Machine Learning Intro?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Question 5 for Machine Learning Intro?",
+          "options" : [ "Option A", "Option B", "Option C", "Option D" ],
+          "correctAnswerIndex" : 3
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0
+      }
     } ]
   } ]
 }
