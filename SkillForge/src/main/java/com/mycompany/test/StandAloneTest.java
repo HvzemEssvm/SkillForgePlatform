@@ -3,10 +3,10 @@ package com.mycompany.test;
 import com.mycompany.Analytics.AnalyticsServices;
 import com.mycompany.Analytics.CourseAnalytics;
 import com.mycompany.CourseManagement.Certificate;
+import com.mycompany.CourseManagement.CertificateService;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
-import com.mycompany.CourseManagement.ProgressAndCertificateManager;
 import com.mycompany.CourseManagement.Status;
 import com.mycompany.JsonHandler.JsonHandler;
 import com.mycompany.QuizManagement.Question;
@@ -351,10 +351,9 @@ public class StandAloneTest {
         }
 
         // Generate certificate since all lessons are completed
-        Certificate cert = ProgressAndCertificateManager.generateCertificate(student, course.getCourseId());
-        student.getCertificates().add(cert);
-        JsonHandler.saveUsers();
-        System.out.println("  🎓 Certificate generated: " + cert.getCertId());
+        double finalScore = 80.0; // Average score from quiz attempts
+        Certificate cert = CertificateService.generateCertificate(student, course, finalScore);
+        System.out.println("  🎓 Certificate generated: " + cert.getCertificateId());
     }
 
     /**
