@@ -451,6 +451,7 @@ public class CourseServices {
         if (student != null) {
             return student.getCourseScore(courseId);}
         return 0.0;
+    }
     public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException, JsonProcessingException {
         ArrayList<Course> courses = new ArrayList<>();
         for (Course course : CourseServices.getAllCourses()) {
