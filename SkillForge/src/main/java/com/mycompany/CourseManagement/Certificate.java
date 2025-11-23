@@ -4,78 +4,75 @@
  */
 package com.mycompany.CourseManagement;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
+
 /**
  *
- * @author HP
+ * @author menna
  */
+
+
 public class Certificate {
-    private String certId;
-    private String courseId;
-    private String courseTitle;
+    private String certificateId;
     private String studentId;
     private String studentName;
-    private String issueDate;
-    private String filePath; // path to the JSON file
+    private String courseId;
+    private String courseTitle;
+    private Date issueDate;
+    private String instructorName;
+    private double finalScore;
 
-    public Certificate() {}
+    public Certificate() {
+    }
 
-    public Certificate(String certId, String courseId, String courseTitle,
-                       String studentId, String studentName, String issueDate,
-                       String filePath) {
-        this.certId = certId;
-        this.courseId = courseId;
-        this.courseTitle = courseTitle;
+    public Certificate(String studentId, String studentName, String courseId, 
+                      String courseTitle, String instructorName, double finalScore) {
+        this.certificateId = "CERT_" + System.currentTimeMillis() + "_" + 
+                           UUID.randomUUID().toString().substring(0, 8);
         this.studentId = studentId;
         this.studentName = studentName;
-        this.issueDate = issueDate;
-        this.filePath = filePath;
+        this.courseId = courseId;
+        this.courseTitle = courseTitle;
+        this.instructorName = instructorName;
+        this.finalScore = finalScore;
+        this.issueDate = new Date();
     }
 
     
-    public String getCertId() { 
-        return certId; }
-    public void setCertId(String certId) {
-        this.certId = certId; }
+    public String getCertificateId() { return certificateId; }
+    public void setCertificateId(String certificateId) { this.certificateId = certificateId; }
 
-    public String getCourseId()
-    { 
-        return courseId; }
-    public void setCourseId(String courseId) 
-    { 
-        this.courseId = courseId; }
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
 
-    public String getCourseTitle() 
-    { 
-        return courseTitle; }
-    public void setCourseTitle(String courseTitle) 
-    { 
-        this.courseTitle = courseTitle; }
+    public String getStudentName() { return studentName; }
+    public void setStudentName(String studentName) { this.studentName = studentName; }
 
-    public String getStudentId() 
-    { 
-        return studentId; }
-    public void setStudentId(String studentId) 
-    { 
-        this.studentId = studentId; }
+    public String getCourseId() { return courseId; }
+    public void setCourseId(String courseId) { this.courseId = courseId; }
 
-    public String getStudentName() 
-    { 
-        return studentName; }
-    public void setStudentName(String studentName) 
-    { 
-        this.studentName = studentName; }
+    public String getCourseTitle() { return courseTitle; }
+    public void setCourseTitle(String courseTitle) { this.courseTitle = courseTitle; }
 
-    public String getIssueDate() 
-    { 
-        return issueDate; }
-    public void setIssueDate(String issueDate) 
-    { 
-        this.issueDate = issueDate; }
+    public Date getIssueDate() { return issueDate; }
+    public void setIssueDate(Date issueDate) { this.issueDate = issueDate; }
 
-    public String getFilePath() 
-    { 
-        return filePath; }
-    public void setFilePath(String filePath) 
-    {
-        this.filePath = filePath; }
+    public String getInstructorName() { return instructorName; }
+    public void setInstructorName(String instructorName) { this.instructorName = instructorName; }
+
+    public double getFinalScore() { return finalScore; }
+    public void setFinalScore(double finalScore) { this.finalScore = finalScore; }
+
+    public String getFormattedDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+        return sdf.format(issueDate);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Certificate[ID=%s, Student=%s, Course=%s, Score=%.1f%%, Date=%s]",
+                certificateId, studentName, courseTitle, finalScore, getFormattedDate());
+    }
 }
