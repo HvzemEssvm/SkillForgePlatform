@@ -178,6 +178,10 @@ public class CourseServices {
             throws IllegalArgumentException, JsonProcessingException, IOException {
         Student student = JsonHandler.getStudent(studentId);
 
+        if (student == null) {
+            throw new IllegalArgumentException("Student with ID " + studentId + " not found");
+        }
+
         Course course = findCourseById(courseId);
         if (course == null) {
             throw new IllegalArgumentException("Course with ID " + courseId + " not found");
@@ -347,9 +351,11 @@ public class CourseServices {
 
         for (String studentId : studentIds) {
             Student student = JsonHandler.getStudent(studentId);
-            for (Enrollment enrollment : student.getEnrollments()) {
-                if (enrollment.getCourseId().equals(course.getCourseId())) {
-                    enrollment.getCompletedLessons().remove(lessonId);
+            if (student != null) {
+                for (Enrollment enrollment : student.getEnrollments()) {
+                    if (enrollment.getCourseId().equals(course.getCourseId())) {
+                        enrollment.getCompletedLessons().remove(lessonId);
+                    }
                 }
             }
         }
@@ -366,6 +372,10 @@ public class CourseServices {
     public static boolean isLessonCompleted(String studentId, String courseId, String lessonId) {
         Student student = JsonHandler.getStudent(studentId);
 
+        if (student == null) {
+            return false;
+        }
+
         for (Enrollment enrollment : student.getEnrollments()) {
             if (enrollment.getCourseId().equals(courseId)) {
                 return enrollment.getCompletedLessons().contains(lessonId);
@@ -377,6 +387,11 @@ public class CourseServices {
     public static void markLessonCompleted(String studentId, String lessonId) {
         String courseId;
         Student student = JsonHandler.getStudent(studentId);
+
+        if (student == null) {
+            return;
+        }
+
         try {
             Course course = findCourseByLessonId(lessonId);
             courseId = course.getCourseId();

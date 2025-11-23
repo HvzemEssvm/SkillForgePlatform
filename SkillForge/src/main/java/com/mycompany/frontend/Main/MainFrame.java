@@ -114,8 +114,8 @@ public class MainFrame extends javax.swing.JFrame {
     {
         if(user instanceof Instructor)
         {
-            InstructorDashboardFrame instructorDashboardFrame = new InstructorDashboardFrame((Instructor)user);
-            instructorDashboardFrame.setVisible(true);
+           InstructorDashboardFrame instructorDashboardFrame = new InstructorDashboardFrame((Instructor)user);
+           instructorDashboardFrame.setVisible(true);
         }
         else if(user instanceof Student)
         {
