@@ -5,6 +5,7 @@
 package com.mycompany.CourseManagement;
 
 import com.mycompany.JsonHandler.JsonHandler;
+import com.mycompany.QuizManagement.QuizAttempt;
 import com.mycompany.UserAccountManagement.Student;
 import java.io.File;
 import java.io.IOException;

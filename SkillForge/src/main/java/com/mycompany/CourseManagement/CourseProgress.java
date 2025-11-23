@@ -24,6 +24,24 @@ public class CourseProgress {
     private Date completionDate;
     private double overallScore;
 
+import com.mycompany.QuizManagement.QuizAttempt;
+
+/**
+ *
+ * @author HP
+ */
+public class CourseProgress {
+    
+    private Map<String, String> lessonStatus = new HashMap<>(); //passed or incompleted
+
+    
+    private List<QuizAttempt> quizAttempts = new ArrayList<>();
+
+    private Boolean completed = false;
+
+    private String certificateId; 
+
+   
     public Map<String, String> getLessonStatus() {
         return lessonStatus;
     }
@@ -86,6 +104,9 @@ public class CourseProgress {
         }
 
         // Check if all lessons are passed
+ 
+    private void checkCourseCompletion() {
+        
         for (String status : lessonStatus.values()) {
             if (!status.equals("PASSED")) {
                 completed = false;
@@ -158,3 +179,16 @@ public class CourseProgress {
         return (double) passedCount / lessonStatus.size() * 100.0;
     }
 }
+        completed = true;
+    }
+
+    
+    public void addQuizAttempt(QuizAttempt attempt) {
+        quizAttempts.add(attempt);
+        
+        updateLessonStatus(attempt.getLessonId(), attempt.isPassed());
+    }
+}
+
+    
+

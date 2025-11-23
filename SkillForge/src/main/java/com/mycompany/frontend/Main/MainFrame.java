@@ -4,17 +4,17 @@
  */
 package com.mycompany.frontend.Main;
 
-import com.mycompany.CourseManagement.CourseServices;
+import com.mycompany.UserAccountManagement.Admin;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;
-import com.mycompany.UserAccountManagement.UserServices;
+import com.mycompany.UserAccountManagement.User;
+import com.mycompany.frontend.AdminDashboard.AdminDashboardFrame;
 import com.mycompany.frontend.InstructorDashboard.InstructorDashboardFrame;
 import com.mycompany.frontend.StudentDashboard.StudentDashboardFrame;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,24 +27,13 @@ public class MainFrame extends javax.swing.JFrame {
     private LoginPanel loginPanel;
     private SignupPanel signupPanel;
     private MainPanel mainPanel;
-    private UserServices userServices;
-    private CourseServices courseServices;
     
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
-        try
-        {
-            userServices = new UserServices();
-            courseServices = new CourseServices();
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(null,e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
-            System.exit(0);
-        }
-        setTitle("SkillForge Platform🔨");
+        
+        setTitle("SkillForge Platform");
         setSize(1280, 720);
         setMinimumSize(new Dimension(1280,720));
         setLocationRelativeTo(null);
@@ -107,22 +96,6 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));
     }
 
-    public UserServices getUserServices() {
-        return userServices;
-    }
-
-    public void setUserServices(UserServices userServices) {
-        this.userServices = userServices;
-    }
-
-    public CourseServices getCourseServices() {
-        return courseServices;
-    }
-
-    public void setCourseServices(CourseServices courseServices) {
-        this.courseServices = courseServices;
-    }
-
     public CardLayout getCardLayout() {
         return cardLayout;
     }
@@ -139,20 +112,26 @@ public class MainFrame extends javax.swing.JFrame {
         return mainPanel;
     }
     
-    public void navigateToInstructorPanel(Instructor instructor)
+    public void navigateToUserFrame(User user)
     {
-        InstructorDashboardFrame instructorDashboardFrame = new InstructorDashboardFrame(instructor);
-        instructorDashboardFrame.setVisible(true);
+        if(user instanceof Instructor)
+        {
+           InstructorDashboardFrame instructorDashboardFrame = new InstructorDashboardFrame((Instructor)user);
+           instructorDashboardFrame.setVisible(true);
+        }
+        else if(user instanceof Student)
+        {
+            StudentDashboardFrame studentDashboardFrame = new StudentDashboardFrame((Student)user);
+            studentDashboardFrame.setVisible(true);
+        }
+        else if(user instanceof Admin)
+        {
+            AdminDashboardFrame adminDashboardFrame = new AdminDashboardFrame();
+            adminDashboardFrame.setVisible(true);
+        }
         this.dispose();
     }
     
-    public void navigateToStudentFrame(Student student)
-    {
-        StudentDashboardFrame studentDashboardFrame = new StudentDashboardFrame(student);
-        studentDashboardFrame.setVisible(true);
-        this.dispose();
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

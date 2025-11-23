@@ -179,6 +179,10 @@ public class CourseServices {
             throws IllegalArgumentException, JsonProcessingException, IOException {
         Student student = JsonHandler.getStudent(studentId);
 
+        if (student == null) {
+            throw new IllegalArgumentException("Student with ID " + studentId + " not found");
+        }
+
         Course course = findCourseById(courseId);
         if (course == null) {
             throw new IllegalArgumentException("Course with ID " + courseId + " not found");
@@ -188,9 +192,17 @@ public class CourseServices {
             throw new IllegalArgumentException("Student ID cannot be null or empty");
         }
 
+        // Check if already enrolled in course's student list
         ArrayList<String> studentIds = course.getStudentIds();
         if (studentIds.contains(studentId)) {
             return false; // Already enrolled
+        }
+
+        // Check if enrollment already exists in student's enrollment list
+        for (Enrollment enrollment : student.getEnrollments()) {
+            if (enrollment.getCourseId().equals(courseId)) {
+                return false; // Enrollment already exists
+            }
         }
 
         boolean enrolled = course.enrollStudent(studentId);
@@ -340,9 +352,11 @@ public class CourseServices {
 
         for (String studentId : studentIds) {
             Student student = JsonHandler.getStudent(studentId);
-            for (Enrollment enrollment : student.getEnrollments()) {
-                if (enrollment.getCourseId().equals(course.getCourseId())) {
-                    enrollment.getCompletedLessons().remove(lessonId);
+            if (student != null) {
+                for (Enrollment enrollment : student.getEnrollments()) {
+                    if (enrollment.getCourseId().equals(course.getCourseId())) {
+                        enrollment.getCompletedLessons().remove(lessonId);
+                    }
                 }
             }
         }
@@ -359,6 +373,10 @@ public class CourseServices {
     public static boolean isLessonCompleted(String studentId, String courseId, String lessonId) {
         Student student = JsonHandler.getStudent(studentId);
 
+        if (student == null) {
+            return false;
+        }
+
         for (Enrollment enrollment : student.getEnrollments()) {
             if (enrollment.getCourseId().equals(courseId)) {
                 return enrollment.getCompletedLessons().contains(lessonId);
@@ -370,6 +388,11 @@ public class CourseServices {
     public static void markLessonCompleted(String studentId, String lessonId) throws Exception {
         String courseId;
         Student student = JsonHandler.getStudent(studentId);
+
+        if (student == null) {
+            return;
+        }
+
         try {
             Course course = findCourseByLessonId(lessonId);
             courseId = course.getCourseId();
@@ -428,5 +451,30 @@ public class CourseServices {
         if (student != null) {
             return student.getCourseScore(courseId);}
         return 0.0;
+    public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException, JsonProcessingException {
+        ArrayList<Course> courses = new ArrayList<>();
+        for (Course course : CourseServices.getAllCourses()) {
+            if (course.getStatus() == status) {
+                courses.add(course);
+            }
+        }
+        return courses;
+    }
+
+    public static Course updateCourseStatus(String courseId, Status status)
+            throws IllegalArgumentException, IOException {
+        Course course = CourseServices.findCourseById(courseId);
+        course.setStatus(status);
+        JsonHandler.saveCourses();
+        return course;
+    }
+
+    
+    public static Course updateCourseStatus(String courseId,String status) throws IllegalArgumentException, IOException
+    {
+        Course course = CourseServices.findCourseById(courseId);
+        course.setStatus(Status.valueOf(status));
+        JsonHandler.saveCourses();
+        return course;
     }
 }

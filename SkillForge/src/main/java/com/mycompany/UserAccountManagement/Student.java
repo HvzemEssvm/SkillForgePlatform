@@ -13,6 +13,8 @@ import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.CourseManagement.QuizAttempt;
 import com.mycompany.CourseManagement.StudentProgress;
+import com.mycompany.CourseManagement.StudentProgress;
+import com.mycompany.CourseManagement.Status;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,11 @@ public class Student extends User {
     private HashMap<String, CourseProgress> courseProgress; // courseId -> CourseProgress
     private ArrayList<String> certificateIds;
 
+
+    @JsonIgnore
+    private StudentProgress progress;
+
+    private ArrayList<Certificate> certificates;
 
     public Student() {
         super();
@@ -54,7 +61,7 @@ public class Student extends User {
 
     @JsonIgnore
     public ArrayList<Course> viewAvailableCourses() throws IOException {
-        ArrayList<Course> allCourses = CourseServices.getAllCourses();
+        ArrayList<Course> allCourses = CourseServices.getCoursesByStatus(Status.APPROVED);
         ArrayList<Course> enrolledCourses = getMyEnrolledCourses();
         allCourses.removeAll(enrolledCourses);
 
@@ -70,7 +77,7 @@ public class Student extends User {
     public ArrayList<Lesson> getCourseLessons(String courseId) throws IOException {
         Course course = CourseServices.findCourseById(courseId);
 
-        if (course == null) {
+        if (course == null || course.getStatus() != Status.APPROVED) {
             throw new IllegalArgumentException("Course not found");
         }
 
@@ -175,4 +182,31 @@ public class Student extends User {
     public void setCertificateIds(ArrayList<String> certificateIds) {
         this.certificateIds = certificateIds;
     }
+
+    public StudentProgress getProgress() {
+        if (progress == null) {
+            progress = new StudentProgress(getUserId(), getName());
+        }
+        return progress;
+    }
+
+    public void setProgress(StudentProgress progress) {
+        this.progress = progress;
+    }
+
+    public ArrayList<Certificate> getCertificates() {
+        if (certificates == null) {
+            certificates = new ArrayList<>();
+        }
+        // Sync from progress if available
+        if (progress != null && progress.getCertificates() != null) {
+            return progress.getCertificates();
+        }
+        return certificates;
+    }
+
+    public void setCertificates(ArrayList<Certificate> certificates) {
+        this.certificates = certificates;
+    }
+
 }
