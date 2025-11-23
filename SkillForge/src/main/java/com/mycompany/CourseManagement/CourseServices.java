@@ -435,4 +435,12 @@ public class CourseServices {
         return course;
     }
 
+    
+    public static Course updateCourseStatus(String courseId,String status) throws IllegalArgumentException, IOException
+    {
+        Course course = CourseServices.findCourseById(courseId);
+        course.setStatus(Status.valueOf(status));
+        JsonHandler.saveCourses();
+        return course;
+    }
 }
