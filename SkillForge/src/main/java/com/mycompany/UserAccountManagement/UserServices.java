@@ -16,11 +16,13 @@ import java.util.ArrayList;
 public class UserServices {
 
     // Static initializer block to load data when class is first accessed
+    // refrences: https://www.geeksforgeeks.org/java/static-blocks-in-java/
+    // FYI: it is executed on calling static members & methods, constructors
     static {
         JsonHandler.loadUsers();
     }
 
-    public ArrayList<User> getAllUsers() throws JsonProcessingException, IOException {
+    public static ArrayList<User> getAllUsers() throws JsonProcessingException, IOException {
         ArrayList<User> users = new ArrayList<>();
         users.addAll(JsonHandler.students);
         users.addAll(JsonHandler.instructors);
@@ -28,7 +30,7 @@ public class UserServices {
     }
 
     // check on the UserId that it should be displayed to the user after signing up
-    public <T extends User> T signup(Class<T> classType, String name, String email, String password)
+    public static <T extends User> T signup(Class<T> classType, String name, String email, String password)
             throws IllegalArgumentException, JsonProcessingException, IOException {
         String userId = User.generateId(classType);
         User user;
@@ -54,7 +56,7 @@ public class UserServices {
      * @return Null in case of invalid credentials, or User instance otherwise ,
      *         check on type before usage
      */
-    public User login(String userId, String password) throws Exception {
+    public static User login(String userId, String password) throws Exception {
         String hashedPassword = User.getHashedPassword(password);
 
         if (userId.charAt(0) == 'i') {
@@ -94,11 +96,11 @@ public class UserServices {
         return false;
     }
 
-    public boolean deleteUser(User user) throws Exception {
+    public  static boolean deleteUser(User user) throws Exception {
         return deleteUserById(user.getUserId());
     }
 
-    public boolean deleteUserById(String userId) throws Exception {
+    public static boolean deleteUserById(String userId) throws Exception {
         if (userId.charAt(0) == 'i') {
             for (int i = 0; i < JsonHandler.instructors.size(); i++) {
                 if (JsonHandler.instructors.get(i).getUserId().equals(userId)) {
