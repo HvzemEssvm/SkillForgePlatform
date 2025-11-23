@@ -187,9 +187,17 @@ public class CourseServices {
             throw new IllegalArgumentException("Student ID cannot be null or empty");
         }
 
+        // Check if already enrolled in course's student list
         ArrayList<String> studentIds = course.getStudentIds();
         if (studentIds.contains(studentId)) {
             return false; // Already enrolled
+        }
+
+        // Check if enrollment already exists in student's enrollment list
+        for (Enrollment enrollment : student.getEnrollments()) {
+            if (enrollment.getCourseId().equals(courseId)) {
+                return false; // Enrollment already exists
+            }
         }
 
         boolean enrolled = course.enrollStudent(studentId);
@@ -394,25 +402,22 @@ public class CourseServices {
         return foundAt;
     }
 
-    public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException,JsonProcessingException
-    {
+    public static ArrayList<Course> getCoursesByStatus(Status status) throws IOException, JsonProcessingException {
         ArrayList<Course> courses = new ArrayList<>();
-        for(Course  course   :   CourseServices.getAllCourses())
-        {
-            if(course.getStatus()==status)
-            {
+        for (Course course : CourseServices.getAllCourses()) {
+            if (course.getStatus() == status) {
                 courses.add(course);
             }
         }
         return courses;
     }
-    
-    public static Course updateCourseStatus(String courseId,Status status) throws IllegalArgumentException, IOException
-    {
+
+    public static Course updateCourseStatus(String courseId, Status status)
+            throws IllegalArgumentException, IOException {
         Course course = CourseServices.findCourseById(courseId);
         course.setStatus(status);
         JsonHandler.saveCourses();
         return course;
     }
-    
+
 }
