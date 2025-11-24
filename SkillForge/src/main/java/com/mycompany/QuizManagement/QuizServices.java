@@ -94,19 +94,18 @@ public class QuizServices {
 
         // Determine attempt number
         int attemptNumber = 1;
-        List<com.mycompany.CourseManagement.QuizAttempt> attempts = progress.getQuizAttempts();
-        for (com.mycompany.CourseManagement.QuizAttempt attempt : attempts) {
+        List<QuizAttempt> attempts = progress.getQuizAttempts();
+        for (QuizAttempt attempt : attempts) {
             if (attempt.getLessonId().equals(lessonId)) {
                 attemptNumber++;
             }
         }
 
         // Create quiz attempt for CourseProgress
-        com.mycompany.CourseManagement.QuizAttempt quizAttempt = new com.mycompany.CourseManagement.QuizAttempt();
+        QuizAttempt quizAttempt = new QuizAttempt();
         quizAttempt.setQuizId(quiz.getQuizId());
         quizAttempt.setLessonId(lessonId);
         quizAttempt.setCourseId(courseId);
-        quizAttempt.setStudentId(studentId);
         quizAttempt.setScorePercent(scorePercentage);
         quizAttempt.setPassed(passed);
         quizAttempt.setAttemptTime(Instant.now().toString());
@@ -150,7 +149,7 @@ public class QuizServices {
 
         // Convert QuizAttempts to QuizResults for this lesson
         int attemptNum = 1;
-        for (com.mycompany.CourseManagement.QuizAttempt attempt : progress.getQuizAttempts()) {
+        for (QuizAttempt attempt : progress.getQuizAttempts()) {
             if (attempt.getLessonId().equals(lessonId)) {
                 QuizResult result = new QuizResult(
                         lessonId,
@@ -186,7 +185,7 @@ public class QuizServices {
         }
 
         int bestScore = -1;
-        for (com.mycompany.CourseManagement.QuizAttempt attempt : progress.getQuizAttempts()) {
+        for (QuizAttempt attempt : progress.getQuizAttempts()) {
             if (attempt.getLessonId().equals(lessonId)) {
                 if (attempt.getScorePercent() > bestScore) {
                     bestScore = attempt.getScorePercent();

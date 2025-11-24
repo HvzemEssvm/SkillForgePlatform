@@ -3,9 +3,11 @@ package com.mycompany.CourseManagement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mycompany.JsonHandler.JsonHandler;
 import com.mycompany.UserAccountManagement.Student;
+import com.mycompany.QuizManagement.QuizAttempt;
+import com.mycompany.QuizManagement.Quiz;
+import com.mycompany.QuizManagement.Question;
 import java.io.IOException;
 import java.util.ArrayList;
-import com.mycompany.CourseManagement.QuizAttempt;
 
 public class CourseServices {
     private static int foundAt;
@@ -127,7 +129,7 @@ public class CourseServices {
         boolean enrolled = course.enrollStudent(studentId);
         if (enrolled) {
             // Initialize CourseProgress for this course
-            CourseProgress progress = student.getCourseProgress(courseId);
+            student.getCourseProgress(courseId);
 
             JsonHandler.saveCourses();
             JsonHandler.saveUsers();
@@ -297,13 +299,56 @@ public class CourseServices {
         return foundAt;
     }
 
-    public static void submitQuizAttempt(QuizAttempt quizAttempt) throws IOException, Exception {
-
-        Student student = JsonHandler.getStudent(quizAttempt.getStudentId());
+    public static void submitQuizAttempt(String studentId, QuizAttempt quizAttempt) throws IOException, Exception {
+        Student student = JsonHandler.getStudent(studentId);
         if (student != null) {
             student.submitQuiz(quizAttempt);
+            // Update quiz average score across all students
+            updateQuizAverageScore(quizAttempt.getCourseId(), quizAttempt.getLessonId());
         } else {
-            throw new IOException("Student not found: " + quizAttempt.getStudentId());
+            throw new IOException("Student not found: " + studentId);
+        }
+    }
+
+    private static void updateQuizAverageScore(String courseId, String lessonId) throws IOException {
+        Course course = findCourseById(courseId);
+        Lesson lesson = findLessonById(lessonId);
+
+        if (lesson == null || lesson.getQuiz() == null || course == null) {
+            return;
+        }
+
+        // Get all enrolled students
+        ArrayList<String> studentIds = course.getStudentIds();
+        int totalScore = 0;
+        int studentCount = 0;
+
+        // Calculate average across all students (best score for each)
+        for (String sid : studentIds) {
+            Student student = JsonHandler.getStudent(sid);
+            if (student != null) {
+                CourseProgress progress = student.getCourseProgress(courseId);
+                if (progress != null) {
+                    int bestScore = -1;
+                    for (QuizAttempt attempt : progress.getQuizAttempts()) {
+                        if (attempt.getLessonId().equals(lessonId)) {
+                            if (attempt.getScorePercent() > bestScore) {
+                                bestScore = attempt.getScorePercent();
+                            }
+                        }
+                    }
+                    if (bestScore >= 0) {
+                        totalScore += bestScore;
+                        studentCount++;
+                    }
+                }
+            }
+        }
+
+        if (studentCount > 0) {
+            double averageScore = (double) totalScore / studentCount;
+            lesson.getQuiz().setAverageScore(Math.round(averageScore * 100.0) / 100.0);
+            JsonHandler.saveCourses();
         }
     }
 
@@ -363,88 +408,64 @@ public class CourseServices {
         Lesson lesson = findLessonById(lessonId);
         if (lesson != null) {
             lesson.setQuizId(quiz.getQuizId());
+            lesson.setQuiz(quiz);
             JsonHandler.saveCourses();
         }
     }
-    
-    public static Quiz getQuizByLessonId(String lessonId) throws IOException {
+
+    public static com.mycompany.QuizManagement.Quiz getQuizByLessonId(String lessonId) throws IOException {
         Lesson lesson = findLessonById(lessonId);
-        if (lesson != null && lesson.getQuizId() != null) {
-            return null;
+        if (lesson != null && lesson.getQuiz() != null) {
+            return lesson.getQuiz();
         }
         return null;
     }
-    
-    public static void completeLessonViaQuiz(String studentId, String lessonId) throws IOException {
+
+    public static void completeLessonViaQuiz(String studentId, String lessonId) throws IOException, Exception {
         markLessonCompleted(studentId, lessonId);
         System.out.println("Lesson " + lessonId + " completed automatically for student " + studentId);
     }
-    
+
     public static boolean canTakeQuiz(String studentId, String lessonId) throws IOException {
         return QuizServices.getRemainingAttempts(studentId, lessonId) > 0;
     }
-    
+
     public static boolean isLessonCompleted(String studentId, String lessonId) throws IOException {
         if (QuizServices.isLessonCompletedViaQuiz(studentId, lessonId)) {
             return true;
         }
-        
+
         try {
             Course course = findCourseByLessonId(lessonId);
             if (course != null) {
-                return checkLessonCompletedInEnrollments(studentId, course.getCourseId(), lessonId);
+                Student student = JsonHandler.getStudent(studentId);
+                if (student != null) {
+                    CourseProgress progress = student.getCourseProgress(course.getCourseId());
+                    if (progress != null) {
+                        String status = progress.getLessonStatus().get(lessonId);
+                        return "PASSED".equals(status);
+                    }
+                }
             }
         } catch (Exception e) {
         }
-        
+
         return false;
     }
-    
-    private static boolean checkLessonCompletedInEnrollments(String studentId, String courseId, String lessonId) {
-        Student student = JsonHandler.getStudent(studentId);
-        for (Enrollment enrollment : student.getEnrollments()) {
-            if (enrollment.getCourseId().equals(courseId)) {
-                return enrollment.getCompletedLessons().contains(lessonId);
-            }
-        }
-        return false;
-    }
-    
-    public static void markLessonAsComplete(String studentId, String lessonId) throws IOException {
+
+    public static void markLessonAsComplete(String studentId, String lessonId) throws Exception {
         markLessonCompleted(studentId, lessonId);
     }
-    
-    public static Quiz getQuizForLesson(String lessonId) throws IOException {
-        return createSampleQuizForLesson(lessonId);
-    }
-    
-    private static Quiz createSampleQuizForLesson(String lessonId) {
-        try {
-            ArrayList<Question> questions = new ArrayList<>();
-            
-            questions.add(QuizServices.createQuestion(
-                "What did you learn in this lesson?",
-                new String[]{"Nothing", "Something", "Everything", "Not sure"},
-                1,
-                "You should have learned something from this lesson"
-            ));
-            
-            questions.add(QuizServices.createQuestion(
-                "Is this lesson important?",
-                new String[]{"No", "Maybe", "Yes", "I don't know"},
-                2,
-                "All lessons are important for your learning"
-            ));
-            
-            return QuizServices.createQuiz(lessonId, questions);
-            
-        } catch (IOException e) {
-            System.out.println("Error creating sample quiz: " + e.getMessage());
-            return new Quiz(lessonId);
+
+    public static com.mycompany.QuizManagement.Quiz getQuizForLesson(String lessonId) throws IOException {
+        Lesson lesson = findLessonById(lessonId);
+        if (lesson != null) {
+            return lesson.getQuiz();
         }
+        return null;
     }
-    
-    public static Lesson addLessonToCourse(String courseId, String lessonTitle, String lessonContent) 
+
+    public static Lesson addLessonToCourse(String courseId, String lessonTitle, String lessonContent)
             throws IOException {
         Lesson lesson = createLesson(lessonTitle, lessonContent);
         return addLessonToCourse(courseId, lesson);

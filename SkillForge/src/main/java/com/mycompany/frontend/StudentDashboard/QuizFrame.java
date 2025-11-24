@@ -4,12 +4,12 @@ import com.mycompany.CourseManagement.CourseServices;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import com.mycompany.CourseManagement.Quiz;
-import com.mycompany.CourseManagement.Question;
+import com.mycompany.QuizManagement.Quiz;
+import com.mycompany.QuizManagement.Question;
+import com.mycompany.QuizManagement.QuizAttempt;
 import com.mycompany.CourseManagement.QuizServices;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class QuizFrame extends JFrame {
@@ -19,19 +19,21 @@ public class QuizFrame extends JFrame {
     private JButton submitButton;
     private JPanel mainPanel;
     private CardLayout cardLayout;
-    
+
     private Quiz currentQuiz;
     private ArrayList<Integer> userAnswers;
     private int currentQuestionIndex;
     private int score;
     private CourseDetailsFrame parentFrame;
     private String lessonId;
+    private String courseId;
     private String studentId; // إضافة studentId كمتغير
 
-    public QuizFrame(Quiz quiz, CourseDetailsFrame parentFrame, String lessonId) {
+    public QuizFrame(Quiz quiz, CourseDetailsFrame parentFrame, String lessonId, String courseId) {
         this.currentQuiz = quiz;
         this.parentFrame = parentFrame;
         this.lessonId = lessonId;
+        this.courseId = courseId;
         // جلب الـ studentId من الـ parentFrame
         this.studentId = (parentFrame != null) ? getStudentIdFromParent(parentFrame) : "s1";
         initializeQuiz();
@@ -73,74 +75,91 @@ public class QuizFrame extends JFrame {
         return "s1"; // fallback
     }
 
+    // Helper method to get total number of questions
+    private int getTotalQuestions() {
+        return (currentQuiz != null && currentQuiz.getQuestions() != null) ? currentQuiz.getQuestions().size() : 0;
+    }
+
+    // Helper method to get a question by index
+    private Question getQuestion(int index) {
+        if (currentQuiz != null && currentQuiz.getQuestions() != null &&
+                index >= 0 && index < currentQuiz.getQuestions().size()) {
+            return currentQuiz.getQuestions().get(index);
+        }
+        return null;
+    }
+
     private void initializeQuiz() {
         this.userAnswers = new ArrayList<>();
         this.buttonGroups = new ArrayList<>();
-        
-        if (currentQuiz != null && currentQuiz.getTotalQuestions() > 0) {
-            this.optionButtonsArray = new JRadioButton[currentQuiz.getTotalQuestions()][4];
-            
-            for (int i = 0; i < currentQuiz.getTotalQuestions(); i++) {
+
+        int totalQuestions = getTotalQuestions();
+        if (currentQuiz != null && totalQuestions > 0) {
+            this.optionButtonsArray = new JRadioButton[totalQuestions][4];
+
+            for (int i = 0; i < totalQuestions; i++) {
                 userAnswers.add(-1);
                 buttonGroups.add(new ButtonGroup());
             }
         } else {
             this.optionButtonsArray = new JRadioButton[0][4];
         }
-        
+
         this.currentQuestionIndex = 0;
         this.score = 0;
     }
 
     private void setupUI() {
-        setTitle("Course Quiz");
-        setSize(600, 400);
+        setTitle("Quiz");
+        setSize(550, 380);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        
+
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        
+
         createQuestionPanels();
-        
+
         add(mainPanel);
         cardLayout.first(mainPanel);
     }
 
     private void createQuestionPanels() {
-        if (currentQuiz == null || currentQuiz.getTotalQuestions() == 0) {
+        int totalQuestions = getTotalQuestions();
+        if (currentQuiz == null || totalQuestions == 0) {
             JPanel noQuestionsPanel = new JPanel(new BorderLayout());
-            noQuestionsPanel.add(new JLabel("No questions available for this quiz", JLabel.CENTER), BorderLayout.CENTER);
+            noQuestionsPanel.add(new JLabel("No questions available for this quiz", JLabel.CENTER),
+                    BorderLayout.CENTER);
             mainPanel.add(noQuestionsPanel, "noQuestions");
             return;
         }
 
-        for (int i = 0; i < currentQuiz.getTotalQuestions(); i++) {
+        for (int i = 0; i < totalQuestions; i++) {
             JPanel questionPanel = createQuestionPanel(i);
             mainPanel.add(questionPanel, "question" + i);
         }
-        
+
         JPanel resultsPanel = createResultsPanel();
         mainPanel.add(resultsPanel, "results");
     }
 
     private JPanel createQuestionPanel(int questionIndex) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
 
-        Question question = currentQuiz.getQuestion(questionIndex);
-        JLabel questionLabel = new JLabel("<html><body style='width: 300px'>" + 
-            (questionIndex + 1) + ". " + question.getQuestionText() + "</body></html>");
-        questionLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        Question question = getQuestion(questionIndex);
+        JLabel questionLabel = new JLabel((questionIndex + 1) + ". " + question.getQuestionText());
+        questionLabel.setFont(new Font("Arial", Font.BOLD, 14));
         panel.add(questionLabel, BorderLayout.NORTH);
 
-        JPanel optionsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
+        JPanel optionsPanel = new JPanel();
+        optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
         ButtonGroup currentButtonGroup = buttonGroups.get(questionIndex);
         JRadioButton[] optionButtons = new JRadioButton[4];
 
-        String[] currentOptions = question.getOptions();
-        for (int j = 0; j < 4; j++) {
-            optionButtons[j] = new JRadioButton(currentOptions[j]);
+        ArrayList<String> currentOptions = question.getOptions();
+        for (int j = 0; j < currentOptions.size() && j < 4; j++) {
+            optionButtons[j] = new JRadioButton(currentOptions.get(j));
             optionButtons[j].setActionCommand(String.valueOf(j));
             currentButtonGroup.add(optionButtons[j]);
             optionsPanel.add(optionButtons[j]);
@@ -150,25 +169,26 @@ public class QuizFrame extends JFrame {
         panel.add(optionsPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
-        
+
         if (questionIndex > 0) {
             JButton prevButton = new JButton("Previous");
             prevButton.addActionListener(e -> showPreviousQuestion());
             buttonPanel.add(prevButton);
         }
-        
-        if (questionIndex < currentQuiz.getTotalQuestions() - 1) {
+
+        int totalQuestions = getTotalQuestions();
+        if (questionIndex < totalQuestions - 1) {
             nextButton = new JButton("Next");
             nextButton.addActionListener(e -> saveAndNext());
             buttonPanel.add(nextButton);
         } else {
-            submitButton = new JButton("Submit Quiz");
+            submitButton = new JButton("Submit");
             submitButton.addActionListener(e -> submitQuiz());
             buttonPanel.add(submitButton);
         }
 
         panel.add(buttonPanel, BorderLayout.SOUTH);
-        
+
         return panel;
     }
 
@@ -202,8 +222,9 @@ public class QuizFrame extends JFrame {
     }
 
     private void saveCurrentAnswer() {
-        if (currentQuestionIndex < 0 || currentQuestionIndex >= userAnswers.size()) return;
-        
+        if (currentQuestionIndex < 0 || currentQuestionIndex >= userAnswers.size())
+            return;
+
         ButtonModel selectedModel = buttonGroups.get(currentQuestionIndex).getSelection();
         if (selectedModel != null) {
             int selectedIndex = Integer.parseInt(selectedModel.getActionCommand());
@@ -214,8 +235,9 @@ public class QuizFrame extends JFrame {
     }
 
     private void displaySavedAnswer(int questionIndex) {
-        if (questionIndex < 0 || questionIndex >= userAnswers.size()) return;
-        
+        if (questionIndex < 0 || questionIndex >= userAnswers.size())
+            return;
+
         int savedAnswer = userAnswers.get(questionIndex);
         if (savedAnswer != -1) {
             buttonGroups.get(questionIndex).clearSelection();
@@ -233,21 +255,27 @@ public class QuizFrame extends JFrame {
 
     private void calculateScore() {
         this.score = 0;
-        if (currentQuiz == null) return;
-        
-        for (int i = 0; i < currentQuiz.getTotalQuestions(); i++) {
+        if (currentQuiz == null)
+            return;
+
+        int totalQuestions = getTotalQuestions();
+        for (int i = 0; i < totalQuestions; i++) {
             if (i < userAnswers.size()) {
                 int userAnswer = userAnswers.get(i);
-                int correctAnswer = currentQuiz.getQuestion(i).getCorrectOptionIndex();
-                
-                System.out.println("Q" + i + ": User=" + userAnswer + ", Correct=" + correctAnswer + " -> " + (userAnswer == correctAnswer ? "CORRECT" : "WRONG"));
-                
-                if (userAnswer != -1 && userAnswer == correctAnswer) {
-                    score++;
+                Question q = getQuestion(i);
+                if (q != null) {
+                    int correctAnswer = q.getCorrectAnswerIndex();
+
+                    System.out.println("Q" + i + ": User=" + userAnswer + ", Correct=" + correctAnswer + " -> "
+                            + (userAnswer == correctAnswer ? "CORRECT" : "WRONG"));
+
+                    if (userAnswer != -1 && userAnswer == correctAnswer) {
+                        score++;
+                    }
                 }
             }
         }
-        System.out.println("Final Score: " + score + "/" + currentQuiz.getTotalQuestions());
+        System.out.println("Final Score: " + score + "/" + totalQuestions);
     }
 
     private void showResults() {
@@ -256,53 +284,59 @@ public class QuizFrame extends JFrame {
             dispose();
             return;
         }
-        
-        boolean passed = currentQuiz.isPassed(score);
-        double percentage = currentQuiz.calculatePercentage(score);
-        
+
+        int totalQuestions = getTotalQuestions();
+        double percentage = (totalQuestions > 0) ? (score * 100.0 / totalQuestions) : 0;
+        boolean passed = percentage >= currentQuiz.getPassingScore();
+
         String message = String.format(
-            "Quiz Completed!\n\nScore: %d/%d (%.1f%%)\n\n%s",
-            score, currentQuiz.getTotalQuestions(), percentage,
-            passed ? "Congratulations! You passed!" : "Try again!"
-        );
-        
+                "Score: %d/%d (%.0f%%)\n%s",
+                score, totalQuestions, percentage,
+                passed ? "You passed" : "Failed");
+
         System.out.println("=== QUIZ FINAL RESULTS ===");
         System.out.println("Student: " + studentId);
-        System.out.println("Score: " + score + "/" + currentQuiz.getTotalQuestions());
+        System.out.println("Score: " + score + "/" + totalQuestions);
         System.out.println("Percentage: " + percentage + "%");
         System.out.println("Passed: " + passed);
         System.out.println("Lesson ID: " + lessonId);
-        
+
         try {
-            // استخدام الـ studentId الفعلي بدل الثابت
-            QuizServices.submitQuizResult(studentId, currentQuiz.getQuizId(), score, passed);
-            
-            if (passed) {
-                String actualLessonId = (this.lessonId != null) ? this.lessonId : currentQuiz.getLessonId().replace("QZ", "L");
-                System.out.println("Completing lesson: " + actualLessonId);
-                
-                CourseServices.completeLessonViaQuiz(studentId, actualLessonId);
-                
+            QuizServices.submitQuizResult(studentId, currentQuiz.getQuizId(), (int) percentage, passed);
+
+            // Create and submit QuizAttempt to update course progress
+            QuizAttempt attempt = new QuizAttempt();
+            attempt.setQuizId(currentQuiz.getQuizId());
+            attempt.setLessonId(this.lessonId);
+            attempt.setCourseId(this.courseId);
+            attempt.setScorePercent((int) percentage);
+            attempt.setPassed(passed);
+            attempt.setAttemptTime(Instant.now().toString());
+
+            CourseServices.submitQuizAttempt(studentId, attempt);
+
+            if (passed && this.lessonId != null) {
+                System.out.println("Completing lesson: " + this.lessonId);
+
+                CourseServices.completeLessonViaQuiz(studentId, this.lessonId);
+
                 if (parentFrame != null) {
-       
                     parentFrame.refreshCourseDetails();
-           
-         
-                    
-                    JOptionPane.showMessageDialog(this, 
-                        "✅ Quiz passed! You can now mark the lesson as complete.", 
-                        "Success", 
-                        JOptionPane.INFORMATION_MESSAGE);
+
+                    JOptionPane.showMessageDialog(this,
+                            "✅ Quiz passed! You can now mark the lesson as complete.",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println("Error saving quiz results: " + ex.getMessage());
             JOptionPane.showMessageDialog(this, "Error saving results: " + ex.getMessage());
         }
-        
-        JOptionPane.showMessageDialog(this, message, "Quiz Results", 
-            JOptionPane.INFORMATION_MESSAGE);
-        
+
+        JOptionPane.showMessageDialog(this, message, "Quiz Results",
+                JOptionPane.INFORMATION_MESSAGE);
+
         dispose();
     }
 
@@ -337,41 +371,13 @@ public class QuizFrame extends JFrame {
         });
     }
 
-    public static void startQuiz(Quiz quiz, CourseDetailsFrame parentFrame, String lessonId) {
+    public static void startQuiz(Quiz quiz, CourseDetailsFrame parentFrame, String lessonId, String courseId) {
         SwingUtilities.invokeLater(() -> {
-            new QuizFrame(quiz, parentFrame, lessonId).setVisible(true);
+            new QuizFrame(quiz, parentFrame, lessonId, courseId).setVisible(true);
         });
     }
 
     private Quiz createSampleQuiz() {
-        try {
-            ArrayList<Question> questions = new ArrayList<>();
-            
-            questions.add(QuizServices.createQuestion(
-                "What is the capital of France?",
-                new String[]{"London", "Berlin", "Paris", "Madrid"},
-                2,
-                "Paris is the capital of France"
-            ));
-            
-            questions.add(QuizServices.createQuestion(
-                "Which programming language is this?",
-                new String[]{"Python", "C++", "Java", "JavaScript"},
-                2,
-                "This application is built using Java"
-            ));
-            
-            questions.add(QuizServices.createQuestion(
-                "What is 2 + 2?",
-                new String[]{"3", "4", "5", "6"},
-                1,
-                "Basic arithmetic: 2 + 2 = 4"
-            ));
-            
-            return QuizServices.createQuiz("L1", questions);
-            
-        } catch (IOException e) {
-            return new Quiz("L1");
-        }
+        return new Quiz("L1", new ArrayList<>(), 70);
     }
 }

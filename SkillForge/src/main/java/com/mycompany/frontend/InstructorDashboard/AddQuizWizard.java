@@ -7,6 +7,8 @@ package com.mycompany.frontend.InstructorDashboard;
 import javax.swing.*;
 import java.awt.*;
 import com.mycompany.CourseManagement.*;
+import com.mycompany.QuizManagement.Quiz;
+import com.mycompany.QuizManagement.Question;
 import com.mycompany.UserAccountManagement.Instructor;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class AddQuizWizard extends JDialog {
     private Course selectedCourse;
     private Lesson selectedLesson;
     private ArrayList<Question> questions;
-    
+
     private JComboBox<Course> courseComboBox;
     private JComboBox<Lesson> lessonComboBox;
     private JPanel questionsPanel;
@@ -44,7 +46,7 @@ public class AddQuizWizard extends JDialog {
         questionsPanel = new JPanel();
         questionsPanel.setLayout(new BoxLayout(questionsPanel, BoxLayout.Y_AXIS));
         questionsPanel.setBorder(BorderFactory.createTitledBorder("Quiz Questions"));
-        
+
         JScrollPane scrollPane = new JScrollPane(questionsPanel);
         scrollPane.setPreferredSize(new Dimension(800, 400));
         add(scrollPane, BorderLayout.CENTER);
@@ -75,18 +77,15 @@ public class AddQuizWizard extends JDialog {
     private JPanel createButtonPanel() {
         JPanel panel = new JPanel(new FlowLayout());
 
-        btnAddQuestion = new JButton("➕ Add New Question");
-        btnAddQuestion.setFont(new Font("Arial", Font.BOLD, 14));
+        btnAddQuestion = new JButton("Add Question");
         btnAddQuestion.addActionListener(e -> addNewQuestion());
         panel.add(btnAddQuestion);
 
-        btnSaveQuiz = new JButton("💾 Save Quiz");
-        btnSaveQuiz.setFont(new Font("Arial", Font.BOLD, 14));
+        btnSaveQuiz = new JButton("Save Quiz");
         btnSaveQuiz.addActionListener(e -> saveQuiz());
         panel.add(btnSaveQuiz);
 
-        JButton btnCancel = new JButton("❌ Cancel");
-        btnCancel.setFont(new Font("Arial", Font.PLAIN, 14));
+        JButton btnCancel = new JButton("Cancel");
         btnCancel.addActionListener(e -> dispose());
         panel.add(btnCancel);
 
@@ -97,11 +96,11 @@ public class AddQuizWizard extends JDialog {
         try {
             ArrayList<Course> courses = instructor.getMyCourses();
             courseComboBox.removeAllItems();
-            
+
             for (Course course : courses) {
                 courseComboBox.addItem(course);
             }
-            
+
             if (courses.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "You don't have any courses yet!");
             }
@@ -113,14 +112,14 @@ public class AddQuizWizard extends JDialog {
     private void onCourseSelected() {
         selectedCourse = (Course) courseComboBox.getSelectedItem();
         lessonComboBox.removeAllItems();
-        
+
         if (selectedCourse != null) {
             try {
                 ArrayList<Lesson> lessons = selectedCourse.getLessons();
                 for (Lesson lesson : lessons) {
                     lessonComboBox.addItem(lesson);
                 }
-                
+
                 if (lessons.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "This course doesn't have any lessons yet!");
                 }
@@ -128,7 +127,7 @@ public class AddQuizWizard extends JDialog {
                 JOptionPane.showMessageDialog(this, "Error loading lessons: " + e.getMessage());
             }
         }
-        
+
         updateButtonsState();
     }
 
@@ -152,12 +151,12 @@ public class AddQuizWizard extends JDialog {
         QuestionPanel questionPanel = new QuestionPanel(questions.size() + 1);
         questionsPanel.add(questionPanel);
         questionsPanel.add(Box.createVerticalStrut(10));
-        
+
         questions.add(null); // Placeholder for the question
-        
+
         questionsPanel.revalidate();
         questionsPanel.repaint();
-        
+
         updateButtonsState();
     }
 
@@ -178,8 +177,8 @@ public class AddQuizWizard extends JDialog {
         // التأكد من أن كل الأسئلة مكتملة
         for (int i = 0; i < questions.size(); i++) {
             if (questions.get(i) == null) {
-                JOptionPane.showMessageDialog(this, 
-                    "Question " + (i + 1) + " is not complete!\nPlease fill all fields.");
+                JOptionPane.showMessageDialog(this,
+                        "Question " + (i + 1) + " is not complete!\nPlease fill all fields.");
                 return;
             }
         }
@@ -187,17 +186,13 @@ public class AddQuizWizard extends JDialog {
         try {
             // إنشاء الكويز
             Quiz quiz = QuizServices.createQuiz(selectedLesson.getLessonId(), questions);
-            
+
             // ربط الكويز بالدرس
             CourseServices.assignQuizToLesson(selectedLesson.getLessonId(), quiz);
-            
-            JOptionPane.showMessageDialog(this, 
-                "Quiz created successfully!\n" +
-                "Total questions: " + questions.size() + "\n" +
-                "Lesson: " + selectedLesson.getTitle());
-            
+
+            JOptionPane.showMessageDialog(this, "Quiz saved successfully!");
             dispose();
-            
+
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Error saving quiz: " + e.getMessage());
         }
@@ -206,12 +201,12 @@ public class AddQuizWizard extends JDialog {
     private void collectQuestionsFromUI() {
         Component[] components = questionsPanel.getComponents();
         int questionIndex = 0;
-        
+
         for (Component comp : components) {
             if (comp instanceof QuestionPanel) {
                 QuestionPanel qp = (QuestionPanel) comp;
                 Question question = qp.getQuestion();
-                
+
                 if (question != null) {
                     if (questionIndex < questions.size()) {
                         questions.set(questionIndex, question);

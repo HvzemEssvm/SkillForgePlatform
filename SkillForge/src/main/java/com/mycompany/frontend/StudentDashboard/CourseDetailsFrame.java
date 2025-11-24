@@ -5,7 +5,7 @@ import java.awt.*;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
-import com.mycompany.CourseManagement.Quiz;
+import com.mycompany.QuizManagement.Quiz;
 import com.mycompany.CourseManagement.QuizServices;
 import com.mycompany.UserAccountManagement.Student;
 import java.io.IOException;
@@ -55,9 +55,8 @@ public class CourseDetailsFrame extends JPanel {
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBackground(Color.WHITE);
         infoPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createEmptyBorder(20, 20, 20, 20),
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true)
-        ));
+                BorderFactory.createEmptyBorder(20, 20, 20, 20),
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true)));
 
         JLabel titleLabel = new JLabel("Title: " + safeString(course.getTitle()));
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -133,10 +132,12 @@ public class CourseDetailsFrame extends JPanel {
 
     private boolean canAccessLesson(Lesson lesson, int lessonIndex) {
         try {
-            if (lessonIndex == 0) return true;
+            if (lessonIndex == 0)
+                return true;
 
             ArrayList<Lesson> allLessons = student.getCourseLessons(course.getCourseId());
-            if (allLessons == null || lessonIndex - 1 < 0 || lessonIndex - 1 >= allLessons.size()) return false;
+            if (allLessons == null || lessonIndex - 1 < 0 || lessonIndex - 1 >= allLessons.size())
+                return false;
 
             Lesson prev = allLessons.get(lessonIndex - 1);
             return CourseServices.isLessonCompleted(student.getUserId(), prev.getLessonId());
@@ -148,7 +149,8 @@ public class CourseDetailsFrame extends JPanel {
     private boolean isQuizPassedForLesson(String lessonId) {
         try {
             ArrayList<Map<String, Object>> results = QuizServices.getStudentQuizResults(student.getUserId());
-            if (results == null || results.isEmpty()) return false;
+            if (results == null || results.isEmpty())
+                return false;
 
             for (Map<String, Object> result : results) {
                 boolean passed = (boolean) result.get("passed");
@@ -163,175 +165,179 @@ public class CourseDetailsFrame extends JPanel {
         }
     }
 
-private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
-    JPanel panel = new JPanel(new BorderLayout(10, 10));
-    panel.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
-        BorderFactory.createEmptyBorder(15, 15, 15, 15)
-    ));
-    panel.setBackground(Color.WHITE);
-    panel.setPreferredSize(new Dimension(700, 100));
-    panel.setName("lesson_" + lesson.getLessonId());
+    private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(220, 220, 220), 1, true),
+                BorderFactory.createEmptyBorder(15, 15, 15, 15)));
+        panel.setBackground(Color.WHITE);
+        panel.setPreferredSize(new Dimension(700, 100));
+        panel.setName("lesson_" + lesson.getLessonId());
 
-    JLabel titleLabel = new JLabel(safeString(lesson.getTitle()));
-    titleLabel.setFont(new Font("Arial", Font.BOLD, 15));
-    titleLabel.setForeground(new Color(40, 40, 40));
+        JLabel titleLabel = new JLabel(safeString(lesson.getTitle()));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        titleLabel.setForeground(new Color(40, 40, 40));
 
-    boolean canAccess = canAccessLesson(lesson, lessonIndex);
-    boolean isCompleted = false;
-    try {
-        isCompleted = CourseServices.isLessonCompleted(student.getUserId(), lesson.getLessonId());
-    } catch (Exception e) {
-        System.out.println("Error checking lesson completion: " + e.getMessage());
-    }
-    
-    boolean quizPassed = isQuizPassedForLesson(lesson.getLessonId());
-
-    // جلب معلومات المحاولات
-    int remainingAttempts = 3;
-    int usedAttempts = 0;
-    try {
-        remainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
-        usedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
-    } catch (Exception e) {
-        System.out.println("Error getting attempts: " + e.getMessage());
-    }
-
-    System.out.println("Lesson: " + lesson.getTitle() + " | Access: " + canAccess + " | Completed: " + isCompleted + " | QuizPassed: " + quizPassed + " | Attempts: " + usedAttempts + "/3");
-
-    JButton contentButton = new JButton("View Content");
-    contentButton.setFont(new Font("Arial", Font.PLAIN, 12));
-    contentButton.setBackground(canAccess ? new Color(70, 130, 180) : new Color(200, 200, 200));
-    contentButton.setForeground(canAccess ? Color.WHITE : new Color(150, 150, 150));
-    contentButton.setFocusPainted(false);
-    contentButton.setCursor(canAccess ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
-    contentButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
-    contentButton.setEnabled(canAccess);
-    contentButton.addActionListener(e -> {
-        if (canAccess) showLessonContent(lesson);
-        else JOptionPane.showMessageDialog(this, "Please complete the previous lesson first!", "Lesson Locked", JOptionPane.WARNING_MESSAGE);
-    });
-
-    // زر الكويز مع إدارة المحاولات
-    JButton quizButton = new JButton("Take Quiz (" + remainingAttempts + " left)");
-    quizButton.setFont(new Font("Arial", Font.PLAIN, 12));
-    
-    boolean canTakeQuiz = canAccess && !isCompleted && remainingAttempts > 0;
-    quizButton.setBackground(canTakeQuiz ? new Color(255, 193, 7) : new Color(200, 200, 200));
-    quizButton.setForeground(canTakeQuiz ? Color.BLACK : new Color(150, 150, 150));
-    quizButton.setFocusPainted(false);
-    quizButton.setCursor(canTakeQuiz ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
-    quizButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
-    quizButton.setEnabled(canTakeQuiz);
-
-    quizButton.addActionListener(e -> {
-        // جلب معلومات المحاولات من جديد علشان نتأكد
-        int currentRemainingAttempts = 3;
-        int currentUsedAttempts = 0;
+        boolean canAccess = canAccessLesson(lesson, lessonIndex);
+        boolean isCompleted = false;
         try {
-            currentRemainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
-            currentUsedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
-        } catch (Exception ex) {
-            System.out.println("Error getting attempts in action listener: " + ex.getMessage());
-        }
-        
-        if (!canAccess) {
-            JOptionPane.showMessageDialog(this, "Please complete the previous lesson first!", "Lesson Locked", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        if (currentRemainingAttempts <= 0) {
-            JOptionPane.showMessageDialog(this, 
-                "No more quiz attempts left!\n\n" +
-                "You have used all 3 attempts for this quiz.\n" +
-                "Used attempts: " + currentUsedAttempts + "/3\n" +
-                "Please contact your instructor.",
-                "Maximum Attempts Reached", JOptionPane.WARNING_MESSAGE);
-            return;
+            isCompleted = CourseServices.isLessonCompleted(student.getUserId(), lesson.getLessonId());
+        } catch (Exception e) {
+            System.out.println("Error checking lesson completion: " + e.getMessage());
         }
 
+        boolean quizPassed = isQuizPassedForLesson(lesson.getLessonId());
+
+        // جلب معلومات المحاولات
+        int remainingAttempts = 3;
+        int usedAttempts = 0;
         try {
-            // إظهار تحذير بالمحاولات المتبقية
-            if (currentRemainingAttempts == 1) {
-                int choice = JOptionPane.showConfirmDialog(this,
-                    "Last Attempt Warning!\n\n" +
-                    "This is your last attempt for this quiz.\n" +
-                    "Used attempts: " + currentUsedAttempts + "/3\n" +
-                    "Do you want to continue?",
-                    "Last Attempt", JOptionPane.YES_NO_OPTION);
-                
-                if (choice != JOptionPane.YES_OPTION) {
-                    return;
+            remainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
+            usedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
+        } catch (Exception e) {
+            System.out.println("Error getting attempts: " + e.getMessage());
+        }
+
+        System.out.println("Lesson: " + lesson.getTitle() + " | Access: " + canAccess + " | Completed: " + isCompleted
+                + " | QuizPassed: " + quizPassed + " | Attempts: " + usedAttempts + "/3");
+
+        JButton contentButton = new JButton("View Content");
+        contentButton.setFont(new Font("Arial", Font.PLAIN, 12));
+        contentButton.setBackground(canAccess ? new Color(70, 130, 180) : new Color(200, 200, 200));
+        contentButton.setForeground(canAccess ? Color.WHITE : new Color(150, 150, 150));
+        contentButton.setFocusPainted(false);
+        contentButton.setCursor(canAccess ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
+        contentButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        contentButton.setEnabled(canAccess);
+        contentButton.addActionListener(e -> {
+            if (canAccess)
+                showLessonContent(lesson);
+            else
+                JOptionPane.showMessageDialog(this, "Please complete the previous lesson first!", "Lesson Locked",
+                        JOptionPane.WARNING_MESSAGE);
+        });
+
+        // زر الكويز مع إدارة المحاولات
+        JButton quizButton = new JButton("Take Quiz (" + remainingAttempts + " left)");
+        quizButton.setFont(new Font("Arial", Font.PLAIN, 12));
+
+        boolean canTakeQuiz = canAccess && !isCompleted && remainingAttempts > 0;
+        quizButton.setBackground(canTakeQuiz ? new Color(255, 193, 7) : new Color(200, 200, 200));
+        quizButton.setForeground(canTakeQuiz ? Color.BLACK : new Color(150, 150, 150));
+        quizButton.setFocusPainted(false);
+        quizButton.setCursor(canTakeQuiz ? new Cursor(Cursor.HAND_CURSOR) : new Cursor(Cursor.DEFAULT_CURSOR));
+        quizButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        quizButton.setEnabled(canTakeQuiz);
+
+        quizButton.addActionListener(e -> {
+            // جلب معلومات المحاولات من جديد علشان نتأكد
+            int currentRemainingAttempts = 3;
+            int currentUsedAttempts = 0;
+            try {
+                currentRemainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
+                currentUsedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
+            } catch (Exception ex) {
+                System.out.println("Error getting attempts in action listener: " + ex.getMessage());
+            }
+
+            if (!canAccess) {
+                JOptionPane.showMessageDialog(this, "Please complete the previous lesson first!", "Lesson Locked",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (currentRemainingAttempts <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        "No more quiz attempts left!\n\n" +
+                                "You have used all 3 attempts for this quiz.\n" +
+                                "Used attempts: " + currentUsedAttempts + "/3\n" +
+                                "Please contact your instructor.",
+                        "Maximum Attempts Reached", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            try {
+                // إظهار تحذير بالمحاولات المتبقية
+                if (currentRemainingAttempts == 1) {
+                    int choice = JOptionPane.showConfirmDialog(this,
+                            "Last Attempt Warning!\n\n" +
+                                    "This is your last attempt for this quiz.\n" +
+                                    "Used attempts: " + currentUsedAttempts + "/3\n" +
+                                    "Do you want to continue?",
+                            "Last Attempt", JOptionPane.YES_NO_OPTION);
+
+                    if (choice != JOptionPane.YES_OPTION) {
+                        return;
+                    }
                 }
-            }
 
-            Quiz quiz = CourseServices.getQuizForLesson(lesson.getLessonId());
-            if (quiz != null) {
-                QuizFrame.startQuiz(quiz, this, lesson.getLessonId());
-            } else {
-                QuizFrame.startQuiz();
+                Quiz quiz = CourseServices.getQuizForLesson(lesson.getLessonId());
+                if (quiz != null) {
+                    QuizFrame.startQuiz(quiz, this, lesson.getLessonId(), course.getCourseId());
+                } else {
+                    QuizFrame.startQuiz();
+                }
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error loading quiz: " + ex.getMessage());
             }
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error loading quiz: " + ex.getMessage());
+        });
+
+        // مسحنا زر Mark Complete خالص من هنا
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(contentButton);
+        buttonPanel.add(quizButton);
+        // مش هنضيف زر complete خالص
+
+        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        statusPanel.setBackground(Color.WHITE);
+
+        // معلومات المحاولات
+        JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/3");
+        attemptsLabel.setFont(new Font("Arial", Font.BOLD, 11));
+        if (remainingAttempts == 0) {
+            attemptsLabel.setForeground(Color.RED);
+        } else if (remainingAttempts == 1) {
+            attemptsLabel.setForeground(new Color(255, 140, 0));
+        } else {
+            attemptsLabel.setForeground(new Color(40, 167, 69));
         }
-    });
+        statusPanel.add(attemptsLabel);
+        statusPanel.add(Box.createHorizontalStrut(10));
 
-    // مسحنا زر Mark Complete خالص من هنا
+        if (isCompleted) {
+            JLabel completedLabel = new JLabel("✓ Completed");
+            completedLabel.setFont(new Font("Arial", Font.BOLD, 12));
+            completedLabel.setForeground(new Color(40, 167, 69));
+            statusPanel.add(completedLabel);
+        } else if (quizPassed && canAccess && remainingAttempts > 0) {
+            JLabel passedLabel = new JLabel("✓ Quiz Passed — Lesson will auto-complete");
+            passedLabel.setFont(new Font("Arial", Font.BOLD, 12));
+            passedLabel.setForeground(new Color(40, 167, 69));
+            statusPanel.add(passedLabel);
+        } else if (remainingAttempts <= 0) {
+            JLabel noAttemptsLabel = new JLabel("No attempts left - Cannot complete");
+            noAttemptsLabel.setFont(new Font("Arial", Font.BOLD, 12));
+            noAttemptsLabel.setForeground(Color.RED);
+            statusPanel.add(noAttemptsLabel);
+        } else if (!quizPassed && canAccess && !isCompleted) {
+            JLabel quizRequiredLabel = new JLabel("⚠ Pass the quiz to complete");
+            quizRequiredLabel.setFont(new Font("Arial", Font.BOLD, 12));
+            quizRequiredLabel.setForeground(new Color(255, 193, 7));
+            statusPanel.add(quizRequiredLabel);
+        } else if (!canAccess) {
+            JLabel lockedLabel = new JLabel("🔒 Complete previous lesson first");
+            lockedLabel.setFont(new Font("Arial", Font.ITALIC, 11));
+            lockedLabel.setForeground(new Color(150, 150, 150));
+            statusPanel.add(lockedLabel);
+        }
 
-    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-    buttonPanel.setBackground(Color.WHITE);
-    buttonPanel.add(contentButton);
-    buttonPanel.add(quizButton);
-    // مش هنضيف زر complete خالص
-
-    JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-    statusPanel.setBackground(Color.WHITE);
-    
-    // معلومات المحاولات
-    JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/3");
-    attemptsLabel.setFont(new Font("Arial", Font.BOLD, 11));
-    if (remainingAttempts == 0) {
-        attemptsLabel.setForeground(Color.RED);
-    } else if (remainingAttempts == 1) {
-        attemptsLabel.setForeground(new Color(255, 140, 0));
-    } else {
-        attemptsLabel.setForeground(new Color(40, 167, 69));
+        panel.add(statusPanel, BorderLayout.NORTH);
+        panel.add(titleLabel, BorderLayout.WEST);
+        panel.add(buttonPanel, BorderLayout.EAST);
+        return panel;
     }
-    statusPanel.add(attemptsLabel);
-    statusPanel.add(Box.createHorizontalStrut(10));
-    
-    if (isCompleted) {
-        JLabel completedLabel = new JLabel("✓ Completed");
-        completedLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        completedLabel.setForeground(new Color(40, 167, 69));
-        statusPanel.add(completedLabel);
-    } else if (quizPassed && canAccess && remainingAttempts > 0) {
-        JLabel passedLabel = new JLabel("✓ Quiz Passed — Lesson will auto-complete");
-        passedLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        passedLabel.setForeground(new Color(40, 167, 69));
-        statusPanel.add(passedLabel);
-    } else if (remainingAttempts <= 0) {
-        JLabel noAttemptsLabel = new JLabel("No attempts left - Cannot complete");
-        noAttemptsLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        noAttemptsLabel.setForeground(Color.RED);
-        statusPanel.add(noAttemptsLabel);
-    } else if (!quizPassed && canAccess && !isCompleted) {
-        JLabel quizRequiredLabel = new JLabel("⚠ Pass the quiz to complete");
-        quizRequiredLabel.setFont(new Font("Arial", Font.BOLD, 12));
-        quizRequiredLabel.setForeground(new Color(255, 193, 7));
-        statusPanel.add(quizRequiredLabel);
-    } else if (!canAccess) {
-        JLabel lockedLabel = new JLabel("🔒 Complete previous lesson first");
-        lockedLabel.setFont(new Font("Arial", Font.ITALIC, 11));
-        lockedLabel.setForeground(new Color(150, 150, 150));
-        statusPanel.add(lockedLabel);
-    }
-
-    panel.add(statusPanel, BorderLayout.NORTH);
-    panel.add(titleLabel, BorderLayout.WEST);
-    panel.add(buttonPanel, BorderLayout.EAST);
-    return panel;
-}
 
     private void showLessonContent(Lesson lesson) {
         removeAll();
@@ -357,11 +363,10 @@ private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
         titleHeader.setForeground(Color.WHITE);
         headerPanel.add(titleHeader, BorderLayout.CENTER);
 
-        // إظهار معلومات المحاولات في الهيدر
+        // Display attempts information in header
         try {
-            int remainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
             int usedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
-            
+
             JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/3");
             attemptsLabel.setFont(new Font("Arial", Font.BOLD, 12));
             attemptsLabel.setForeground(Color.WHITE);
@@ -380,8 +385,10 @@ private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
         quizButton.addActionListener(e -> {
             try {
                 Quiz q = CourseServices.getQuizForLesson(lesson.getLessonId());
-                if (q != null) QuizFrame.startQuiz(q, this, lesson.getLessonId());
-                else QuizFrame.startQuiz();
+                if (q != null)
+                    QuizFrame.startQuiz(q, this, lesson.getLessonId(), course.getCourseId());
+                else
+                    QuizFrame.startQuiz();
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error loading quiz: " + ex.getMessage());
             }
@@ -397,9 +404,8 @@ private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
         JPanel contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(Color.WHITE);
         contentPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
 
         JTextArea contentArea = new JTextArea(safeString(lesson.getContent()));
         contentArea.setEditable(false);
@@ -422,13 +428,14 @@ private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
     }
 
     public void updateLessonButton(String lessonId, boolean enabled) {
-        if (lessonsPanel == null) return;
-        
+        if (lessonsPanel == null)
+            return;
+
         for (Component comp : lessonsPanel.getComponents()) {
             if (comp instanceof JPanel) {
                 JPanel lessonPanel = (JPanel) comp;
                 String panelName = lessonPanel.getName();
-                
+
                 if (panelName != null && panelName.equals("lesson_" + lessonId)) {
                     updateCompleteButtonInPanel(lessonPanel, enabled);
                     return;
@@ -445,7 +452,7 @@ private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
                     if (btn instanceof JButton) {
                         JButton button = (JButton) btn;
                         String buttonName = button.getName();
-                        
+
                         if (buttonName != null && buttonName.startsWith("complete_")) {
                             button.setEnabled(enabled);
                             if (enabled) {
@@ -472,8 +479,9 @@ private JPanel createLessonPanel(Lesson lesson, int lessonIndex) {
     }
 
     public void updateLessonButtonByName(String lessonId, boolean enabled) {
-        if (lessonsPanel == null) return;
-        
+        if (lessonsPanel == null)
+            return;
+
         for (Component comp : lessonsPanel.getComponents()) {
             if (comp instanceof JPanel) {
                 JPanel lessonPanel = (JPanel) comp;

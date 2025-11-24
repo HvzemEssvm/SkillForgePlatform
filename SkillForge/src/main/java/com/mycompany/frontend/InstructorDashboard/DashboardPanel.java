@@ -7,21 +7,6 @@ package com.mycompany.frontend.InstructorDashboard;
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.frontend.Main.MainFrame;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.io.IOException;
-import java.util.ArrayList;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -74,16 +59,15 @@ public class DashboardPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
         buttonPanel.setBackground(new Color(245, 245, 245));
 
-        
         btnCreateCourse = new JButton("Create New Course");
         btnCreateCourse.setFont(new Font("Arial", Font.BOLD, 14));
-        
+
         btnAddQuiz = new JButton("Add Quiz");
         btnAddQuiz.setFont(new Font("Arial", Font.BOLD, 14));
-        
+
         btnLogout = new JButton("Logout");
         btnLogout.setFont(new Font("Arial", Font.BOLD, 14));
-        
+
         // Button panel at the bottom
 
         btnCreateCourse = new JButton("Create New Course");
@@ -110,30 +94,6 @@ public class DashboardPanel extends JPanel {
         // Load courses
         loadCourses();
 
-        // Add list selection listener
-        courseList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    String selectedValue = courseList.getSelectedValue();
-                    if (selectedValue != null) {
-                        String selectedTitle = selectedValue.split("-")[0].trim();
-                        try {
-                            ArrayList<Course> courses = instructor.getMyCourses();
-                            for (Course c : courses) {
-                                if (c.getTitle().equals(selectedTitle)) {
-                                    parent.showCoursePanel(c);
-                                    break;
-                                }
-                            }
-                        } catch (IOException ex) {
-                            JOptionPane.showMessageDialog(null, "Error loading course: " + ex.getMessage());
-                        }
-                    }
-                }
-            }
-        });
-
         // Create course button action
         btnCreateCourse.addActionListener(e -> {
             parent.showCourseFormPanel(null); // null means create new
@@ -148,14 +108,13 @@ public class DashboardPanel extends JPanel {
                     JOptionPane.showMessageDialog(this, "You need to create a course first!");
                     return;
                 }
-                
+
                 // فتح واجهة إضافة الكويز
                 AddQuizWizard wizard = new AddQuizWizard(
-                    (javax.swing.JFrame) SwingUtilities.getWindowAncestor(this), 
-                    instructor
-                );
+                        (javax.swing.JFrame) SwingUtilities.getWindowAncestor(this),
+                        instructor);
                 wizard.setVisible(true);
-                
+
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
             }
@@ -185,12 +144,9 @@ public class DashboardPanel extends JPanel {
         cardsPanel.removeAll();
         try {
             ArrayList<Course> courses = instructor.getMyCourses();
-            for (Course c : courses) {
-                courseListModel.addElement(c.getTitle() + " - " + c.getStatus().toString());
-            }
-            
+
             btnAddQuiz.setEnabled(!courses.isEmpty());
-            
+
             for (Course course : courses) {
                 CourseCard card = new CourseCard();
 
@@ -224,6 +180,4 @@ public class DashboardPanel extends JPanel {
         cardsPanel.revalidate();
         cardsPanel.repaint();
     }
-}
-
 }

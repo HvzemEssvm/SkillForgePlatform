@@ -5,6 +5,7 @@
 package com.mycompany.CourseManagement;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mycompany.QuizManagement.QuizAttempt;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

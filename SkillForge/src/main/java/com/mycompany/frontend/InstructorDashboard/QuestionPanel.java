@@ -6,14 +6,13 @@ package com.mycompany.frontend.InstructorDashboard;
 
 import javax.swing.*;
 import java.awt.*;
-import com.mycompany.CourseManagement.Question;
+import com.mycompany.QuizManagement.Question;
 import com.mycompany.CourseManagement.QuizServices;
 
 public class QuestionPanel extends JPanel {
     private JTextField questionText;
     private JTextField[] optionFields;
     private JComboBox<String> correctAnswerCombo;
-    private JTextField explanationField;
     private int questionNumber;
 
     public QuestionPanel(int questionNumber) {
@@ -29,41 +28,37 @@ public class QuestionPanel extends JPanel {
         // Panel للسؤال
         JPanel questionPanel = new JPanel(new BorderLayout());
         questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
+
         JLabel questionLabel = new JLabel("Question Text:");
         questionText = new JTextField();
         questionText.setPreferredSize(new Dimension(400, 30));
-        
+
         questionPanel.add(questionLabel, BorderLayout.NORTH);
         questionPanel.add(questionText, BorderLayout.CENTER);
 
         // Panel للاختيارات
         JPanel optionsPanel = new JPanel(new GridLayout(4, 2, 10, 5));
         optionsPanel.setBorder(BorderFactory.createTitledBorder("Options"));
-        
+
         optionFields = new JTextField[4];
-        String[] optionLabels = {"Option A:", "Option B:", "Option C:", "Option D:"};
-        
+        String[] optionLabels = { "Option A:", "Option B:", "Option C:", "Option D:" };
+
         for (int i = 0; i < 4; i++) {
             optionsPanel.add(new JLabel(optionLabels[i]));
             optionFields[i] = new JTextField();
             optionsPanel.add(optionFields[i]);
         }
 
-        // Panel للإجابة الصحيحة والشرح
-        JPanel settingsPanel = new JPanel(new GridLayout(2, 2, 10, 5));
-        
+        // Panel للإجابة الصحيحة
+        JPanel settingsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         settingsPanel.add(new JLabel("Correct Answer:"));
-        correctAnswerCombo = new JComboBox<>(new String[]{"A", "B", "C", "D"});
+        correctAnswerCombo = new JComboBox<>(new String[] { "A", "B", "C", "D" });
         settingsPanel.add(correctAnswerCombo);
-        
-        settingsPanel.add(new JLabel("Explanation:"));
-        explanationField = new JTextField();
-        settingsPanel.add(explanationField);
 
-        // زر لحذف السؤال
-        JButton btnRemove = new JButton("🗑️ Remove");
+        // Remove button
+        JButton btnRemove = new JButton("Remove Question");
         btnRemove.addActionListener(e -> removeQuestion());
+        settingsPanel.add(btnRemove);
 
         // Panel رئيسي
         JPanel mainPanel = new JPanel();
@@ -80,24 +75,16 @@ public class QuestionPanel extends JPanel {
     }
 
     public Question getQuestion() {
-        // التحقق من أن كل الحقول مملوءة
         if (questionText.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter question text for question " + questionNumber);
+            JOptionPane.showMessageDialog(this, "Please enter question text");
             return null;
         }
 
         for (int i = 0; i < 4; i++) {
             if (optionFields[i].getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, 
-                    "Please enter all 4 options for question " + questionNumber);
+                JOptionPane.showMessageDialog(this, "Please enter all options");
                 return null;
             }
-        }
-
-        if (explanationField.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Please enter explanation for question " + questionNumber);
-            return null;
         }
 
         try {
@@ -107,16 +94,14 @@ public class QuestionPanel extends JPanel {
             }
 
             int correctIndex = correctAnswerCombo.getSelectedIndex();
-            
+
             return QuizServices.createQuestion(
-                questionText.getText().trim(),
-                options,
-                correctIndex,
-                explanationField.getText().trim()
-            );
-            
+                    questionText.getText().trim(),
+                    options,
+                    correctIndex);
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error creating question: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
             return null;
         }
     }
