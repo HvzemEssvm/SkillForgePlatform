@@ -5,7 +5,6 @@ import com.mycompany.JsonHandler.JsonHandler;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.QuizManagement.QuizAttempt;
 import com.mycompany.QuizManagement.Quiz;
-import com.mycompany.QuizManagement.Question;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -305,11 +304,11 @@ public class CourseServices {
         System.out.println("Lesson: " + quizAttempt.getLessonId());
         System.out.println("Score: " + quizAttempt.getScorePercent() + "%");
         System.out.println("Passed: " + quizAttempt.isPassed());
-        
+
         Student student = JsonHandler.getStudent(studentId);
         if (student != null) {
             student.submitQuiz(quizAttempt);
-            
+
             // إذا نجح في الكويز، نكمل الدرس اتوماتيك
             if (quizAttempt.isPassed()) {
                 System.out.println("✅ Student passed quiz - auto-completing lesson");
@@ -321,7 +320,7 @@ public class CourseServices {
             } else {
                 System.out.println("❌ Student failed quiz - lesson not completed");
             }
-            
+
             // Update quiz average score across all students
             updateQuizAverageScore(quizAttempt.getCourseId(), quizAttempt.getLessonId());
         } else {
@@ -445,8 +444,8 @@ public class CourseServices {
         System.out.println("Lesson " + lessonId + " completed automatically for student " + studentId);
     }
 
-    public static boolean canTakeQuiz(String studentId, String lessonId) throws IOException {
-        return QuizServices.getRemainingAttempts(studentId, lessonId) > 0;
+    public static boolean canTakeQuiz(String studentId, String courseId, String lessonId) throws IOException {
+        return QuizServices.getRemainingAttempts(studentId, courseId, lessonId) > 0;
     }
 
     public static boolean isLessonCompleted(String studentId, String lessonId) throws IOException {
@@ -479,7 +478,7 @@ public class CourseServices {
     public static com.mycompany.QuizManagement.Quiz getQuizForLesson(String lessonId) throws IOException {
         System.out.println("=== DEBUG GET QUIZ FOR LESSON ===");
         System.out.println("Lesson ID: " + lessonId);
-        
+
         Lesson lesson = findLessonById(lessonId);
         if (lesson != null) {
             System.out.println("Lesson found: " + lesson.getTitle());

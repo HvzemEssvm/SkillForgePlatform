@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class QuizServices {
     private static final String QUIZ_RESULTS_FILE = "quiz_results.json";
-    private static final int MAX_ATTEMPTS = 3; 
+    private static final int MAX_ATTEMPTS = 3;
 
     public static Quiz createQuiz(String lessonId, ArrayList<Question> questions) throws IOException {
         Quiz quiz = new Quiz(lessonId, questions, 70);
@@ -44,7 +44,7 @@ public class QuizServices {
 
         String lessonId = extractLessonIdFromQuizId(quizId);
         result.put("lessonId", lessonId);
-        
+
         System.out.println("Extracted Lesson ID: " + lessonId);
 
         resultsArray.add(JsonHandler.objectMapper.valueToTree(result));
@@ -56,14 +56,24 @@ public class QuizServices {
 
     private static String extractLessonIdFromQuizId(String quizId) {
         System.out.println("Extracting lesson ID from: " + quizId);
-        
+
+        if (quizId == null || quizId.isEmpty()) {
+            System.out.println("Empty quiz ID, defaulting to L1");
+            return "L1";
+        }
+
         if (quizId.contains("_L")) {
             String[] parts = quizId.split("_");
             if (parts.length >= 2 && parts[1].startsWith("L")) {
                 String lessonId = parts[1];
-                System.out.println("Extracted lesson ID: " + lessonId);
+                System.out.println("Extracted lesson ID from pattern: " + lessonId);
                 return lessonId;
             }
+        }
+
+        if (quizId.startsWith("L") && quizId.length() >= 2) {
+            System.out.println("Quiz ID is already a lesson ID: " + quizId);
+            return quizId;
         }
 
         if (quizId.contains("L1") || quizId.startsWith("QZ1")) {
@@ -79,7 +89,7 @@ public class QuizServices {
             return "L3";
         }
 
-        System.out.println("Defaulting to L1");
+        System.out.println("No pattern matched, defaulting to L1");
         return "L1";
     }
 
@@ -110,7 +120,8 @@ public class QuizServices {
                 result.put("lessonId", lessonId);
 
                 studentResults.add(result);
-                System.out.println("Found result - Lesson: " + lessonId + ", Quiz: " + resultNode.get("quizId").asText());
+                System.out
+                        .println("Found result - Lesson: " + lessonId + ", Quiz: " + resultNode.get("quizId").asText());
             }
         }
 
@@ -118,11 +129,12 @@ public class QuizServices {
         return studentResults;
     }
 
-    public static int getRemainingAttempts(String studentId, String lessonId) throws IOException {
+    public static int getRemainingAttempts(String studentId, String courseId, String lessonId) throws IOException {
         ArrayList<Map<String, Object>> results = getStudentQuizResults(studentId);
 
         System.out.println("=== DEBUG CHECKING ATTEMPTS ===");
         System.out.println("Student: " + studentId);
+        System.out.println("Course: " + courseId);
         System.out.println("Target Lesson: " + lessonId);
         System.out.println("Max attempts: " + MAX_ATTEMPTS);
         System.out.println("Total results found for student: " + (results != null ? results.size() : 0));
@@ -139,9 +151,11 @@ public class QuizServices {
             String quizId = String.valueOf(result.get("quizId"));
             boolean passed = (boolean) result.get("passed");
 
-            System.out.println("Checking result - Lesson: " + resultLessonId + ", Quiz: " + quizId + ", Passed: " + passed);
+            System.out.println(
+                    "Checking result - Lesson: " + resultLessonId + ", Quiz: " + quizId + ", Passed: " + passed);
 
-            // هنا بنحسب كل المحاولات للدرس سواء نجح أو فشل
+            // Count all attempts for this specific lesson (regardless of course for now,
+            // since lessonId should be unique per course)
             if (resultLessonId.equals(lessonId)) {
                 attemptCount++;
                 System.out.println("✅ MATCH! Attempt #" + attemptCount + " for lesson " + lessonId);
@@ -152,6 +166,7 @@ public class QuizServices {
 
         int remaining = Math.max(0, MAX_ATTEMPTS - attemptCount);
         System.out.println("📊 FINAL ATTEMPTS COUNT:");
+        System.out.println("Course: " + courseId);
         System.out.println("Lesson: " + lessonId);
         System.out.println("Used attempts: " + attemptCount + "/" + MAX_ATTEMPTS);
         System.out.println("Remaining attempts: " + remaining + "/" + MAX_ATTEMPTS);
@@ -214,15 +229,14 @@ public class QuizServices {
         JsonHandler.writeToFile(emptyArray, QUIZ_RESULTS_FILE);
         System.out.println("🎯 ALL ATTEMPTS RESET - Start fresh with " + MAX_ATTEMPTS + " attempts each");
     }
-    
-    // دالة جديدة علشان نتأكد من إن الـ JSON file بيتعملها save
+
     public static void debugQuizResults() throws IOException {
         JsonHandler.initializeFileIfNeeded(QUIZ_RESULTS_FILE);
         var resultsArray = JsonHandler.readArrayFromFile(QUIZ_RESULTS_FILE);
-        
+
         System.out.println("=== DEBUG QUIZ RESULTS FILE ===");
         System.out.println("Total results in file: " + resultsArray.size());
-        
+
         for (var result : resultsArray) {
             System.out.println("Result: " + result.toString());
         }

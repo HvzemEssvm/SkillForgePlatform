@@ -17,7 +17,7 @@ public class CourseDetailsFrame extends JPanel {
     private Student student;
     private Runnable backAction;
     private JPanel lessonsPanel;
-    private static final int MAX_ATTEMPTS = 3; // إضافة ثابت عدد المحاولات
+    private static final int MAX_ATTEMPTS = 3;
 
     public CourseDetailsFrame(Course course, Student student, Runnable backAction) {
         this.course = course;
@@ -189,11 +189,11 @@ public class CourseDetailsFrame extends JPanel {
 
         boolean quizPassed = isQuizPassedForLesson(lesson.getLessonId());
 
-        // جلب معلومات المحاولات
         int remainingAttempts = 0;
         int usedAttempts = 0;
         try {
-            remainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
+            remainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), course.getCourseId(),
+                    lesson.getLessonId());
             usedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
         } catch (Exception e) {
             System.out.println("Error getting attempts: " + e.getMessage());
@@ -218,7 +218,6 @@ public class CourseDetailsFrame extends JPanel {
                         JOptionPane.WARNING_MESSAGE);
         });
 
-        // زر الكويز مع إدارة المحاولات
         JButton quizButton = new JButton("Take Quiz (" + remainingAttempts + " left)");
         quizButton.setFont(new Font("Arial", Font.PLAIN, 12));
 
@@ -231,11 +230,11 @@ public class CourseDetailsFrame extends JPanel {
         quizButton.setEnabled(canTakeQuiz);
 
         quizButton.addActionListener(e -> {
-            // جلب معلومات المحاولات من جديد علشان نتأكد
             int currentRemainingAttempts = 0;
             int currentUsedAttempts = 0;
             try {
-                currentRemainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
+                currentRemainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), course.getCourseId(),
+                        lesson.getLessonId());
                 currentUsedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
             } catch (Exception ex) {
                 System.out.println("Error getting attempts in action listener: " + ex.getMessage());
@@ -258,7 +257,6 @@ public class CourseDetailsFrame extends JPanel {
             }
 
             try {
-                // إظهار تحذير بالمحاولات المتبقية
                 if (currentRemainingAttempts == 1) {
                     int choice = JOptionPane.showConfirmDialog(this,
                             "⚠ Last Attempt Warning!\n\n" +
@@ -283,13 +281,10 @@ public class CourseDetailsFrame extends JPanel {
             }
         });
 
-        // مسحنا زر Mark Complete خالص من هنا
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(contentButton);
         buttonPanel.add(quizButton);
-        // مش هنضيف زر complete خالص
 
         JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         statusPanel.setBackground(Color.WHITE);
@@ -512,6 +507,5 @@ public class CourseDetailsFrame extends JPanel {
             }
         }
     }
-    
-    
+
 }

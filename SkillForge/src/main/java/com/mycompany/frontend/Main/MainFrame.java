@@ -4,7 +4,6 @@
  */
 package com.mycompany.frontend.Main;
 
-import com.mycompany.CourseManagement.QuizDataInitializer;
 import com.mycompany.UserAccountManagement.Admin;
 import com.mycompany.UserAccountManagement.Instructor;
 import com.mycompany.UserAccountManagement.Student;

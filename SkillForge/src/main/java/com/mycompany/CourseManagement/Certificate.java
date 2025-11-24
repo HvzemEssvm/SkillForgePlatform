@@ -7,6 +7,7 @@ package com.mycompany.CourseManagement;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -109,7 +110,7 @@ public class Certificate {
         if (issueDate == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
         return sdf.format(issueDate);
     }
 
