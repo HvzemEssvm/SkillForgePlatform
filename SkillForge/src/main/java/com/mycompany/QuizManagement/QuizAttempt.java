@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.CourseManagement;
+package com.mycompany.QuizManagement;
 
 /**
  *
@@ -12,7 +12,6 @@ public class QuizAttempt {
     private String quizId;
     private String lessonId;
     private String courseId;
-    private String studentId;
     private int scorePercent;
     private boolean passed;
     private String attemptTime; //Instant().now().tostring()
@@ -35,9 +34,6 @@ public class QuizAttempt {
     public void setCourseId(String courseId)
     { 
         this.courseId = courseId; }
-    
-    public String getStudentId() { return studentId; }
-    public void setStudentId(String studentId) { this.studentId = studentId; }
 
     public int getScorePercent() { return scorePercent; }
     public void setScorePercent(int scorePercent) 

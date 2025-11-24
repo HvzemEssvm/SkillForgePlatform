@@ -1,39 +1,69 @@
 {
-    "courses": [
-        {
-            "courseId": "C1",
-            "instructorId": "i1",
-            "state": "PENDING",
-            "studentIds": [
-                "s1",
-                "s2"
-            ],
-            "title": "Course One One",
-            "description": "One",
-            "lessons": [
-                {
-                    "lessonId": "L1",
-                    "title": "wtesrydtjgukhlijo;",
-                    "content": "rdtfyugklijo"
-                },
-                {
-                    "lessonId": "L2",
-                    "title": "hguyg",
-                    "content": "hh"
-                }
-            ]
-        },
-        {
-            "courseId": "C2",
-            "instructorId": "i1",
-            "state": "PENDING",
-            "studentIds": [
-                "s1",
-                "s2"
-            ],
-            "title": "Course Two",
-            "description": "Two",
-            "lessons": []
-        }
-    ]
+  "courses" : [ {
+    "courseId" : "C1",
+    "instructorId" : "i1",
+    "status" : "APPROVED",
+    "studentIds" : [ "s1", "s2", "s4" ],
+    "title" : "Programming 2",
+    "description" : "يارب تخلص على خير :D",
+    "lessons" : [ {
+      "lessonId" : "L1",
+      "title" : "Threads",
+      "content" : "يوجع الميد",
+      "quizId" : "L1",
+      "quiz" : {
+        "quizId" : "L1",
+        "questions" : [ {
+          "questionText" : "ادينا حاجه بقى يأخى حرام عليك",
+          "options" : [ "وهوبا وهوبا", "الله يا بلادنا الله", "عبط ما بعد الثانية عشر", "احنا هنام" ],
+          "correctAnswerIndex" : 3
+        }, {
+          "questionText" : "طب ايه هننام امتى ؟",
+          "options" : [ "نمت ننه", "اختار دى صح اسمع منى", "Encapsulation", "Compilation" ],
+          "correctAnswerIndex" : 1
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 100.0
+      }
+    }, {
+      "lessonId" : "L2",
+      "title" : "OOP",
+      "content" : "gbkhjilk;",
+      "quizId" : "L2",
+      "quiz" : {
+        "quizId" : "L2",
+        "questions" : [ {
+          "questionText" : "What is Java?",
+          "options" : [ "A coffee brand", "An island in Indonesia", "A programming language", "A type of computer" ],
+          "correctAnswerIndex" : 2
+        }, {
+          "questionText" : "Which company created Java?",
+          "options" : [ "Microsoft", "Apple", "Sun Microsystems", "Google" ],
+          "correctAnswerIndex" : 2
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 100.0
+      }
+    } ]
+  }, {
+    "courseId" : "C2",
+    "instructorId" : "i1",
+    "status" : "REJECTED",
+    "studentIds" : [ ],
+    "title" : "programming one",
+    "description" : "huji;okpl':",
+    "lessons" : [ {
+      "lessonId" : "L3",
+      "title" : "rctdhfkgyu./kjl;,",
+      "content" : "vrs;giltobhlgtfhsf",
+      "quizId" : null,
+      "quiz" : null
+    }, {
+      "lessonId" : "L4",
+      "title" : "fuilbgfdo;lss",
+      "content" : "dfgluifbl.tkfb",
+      "quizId" : null,
+      "quiz" : null
+    } ]
+  } ]
 }

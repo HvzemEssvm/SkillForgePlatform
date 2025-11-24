@@ -11,8 +11,8 @@ import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.CourseProgress;
 import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
-import com.mycompany.CourseManagement.QuizAttempt;
-import com.mycompany.CourseManagement.StudentProgress;
+import com.mycompany.CourseManagement.Status;
+import com.mycompany.QuizManagement.QuizAttempt;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,24 +23,19 @@ import java.util.HashMap;
  */
 public class Student extends User {
 
-    private ArrayList<Enrollment> enrollments;
-    private HashMap<String, CourseProgress> courseProgress; // courseId -> CourseProgress
+    private HashMap<String, CourseProgress> courseProgressMap; // courseId -> CourseProgress
     private ArrayList<String> certificateIds;
-
 
     public Student() {
         super();
-        this.enrollments = new ArrayList<>();
-        this.courseProgress = new HashMap<>();
+        this.courseProgressMap = new HashMap<>();
         this.certificateIds = new ArrayList<>();
-        
 
     }
 
     public Student(String userId, String name, String email, String password) {
         super(userId, name, email, password);
-        this.enrollments = new ArrayList<>();
-        this.courseProgress = new HashMap<>();
+        this.courseProgressMap = new HashMap<>();
         this.certificateIds = new ArrayList<>();
     }
 
@@ -56,9 +51,15 @@ public class Student extends User {
     public ArrayList<Course> viewAvailableCourses() throws IOException {
         ArrayList<Course> allCourses = CourseServices.getAllCourses();
         ArrayList<Course> enrolledCourses = getMyEnrolledCourses();
-        allCourses.removeAll(enrolledCourses);
+        ArrayList<Course> availableCourses = new ArrayList<>();
 
-        return allCourses;
+        for (Course course : allCourses) {
+            if (!enrolledCourses.contains(course) && course.getStatus() == Status.APPROVED) {
+                availableCourses.add(course);
+            }
+        }
+
+        return availableCourses;
     }
 
     @JsonIgnore
@@ -77,62 +78,52 @@ public class Student extends User {
         return CourseServices.getAllLessonsFromCourse(courseId);
     }
 
-    /**
-     * @return the enrolledCourses
-     */
-    public ArrayList<Enrollment> getEnrollments() {
-        if (enrollments == null) {
-            enrollments = new ArrayList<>();
-        }
-        return enrollments;
-    }
     // Add method to submit quiz and update progress
     public void submitQuiz(QuizAttempt quizAttempt) throws IOException, Exception {
         String courseId = quizAttempt.getCourseId();
-        
+
         // Get or create course progress
         CourseProgress progress = getCourseProgress(courseId);
-        
-        
+
         progress.addQuizAttempt(quizAttempt);
-        
+
         // Check if course is completed and generate certificate
         if (progress.isReadyForCertificate() && !hasCertificateForCourse(courseId)) {
             generateCertificate(courseId, progress.getOverallScore());
         }
-        
+
         // Save changes
         UserServices.updateUser(this);
-}
-    
+    }
+
     private void generateCertificate(String courseId, double finalScore) throws IOException {
         Course course = CourseServices.findCourseById(courseId);
         if (course != null) {
-            Certificate certificate = CertificateService.generateCertificate(this, course, finalScore);
-            certificateIds.add(certificate.getCertificateId());
+            // CertificateService.generateCertificate() already adds the certificateId to
+            // the student
+            CertificateService.generateCertificate(this, course, finalScore);
         }
     }
 
-    
     public CourseProgress getCourseProgress(String courseId) {
-        if (!courseProgress.containsKey(courseId)) {
-            courseProgress.put(courseId, new CourseProgress());
+        if (!courseProgressMap.containsKey(courseId)) {
+            courseProgressMap.put(courseId, new CourseProgress());
         }
-        return courseProgress.get(courseId);
+        return courseProgressMap.get(courseId);
     }
 
-    
     public void markLessonCompleted(String courseId, String lessonId) throws IOException, Exception {
         CourseProgress progress = getCourseProgress(courseId);
         progress.updateLessonStatus(lessonId, true);
-        
+
         // Check if course is completed
         if (progress.isReadyForCertificate() && !hasCertificateForCourse(courseId)) {
             generateCertificate(courseId, progress.getOverallScore());
         }
-        
+
         UserServices.updateUser(this);
     }
+
     // Check if student has certificate for course
     public boolean hasCertificateForCourse(String courseId) throws IOException {
         return CertificateService.hasCertificate(getUserId(), courseId);
@@ -145,24 +136,25 @@ public class Student extends User {
 
     // Get course progress for specific course
     public double getCourseProgressPercentage(String courseId) {
-        CourseProgress progress = courseProgress.get(courseId);
+        CourseProgress progress = courseProgressMap.get(courseId);
         return progress != null ? progress.getProgressPercentage() : 0.0;
     }
 
     // Get overall score for course
     public double getCourseScore(String courseId) {
-        CourseProgress progress = courseProgress.get(courseId);
+        CourseProgress progress = courseProgressMap.get(courseId);
         return progress != null ? progress.getOverallScore() : 0.0;
     }
+
     public HashMap<String, CourseProgress> getCourseProgressMap() {
-        if (courseProgress == null) {
-            courseProgress = new HashMap<>();
+        if (courseProgressMap == null) {
+            courseProgressMap = new HashMap<>();
         }
-        return courseProgress;
+        return courseProgressMap;
     }
 
-    public void setCourseProgressMap(HashMap<String, CourseProgress> courseProgress) {
-        this.courseProgress = courseProgress;
+    public void setCourseProgressMap(HashMap<String, CourseProgress> courseProgressMap) {
+        this.courseProgressMap = courseProgressMap;
     }
 
     public ArrayList<String> getCertificateIds() {

@@ -5,6 +5,7 @@
 package com.mycompany.frontend.Main;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import javax.swing.BorderFactory;
 
 /**
@@ -35,17 +36,23 @@ public class MainPanel extends javax.swing.JPanel {
         BtnLogin = new javax.swing.JButton();
         BtnSignup = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(17, 17, 17));
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
+        logo.setBackground(new java.awt.Color(17, 17, 17));
+        logo.setForeground(new java.awt.Color(17, 17, 17));
         logo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo.png"))); // NOI18N
+        logo.setAutoscrolls(true);
+        logo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        logo.setOpaque(true);
 
         BtnLogin.setBackground(new java.awt.Color(255, 255, 255));
         BtnLogin.setFont(new java.awt.Font("Bahnschrift", 1, 48)); // NOI18N
         BtnLogin.setForeground(new java.awt.Color(51, 51, 51));
         BtnLogin.setText("Login");
         BtnLogin.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        BtnLogin.setMargin(new java.awt.Insets(3, 14, 3, 14));
+        BtnLogin.setMargin(new java.awt.Insets(6, 14, 3, 14));
+        BtnLogin.setOpaque(true);
         BtnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnLoginMouseEntered(evt);
@@ -65,7 +72,8 @@ public class MainPanel extends javax.swing.JPanel {
         BtnSignup.setForeground(new java.awt.Color(0, 0, 0));
         BtnSignup.setText("Sign up");
         BtnSignup.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        BtnSignup.setMargin(new java.awt.Insets(3, 14, 3, 14));
+        BtnSignup.setMargin(new java.awt.Insets(5, 14, 3, 14));
+        BtnSignup.setOpaque(true);
         BtnSignup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 BtnSignupMouseEntered(evt);
@@ -84,48 +92,48 @@ public class MainPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(98, 98, 98)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(logo)
+                .addGap(194, 194, 194)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(BtnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
-                .addComponent(logo)
-                .addContainerGap())
+                .addGap(135, 135, 135))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(logo)
-                .addContainerGap(7, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(153, 153, 153)
+                .addGap(201, 201, 201)
                 .addComponent(BtnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(200, 200, 200))
+                .addGap(164, 164, 164))
+            .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnLoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLoginMouseEntered
         // TODO add your handling code here:
         BtnLogin.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 3));
+        BtnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_BtnLoginMouseEntered
 
     private void BtnLoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnLoginMouseExited
         // TODO add your handling code here:
         BtnLogin.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
+        BtnLogin.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_BtnLoginMouseExited
 
     private void BtnSignupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSignupMouseEntered
         // TODO add your handling code here:
         BtnSignup.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 3));
+        BtnSignup.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }//GEN-LAST:event_BtnSignupMouseEntered
 
     private void BtnSignupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnSignupMouseExited
         // TODO add your handling code here:
         BtnSignup.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
+        BtnSignup.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_BtnSignupMouseExited
 
     private void BtnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSignupActionPerformed
