@@ -7,6 +7,9 @@ import com.mycompany.CourseManagement.CourseServices;
 import com.mycompany.CourseManagement.Lesson;
 import com.mycompany.UserAccountManagement.Student;
 import com.mycompany.UserAccountManagement.UserServices;
+import com.mycompany.frontend.InstructorDashboard.CertificateFrame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,11 +22,13 @@ public class StudentDashboardFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel dashboardPanel;
     private ArrayList<Course> currentAvailableCourses;
+    private JButton certificatesButton;
 
     public StudentDashboardFrame(Student student) {
         this.student = student;
         initializeFrame();
         createDashboard();
+         initializeUI();
     }
 
     private void initializeFrame() {
@@ -393,4 +398,30 @@ public class StudentDashboardFrame extends JFrame {
             }
         });
     }
+    private void initializeUI() {
+        setTitle("Student Dashboard");
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        
+        certificatesButton = new JButton("My Certificates");
+        
+        
+        certificatesButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                certificatesButtonActionPerformed(evt);
+            }
+        });
+        
+      
+        JPanel mainPanel = new JPanel(new FlowLayout());
+        mainPanel.add(certificatesButton);
+        
+        add(mainPanel);
+    }
+    private void certificatesButtonActionPerformed(ActionEvent evt) {
+        CertificateFrame.showCertificates(this.student);
+    }
+    
 }

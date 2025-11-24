@@ -88,25 +88,21 @@ public class SignupPanel extends javax.swing.JPanel {
 
         labelName.setBackground(new java.awt.Color(255, 255, 255));
         labelName.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelName.setForeground(new java.awt.Color(0, 0, 0));
         labelName.setText("Name");
         add(labelName, new org.netbeans.lib.awtextra.AbsoluteConstraints(117, 111, -1, -1));
 
         labelEmail.setBackground(new java.awt.Color(255, 255, 255));
         labelEmail.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelEmail.setForeground(new java.awt.Color(0, 0, 0));
         labelEmail.setText("Email");
         add(labelEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 203, -1, -1));
 
         labelPassword.setBackground(new java.awt.Color(255, 255, 255));
         labelPassword.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelPassword.setForeground(new java.awt.Color(0, 0, 0));
         labelPassword.setText("Password");
         add(labelPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(55, 298, -1, -1));
 
         labelPasswordConfirmation.setBackground(new java.awt.Color(255, 255, 255));
         labelPasswordConfirmation.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        labelPasswordConfirmation.setForeground(new java.awt.Color(0, 0, 0));
         labelPasswordConfirmation.setText("Re-enter Password");
         add(labelPasswordConfirmation, new org.netbeans.lib.awtextra.AbsoluteConstraints(58, 407, -1, -1));
 
@@ -156,7 +152,6 @@ public class SignupPanel extends javax.swing.JPanel {
 
         labelPassword1.setBackground(new java.awt.Color(255, 255, 255));
         labelPassword1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        labelPassword1.setForeground(new java.awt.Color(0, 0, 0));
         labelPassword1.setText("Account Type");
         add(labelPassword1, new org.netbeans.lib.awtextra.AbsoluteConstraints(63, 487, -1, -1));
 
