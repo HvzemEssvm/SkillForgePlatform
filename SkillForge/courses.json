@@ -3,7 +3,7 @@
     "courseId" : "C1",
     "instructorId" : "i1",
     "status" : "APPROVED",
-    "studentIds" : [ "s1" ],
+    "studentIds" : [ "s1", "s2" ],
     "title" : "Programming 2",
     "description" : "يارب تخلص على خير :D",
     "lessons" : [ {
@@ -23,7 +23,8 @@
           "correctAnswerIndex" : 1
         } ],
         "passingScore" : 70,
-        "averageScore" : 100.0
+        "averageScore" : 100.0,
+        "maxAttempts" : 3
       }
     }, {
       "lessonId" : "L2",
@@ -42,7 +43,8 @@
           "correctAnswerIndex" : 2
         } ],
         "passingScore" : 70,
-        "averageScore" : 100.0
+        "averageScore" : 75.0,
+        "maxAttempts" : 3
       }
     } ]
   }, {
@@ -64,6 +66,74 @@
       "content" : "dfgluifbl.tkfb",
       "quizId" : null,
       "quiz" : null
+    } ]
+  }, {
+    "courseId" : "C3",
+    "instructorId" : "i2",
+    "status" : "APPROVED",
+    "studentIds" : [ "s2" ],
+    "title" : "java",
+    "description" : "sadfdasgv",
+    "lessons" : [ {
+      "lessonId" : "L5",
+      "title" : "nosh",
+      "content" : "asdgfrwsagr",
+      "quizId" : "L5",
+      "quiz" : {
+        "quizId" : "L5",
+        "questions" : [ {
+          "questionText" : "afgtrweq",
+          "options" : [ "wtr", "rwtrwe", "trwet", "wrtwer" ],
+          "correctAnswerIndex" : 0
+        }, {
+          "questionText" : "wert",
+          "options" : [ "rewqr", "rewqr", "qwerqwe", "qwerr" ],
+          "correctAnswerIndex" : 0
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0,
+        "maxAttempts" : 3
+      }
+    }, {
+      "lessonId" : "L6",
+      "title" : "nosh 2",
+      "content" : "fsdatwrs",
+      "quizId" : "L6",
+      "quiz" : {
+        "quizId" : "L6",
+        "questions" : [ {
+          "questionText" : "ewqrtqew",
+          "options" : [ "weqrqwe", "qwer", "weqrewq", "rweqrqwer" ],
+          "correctAnswerIndex" : 0
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 0.0,
+        "maxAttempts" : 3
+      }
+    } ]
+  }, {
+    "courseId" : "C4",
+    "instructorId" : "i2",
+    "status" : "APPROVED",
+    "studentIds" : [ "s2" ],
+    "title" : "asdffgtwresa",
+    "description" : "rfweqtwerq",
+    "lessons" : [ {
+      "lessonId" : "L7",
+      "title" : "fgyutjty",
+      "content" : "uyrtfu",
+      "quizId" : "L7",
+      "quiz" : {
+        "quizId" : "L7",
+        "questions" : [ {
+          "questionText" : "wseqadtrewq",
+          "options" : [ "weqrtewq", "tweqsdtf", "ewqrtewqt", "ewqtrewqtr" ],
+          "correctAnswerIndex" : 0
+        } ],
+        "passingScore" : 70,
+        "averageScore" : 100.0,
+        "maxAttempts" : 3
+      }
     } ]
   } ]
 }

@@ -17,6 +17,7 @@ public class CourseDetailsFrame extends JPanel {
     private Student student;
     private Runnable backAction;
     private JPanel lessonsPanel;
+    private static final int MAX_ATTEMPTS = 3; // إضافة ثابت عدد المحاولات
 
     public CourseDetailsFrame(Course course, Student student, Runnable backAction) {
         this.course = course;
@@ -189,7 +190,7 @@ public class CourseDetailsFrame extends JPanel {
         boolean quizPassed = isQuizPassedForLesson(lesson.getLessonId());
 
         // جلب معلومات المحاولات
-        int remainingAttempts = 3;
+        int remainingAttempts = 0;
         int usedAttempts = 0;
         try {
             remainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
@@ -199,7 +200,7 @@ public class CourseDetailsFrame extends JPanel {
         }
 
         System.out.println("Lesson: " + lesson.getTitle() + " | Access: " + canAccess + " | Completed: " + isCompleted
-                + " | QuizPassed: " + quizPassed + " | Attempts: " + usedAttempts + "/3");
+                + " | QuizPassed: " + quizPassed + " | Attempts: " + usedAttempts + "/" + MAX_ATTEMPTS);
 
         JButton contentButton = new JButton("View Content");
         contentButton.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -231,7 +232,7 @@ public class CourseDetailsFrame extends JPanel {
 
         quizButton.addActionListener(e -> {
             // جلب معلومات المحاولات من جديد علشان نتأكد
-            int currentRemainingAttempts = 3;
+            int currentRemainingAttempts = 0;
             int currentUsedAttempts = 0;
             try {
                 currentRemainingAttempts = QuizServices.getRemainingAttempts(student.getUserId(), lesson.getLessonId());
@@ -248,9 +249,9 @@ public class CourseDetailsFrame extends JPanel {
 
             if (currentRemainingAttempts <= 0) {
                 JOptionPane.showMessageDialog(this,
-                        "No more quiz attempts left!\n\n" +
-                                "You have used all 3 attempts for this quiz.\n" +
-                                "Used attempts: " + currentUsedAttempts + "/3\n" +
+                        "❌ No more quiz attempts left!\n\n" +
+                                "You have used all " + MAX_ATTEMPTS + " attempts for this quiz.\n" +
+                                "Used attempts: " + currentUsedAttempts + "/" + MAX_ATTEMPTS + "\n" +
                                 "Please contact your instructor.",
                         "Maximum Attempts Reached", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -260,9 +261,9 @@ public class CourseDetailsFrame extends JPanel {
                 // إظهار تحذير بالمحاولات المتبقية
                 if (currentRemainingAttempts == 1) {
                     int choice = JOptionPane.showConfirmDialog(this,
-                            "Last Attempt Warning!\n\n" +
-                                    "This is your last attempt for this quiz.\n" +
-                                    "Used attempts: " + currentUsedAttempts + "/3\n" +
+                            "⚠ Last Attempt Warning!\n\n" +
+                                    "This is your LAST attempt for this quiz.\n" +
+                                    "Used attempts: " + currentUsedAttempts + "/" + MAX_ATTEMPTS + "\n" +
                                     "Do you want to continue?",
                             "Last Attempt", JOptionPane.YES_NO_OPTION);
 
@@ -271,7 +272,7 @@ public class CourseDetailsFrame extends JPanel {
                     }
                 }
 
-                Quiz quiz = CourseServices.getQuizForLesson(lesson.getLessonId());
+                Quiz quiz = (Quiz) CourseServices.getQuizForLesson(lesson.getLessonId());
                 if (quiz != null) {
                     QuizFrame.startQuiz(quiz, this, lesson.getLessonId(), course.getCourseId());
                 } else {
@@ -294,7 +295,7 @@ public class CourseDetailsFrame extends JPanel {
         statusPanel.setBackground(Color.WHITE);
 
         // معلومات المحاولات
-        JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/3");
+        JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/" + MAX_ATTEMPTS);
         attemptsLabel.setFont(new Font("Arial", Font.BOLD, 11));
         if (remainingAttempts == 0) {
             attemptsLabel.setForeground(Color.RED);
@@ -307,17 +308,17 @@ public class CourseDetailsFrame extends JPanel {
         statusPanel.add(Box.createHorizontalStrut(10));
 
         if (isCompleted) {
-            JLabel completedLabel = new JLabel("✓ Completed");
+            JLabel completedLabel = new JLabel("✅ Completed");
             completedLabel.setFont(new Font("Arial", Font.BOLD, 12));
             completedLabel.setForeground(new Color(40, 167, 69));
             statusPanel.add(completedLabel);
         } else if (quizPassed && canAccess && remainingAttempts > 0) {
-            JLabel passedLabel = new JLabel("✓ Quiz Passed — Lesson will auto-complete");
+            JLabel passedLabel = new JLabel("✅ Quiz Passed — Lesson completed automatically");
             passedLabel.setFont(new Font("Arial", Font.BOLD, 12));
             passedLabel.setForeground(new Color(40, 167, 69));
             statusPanel.add(passedLabel);
         } else if (remainingAttempts <= 0) {
-            JLabel noAttemptsLabel = new JLabel("No attempts left - Cannot complete");
+            JLabel noAttemptsLabel = new JLabel("❌ No attempts left - Cannot complete");
             noAttemptsLabel.setFont(new Font("Arial", Font.BOLD, 12));
             noAttemptsLabel.setForeground(Color.RED);
             statusPanel.add(noAttemptsLabel);
@@ -367,7 +368,7 @@ public class CourseDetailsFrame extends JPanel {
         try {
             int usedAttempts = QuizServices.getUsedAttempts(student.getUserId(), lesson.getLessonId());
 
-            JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/3");
+            JLabel attemptsLabel = new JLabel("Attempts: " + usedAttempts + "/" + MAX_ATTEMPTS);
             attemptsLabel.setFont(new Font("Arial", Font.BOLD, 12));
             attemptsLabel.setForeground(Color.WHITE);
             headerPanel.add(attemptsLabel, BorderLayout.EAST);
@@ -384,7 +385,7 @@ public class CourseDetailsFrame extends JPanel {
         quizButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
         quizButton.addActionListener(e -> {
             try {
-                Quiz q = CourseServices.getQuizForLesson(lesson.getLessonId());
+                Quiz q = (Quiz) CourseServices.getQuizForLesson(lesson.getLessonId());
                 if (q != null)
                     QuizFrame.startQuiz(q, this, lesson.getLessonId(), course.getCourseId());
                 else
@@ -511,4 +512,6 @@ public class CourseDetailsFrame extends JPanel {
             }
         }
     }
+    
+    
 }

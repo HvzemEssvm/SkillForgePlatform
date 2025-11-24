@@ -300,9 +300,28 @@ public class CourseServices {
     }
 
     public static void submitQuizAttempt(String studentId, QuizAttempt quizAttempt) throws IOException, Exception {
+        System.out.println("=== SAVING QUIZ ATTEMPT ===");
+        System.out.println("Student: " + studentId);
+        System.out.println("Lesson: " + quizAttempt.getLessonId());
+        System.out.println("Score: " + quizAttempt.getScorePercent() + "%");
+        System.out.println("Passed: " + quizAttempt.isPassed());
+        
         Student student = JsonHandler.getStudent(studentId);
         if (student != null) {
             student.submitQuiz(quizAttempt);
+            
+            // إذا نجح في الكويز، نكمل الدرس اتوماتيك
+            if (quizAttempt.isPassed()) {
+                System.out.println("✅ Student passed quiz - auto-completing lesson");
+                try {
+                    completeLessonViaQuiz(studentId, quizAttempt.getLessonId());
+                } catch (Exception e) {
+                    System.out.println("Error auto-completing lesson: " + e.getMessage());
+                }
+            } else {
+                System.out.println("❌ Student failed quiz - lesson not completed");
+            }
+            
             // Update quiz average score across all students
             updateQuizAverageScore(quizAttempt.getCourseId(), quizAttempt.getLessonId());
         } else {
@@ -458,10 +477,19 @@ public class CourseServices {
     }
 
     public static com.mycompany.QuizManagement.Quiz getQuizForLesson(String lessonId) throws IOException {
+        System.out.println("=== DEBUG GET QUIZ FOR LESSON ===");
+        System.out.println("Lesson ID: " + lessonId);
+        
         Lesson lesson = findLessonById(lessonId);
         if (lesson != null) {
+            System.out.println("Lesson found: " + lesson.getTitle());
+            System.out.println("Quiz exists: " + (lesson.getQuiz() != null));
+            if (lesson.getQuiz() != null) {
+                System.out.println("Quiz questions: " + lesson.getQuiz().getQuestions().size());
+            }
             return lesson.getQuiz();
         }
+        System.out.println("Lesson not found!");
         return null;
     }
 

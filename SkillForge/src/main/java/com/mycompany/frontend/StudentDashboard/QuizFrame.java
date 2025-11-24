@@ -27,6 +27,7 @@ public class QuizFrame extends JFrame {
     private String lessonId;
     private String courseId;
     private String studentId; 
+    private static final int MAX_ATTEMPTS = 3;
 
     public QuizFrame(Quiz quiz, CourseDetailsFrame parentFrame, String lessonId, String courseId) {
         this.currentQuiz = quiz;
@@ -68,15 +69,13 @@ public class QuizFrame extends JFrame {
         } catch (Exception e) {
             System.out.println("Could not get student ID from parent: " + e.getMessage());
         }
-        return "s1"; // fallback
+        return "s1";
     }
 
-    // Helper method to get total number of questions
     private int getTotalQuestions() {
         return (currentQuiz != null && currentQuiz.getQuestions() != null) ? currentQuiz.getQuestions().size() : 0;
     }
 
-    // Helper method to get a question by index
     private Question getQuestion(int index) {
         if (currentQuiz != null && currentQuiz.getQuestions() != null &&
                 index >= 0 && index < currentQuiz.getQuestions().size()) {
@@ -275,6 +274,18 @@ public class QuizFrame extends JFrame {
     }
 
     private void showResults() {
+        System.out.println("=== DEBUG QUIZ INFO ===");
+        System.out.println("Current Quiz: " + (currentQuiz != null ? "EXISTS" : "NULL"));
+        System.out.println("Quiz ID: " + (currentQuiz != null ? currentQuiz.getQuizId() : "N/A"));
+        System.out.println("Questions Count: " + (currentQuiz != null && currentQuiz.getQuestions() != null ? currentQuiz.getQuestions().size() : "0"));
+        
+        if (currentQuiz != null && currentQuiz.getQuestions() != null) {
+            for (int i = 0; i < currentQuiz.getQuestions().size(); i++) {
+                Question q = currentQuiz.getQuestions().get(i);
+                System.out.println("Q" + (i+1) + ": " + q.getQuestionText());
+            }
+        }
+
         if (currentQuiz == null) {
             JOptionPane.showMessageDialog(this, "Quiz data is missing!", "Error", JOptionPane.ERROR_MESSAGE);
             dispose();
@@ -285,22 +296,30 @@ public class QuizFrame extends JFrame {
         double percentage = (totalQuestions > 0) ? (score * 100.0 / totalQuestions) : 0;
         boolean passed = percentage >= currentQuiz.getPassingScore();
 
+        int remainingAttempts = 0;
+        try {
+            remainingAttempts = QuizServices.getRemainingAttempts(studentId, lessonId);
+        } catch (Exception ex) {
+            System.out.println("Error getting remaining attempts: " + ex.getMessage());
+        }
+
         String message = String.format(
-                "Score: %d/%d (%.0f%%)\n%s",
+                "Score: %d/%d (%.0f%%)\n%s\n\nRemaining attempts: %d/%d",
                 score, totalQuestions, percentage,
-                passed ? "You passed" : "Failed");
+                passed ? "✅ You passed!" : "❌ Failed",
+                remainingAttempts, MAX_ATTEMPTS);
 
         System.out.println("=== QUIZ FINAL RESULTS ===");
         System.out.println("Student: " + studentId);
         System.out.println("Score: " + score + "/" + totalQuestions);
         System.out.println("Percentage: " + percentage + "%");
         System.out.println("Passed: " + passed);
+        System.out.println("Remaining attempts: " + remainingAttempts + "/" + MAX_ATTEMPTS);
         System.out.println("Lesson ID: " + lessonId);
 
         try {
             QuizServices.submitQuizResult(studentId, currentQuiz.getQuizId(), (int) percentage, passed);
 
-            // Create and submit QuizAttempt to update course progress
             QuizAttempt attempt = new QuizAttempt();
             attempt.setQuizId(currentQuiz.getQuizId());
             attempt.setLessonId(this.lessonId);
@@ -320,9 +339,21 @@ public class QuizFrame extends JFrame {
                     parentFrame.refreshCourseDetails();
 
                     JOptionPane.showMessageDialog(this,
-                            "✅ Quiz passed! You can now mark the lesson as complete.",
+                            "✅ Quiz passed! Lesson completed automatically.\n\nRemaining attempts: " + remainingAttempts + "/" + MAX_ATTEMPTS,
                             "Success",
                             JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                if (remainingAttempts > 0) {
+                    JOptionPane.showMessageDialog(this, 
+                            "❌ Quiz failed! You have " + remainingAttempts + " attempt(s) remaining.\n\nPlease review the material and try again.", 
+                            "Try Again", 
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, 
+                            "❌ Quiz failed! No more attempts remaining.\n\nPlease contact your instructor.", 
+                            "No Attempts Left", 
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (Exception ex) {
@@ -336,10 +367,8 @@ public class QuizFrame extends JFrame {
         dispose();
     }
 
-    // دالة مساعدة لجلب الـ courseId من الـ lessonId
     private String getCourseIdFromLesson(String lessonId) {
         try {
-            // محاولة الوصول للـ course من الـ parentFrame
             if (parentFrame != null) {
                 java.lang.reflect.Field courseField = parentFrame.getClass().getDeclaredField("course");
                 courseField.setAccessible(true);

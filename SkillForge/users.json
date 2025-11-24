@@ -43,7 +43,381 @@
       "issueDate" : 1763950330174,
       "instructorName" : "layla",
       "finalScore" : 100.0,
-      "formattedDate" : "November 24, 2025"
+      "formattedDate" : "نوفمبر ٢٤, ٢٠٢٥"
+    } ]
+  }, {
+    "userId" : "s2",
+    "name" : "nour",
+    "email" : "rawsyhertw@osidyhuifu.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "courseProgressMap" : {
+      "C3" : {
+        "lessonStatus" : {
+          "L5" : "PASSED",
+          "L6" : "INCOMPLETE"
+        },
+        "quizAttempts" : [ {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:49:42.309065100Z"
+        }, {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:49:45.926778Z"
+        }, {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:49:49.654689100Z"
+        }, {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:49:53.094693100Z"
+        }, {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:51:18.462972700Z"
+        }, {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:51:23.111106400Z"
+        }, {
+          "quizId" : "L5",
+          "lessonId" : "L5",
+          "courseId" : "C3",
+          "scorePercent" : 100,
+          "passed" : true,
+          "attemptTime" : "2025-11-24T02:51:28.798836600Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T02:51:35.430723400Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:10:35.681667900Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:10:44.008266Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:10:50.616242700Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:10:54.608624600Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:16:22.319441500Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:16:56.631402800Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:17:00.455427900Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:17:40.487509600Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:17:44.439749500Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:21:09.679291300Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:39:53.418645Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:40:00.913141900Z"
+        }, {
+          "quizId" : "L6",
+          "lessonId" : "L6",
+          "courseId" : "C3",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:42:36.164771600Z"
+        } ],
+        "completed" : false,
+        "certificateId" : null,
+        "completionDate" : 1763952688798,
+        "overallScore" : 100.0,
+        "readyForCertificate" : false,
+        "progressPercentage" : 50.0
+      },
+      "C4" : {
+        "lessonStatus" : {
+          "L7" : "INCOMPLETE"
+        },
+        "quizAttempts" : [ {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:15:57.119228Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:16:12.519407Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:16:31.719849900Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 100,
+          "passed" : true,
+          "attemptTime" : "2025-11-24T03:16:40.134759700Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:16:44.335530500Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:20:59.319788300Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:27:27.449614400Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:27:35.705547100Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:27:40.552476400Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:31:43.098684200Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:31:49.025930500Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:31:52.665046500Z"
+        }, {
+          "quizId" : "L8",
+          "lessonId" : "L8",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:32:00.376585900Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:43:31.914372200Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:43:37.825297100Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:43:41.145228700Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:43:44.841202100Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:49:17.043372100Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:49:22.866693900Z"
+        }, {
+          "quizId" : "L7",
+          "lessonId" : "L7",
+          "courseId" : "C4",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:49:27.794270100Z"
+        } ],
+        "completed" : false,
+        "certificateId" : null,
+        "completionDate" : 1763954200134,
+        "overallScore" : 100.0,
+        "readyForCertificate" : false,
+        "progressPercentage" : 0.0
+      },
+      "C1" : {
+        "lessonStatus" : {
+          "L2" : "INCOMPLETE"
+        },
+        "quizAttempts" : [ {
+          "quizId" : "L2",
+          "lessonId" : "L2",
+          "courseId" : "C1",
+          "scorePercent" : 0,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:11:17.512111200Z"
+        }, {
+          "quizId" : "L2",
+          "lessonId" : "L2",
+          "courseId" : "C1",
+          "scorePercent" : 50,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:11:32.720347600Z"
+        }, {
+          "quizId" : "L2",
+          "lessonId" : "L2",
+          "courseId" : "C1",
+          "scorePercent" : 50,
+          "passed" : false,
+          "attemptTime" : "2025-11-24T03:11:51.103506900Z"
+        } ],
+        "completed" : false,
+        "certificateId" : null,
+        "completionDate" : null,
+        "overallScore" : 0.0,
+        "readyForCertificate" : false,
+        "progressPercentage" : 0.0
+      }
+    },
+    "certificateIds" : [ "CERT_1763952688798_400e621d", "CERT_1763954200135_f97900a1" ],
+    "certificates" : [ {
+      "certificateId" : "CERT_1763952688798_400e621d",
+      "studentId" : "s2",
+      "studentName" : "nour",
+      "courseId" : "C3",
+      "courseTitle" : "java",
+      "issueDate" : 1763952688817,
+      "instructorName" : "jlfhdasjko",
+      "finalScore" : 100.0,
+      "formattedDate" : "نوفمبر ٢٤, ٢٠٢٥"
+    }, {
+      "certificateId" : "CERT_1763954200135_f97900a1",
+      "studentId" : "s2",
+      "studentName" : "nour",
+      "courseId" : "C4",
+      "courseTitle" : "asdffgtwresa",
+      "issueDate" : 1763954200152,
+      "instructorName" : "jlfhdasjko",
+      "finalScore" : 100.0,
+      "formattedDate" : "نوفمبر ٢٤, ٢٠٢٥"
     } ]
   } ],
   "instructors" : [ {
@@ -52,5 +426,11 @@
     "email" : "layla@gmail.com",
     "password" : "b12d95a8dd8e668681eb8af301da038cffe2979f4170ef844a9ba767ee637a2b",
     "myCoursesIds" : [ "C1", "C2" ]
+  }, {
+    "userId" : "i2",
+    "name" : "jlfhdasjko",
+    "email" : "dasgsfa@gmail.com",
+    "password" : "b46b1809a85d4127d462441e92f542c67f7893b8859115375103cd8338dcf6db",
+    "myCoursesIds" : [ "C3", "C4" ]
   } ]
 }
