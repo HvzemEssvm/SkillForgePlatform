@@ -80,22 +80,18 @@ public class SignupPanel extends javax.swing.JPanel {
 
         labelName.setBackground(new java.awt.Color(255, 255, 255));
         labelName.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelName.setForeground(new java.awt.Color(0, 0, 0));
         labelName.setText("Name");
 
         labelEmail.setBackground(new java.awt.Color(255, 255, 255));
         labelEmail.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelEmail.setForeground(new java.awt.Color(0, 0, 0));
         labelEmail.setText("Email");
 
         labelPassword.setBackground(new java.awt.Color(255, 255, 255));
         labelPassword.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelPassword.setForeground(new java.awt.Color(0, 0, 0));
         labelPassword.setText("Password");
 
         labelPasswordConfirmation.setBackground(new java.awt.Color(255, 255, 255));
         labelPasswordConfirmation.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        labelPasswordConfirmation.setForeground(new java.awt.Color(0, 0, 0));
         labelPasswordConfirmation.setText("Re-enter Password");
 
         btnSignup.setBackground(new java.awt.Color(0, 0, 0));
@@ -137,7 +133,6 @@ public class SignupPanel extends javax.swing.JPanel {
 
         labelPassword1.setBackground(new java.awt.Color(255, 255, 255));
         labelPassword1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        labelPassword1.setForeground(new java.awt.Color(0, 0, 0));
         labelPassword1.setText("Account Type");
 
         btnGrpAccountType.add(btnInstructor);
@@ -190,10 +185,12 @@ public class SignupPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(fieldPasswordConfirmation, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(fieldPassword, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(fieldEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(fieldName)))))
+                                    .addComponent(fieldName)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(172, 172, 172)
+                                .addComponent(fieldPasswordConfirmation))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnSignup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -218,11 +215,15 @@ public class SignupPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPassword))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPasswordConfirmation)
-                    .addComponent(fieldPasswordConfirmation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(labelPasswordConfirmation)
+                        .addGap(53, 53, 53))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fieldPasswordConfirmation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelPassword1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
