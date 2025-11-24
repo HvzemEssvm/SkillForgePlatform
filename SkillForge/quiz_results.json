@@ -1,89 +1,17 @@
 [ {
   "studentId" : "s1",
   "score" : 100,
-  "resultId" : "R1763946772502",
+  "resultId" : "R1763950330086",
   "quizId" : "L1",
   "lessonId" : "L1",
-  "attemptDate" : 1763946772504,
+  "attemptDate" : 1763950330088,
   "passed" : true
 }, {
   "studentId" : "s1",
-  "score" : 0,
-  "resultId" : "R1763946795531",
+  "score" : 100,
+  "resultId" : "R1763950339426",
   "quizId" : "L2",
   "lessonId" : "L2",
-  "attemptDate" : 1763946795531,
-  "passed" : false
-}, {
-  "studentId" : "s1",
-  "score" : 100,
-  "resultId" : "R1763946801453",
-  "quizId" : "L2",
-  "lessonId" : "L2",
-  "attemptDate" : 1763946801453,
-  "passed" : true
-}, {
-  "studentId" : "s2",
-  "score" : 50,
-  "resultId" : "R1763947256144",
-  "quizId" : "L1",
-  "lessonId" : "L1",
-  "attemptDate" : 1763947256147,
-  "passed" : false
-}, {
-  "studentId" : "s2",
-  "score" : 100,
-  "resultId" : "R1763947262887",
-  "quizId" : "L1",
-  "lessonId" : "L1",
-  "attemptDate" : 1763947262887,
-  "passed" : true
-}, {
-  "studentId" : "s2",
-  "score" : 100,
-  "resultId" : "R1763947289014",
-  "quizId" : "L2",
-  "lessonId" : "L2",
-  "attemptDate" : 1763947289014,
-  "passed" : true
-}, {
-  "studentId" : "s3",
-  "score" : 100,
-  "resultId" : "R1763947868012",
-  "quizId" : "L1",
-  "lessonId" : "L1",
-  "attemptDate" : 1763947868015,
-  "passed" : true
-}, {
-  "studentId" : "s3",
-  "score" : 100,
-  "resultId" : "R1763947876619",
-  "quizId" : "L2",
-  "lessonId" : "L2",
-  "attemptDate" : 1763947876619,
-  "passed" : true
-}, {
-  "studentId" : "s4",
-  "score" : 50,
-  "resultId" : "R1763948190433",
-  "quizId" : "L1",
-  "lessonId" : "L1",
-  "attemptDate" : 1763948190433,
-  "passed" : false
-}, {
-  "studentId" : "s4",
-  "score" : 100,
-  "resultId" : "R1763948204310",
-  "quizId" : "L1",
-  "lessonId" : "L1",
-  "attemptDate" : 1763948204310,
-  "passed" : true
-}, {
-  "studentId" : "s4",
-  "score" : 100,
-  "resultId" : "R1763948212737",
-  "quizId" : "L2",
-  "lessonId" : "L2",
-  "attemptDate" : 1763948212737,
+  "attemptDate" : 1763950339426,
   "passed" : true
 } ]

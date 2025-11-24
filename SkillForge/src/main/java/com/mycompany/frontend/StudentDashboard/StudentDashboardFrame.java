@@ -28,7 +28,6 @@ public class StudentDashboardFrame extends JFrame {
         this.student = student;
         initializeFrame();
         createDashboard();
-         initializeUI();
     }
 
     private void initializeFrame() {
@@ -52,6 +51,16 @@ public class StudentDashboardFrame extends JFrame {
 
         JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         logoutPanel.setBackground(new Color(245, 245, 250));
+
+        certificatesButton = new JButton("My Certificates");
+        certificatesButton.setFont(new Font("Arial", Font.BOLD, 14));
+        certificatesButton.setBackground(new Color(70, 130, 180));
+        certificatesButton.setForeground(Color.WHITE);
+        certificatesButton.setFocusPainted(false);
+        certificatesButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        certificatesButton.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        certificatesButton.addActionListener(e -> certificatesButtonActionPerformed(null));
+
         JButton btnLogout = new JButton("Logout");
         btnLogout.setFont(new Font("Arial", Font.BOLD, 14));
         btnLogout.setBackground(new Color(220, 53, 69));
@@ -74,6 +83,7 @@ public class StudentDashboardFrame extends JFrame {
             }
         });
 
+        logoutPanel.add(certificatesButton);
         logoutPanel.add(btnLogout);
         dashboardPanel.add(logoutPanel, BorderLayout.SOUTH);
 
@@ -364,9 +374,11 @@ public class StudentDashboardFrame extends JFrame {
         }
     }
 
-    private void updateMarkCompleteButtonInDetailsFrame(CourseDetailsFrame detailsFrame, String lessonId, boolean enabled) {
+    private void updateMarkCompleteButtonInDetailsFrame(CourseDetailsFrame detailsFrame, String lessonId,
+            boolean enabled) {
         try {
-            java.lang.reflect.Method method = detailsFrame.getClass().getMethod("updateLessonButton", String.class, boolean.class);
+            java.lang.reflect.Method method = detailsFrame.getClass().getMethod("updateLessonButton", String.class,
+                    boolean.class);
             method.invoke(detailsFrame, lessonId, enabled);
         } catch (Exception e) {
         }
@@ -386,42 +398,21 @@ public class StudentDashboardFrame extends JFrame {
             try {
                 Lesson lesson = CourseServices.findLessonById(lessonId);
                 String lessonTitle = (lesson != null) ? lesson.getTitle() : "the lesson";
-                
+
                 JOptionPane.showMessageDialog(this,
-                    "Congratulations! You have successfully completed: " + lessonTitle + "\n" +
-                    "The lesson has been marked as complete automatically.",
-                    "Lesson Completed",
-                    JOptionPane.INFORMATION_MESSAGE);
-                
+                        "Congratulations! You have successfully completed: " + lessonTitle + "\n" +
+                                "The lesson has been marked as complete automatically.",
+                        "Lesson Completed",
+                        JOptionPane.INFORMATION_MESSAGE);
+
                 refreshDashboard();
             } catch (Exception ex) {
             }
         });
     }
-    private void initializeUI() {
-        setTitle("Student Dashboard");
-        setSize(800, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        
-        certificatesButton = new JButton("My Certificates");
-        
-        
-        certificatesButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                certificatesButtonActionPerformed(evt);
-            }
-        });
-        
-      
-        JPanel mainPanel = new JPanel(new FlowLayout());
-        mainPanel.add(certificatesButton);
-        
-        add(mainPanel);
-    }
+
     private void certificatesButtonActionPerformed(ActionEvent evt) {
         CertificateFrame.showCertificates(this.student);
     }
-    
+
 }

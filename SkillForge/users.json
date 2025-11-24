@@ -1,51 +1,7 @@
 {
   "students" : [ {
     "userId" : "s1",
-    "name" : "Zeyad",
-    "email" : "zeyad@gmail.com",
-    "password" : "85e6eea7c158858093214ed42884595e480dae3e87e253fa5dc0859a0702aa5b",
-    "courseProgressMap" : {
-      "C1" : {
-        "lessonStatus" : {
-          "L1" : "PASSED",
-          "L2" : "PASSED"
-        },
-        "quizAttempts" : [ ],
-        "completed" : true,
-        "certificateId" : null,
-        "completionDate" : 1763946772519,
-        "overallScore" : 0.0,
-        "readyForCertificate" : false,
-        "progressPercentage" : 100.0
-      }
-    },
-    "certificateIds" : [ ],
-    "certificates" : [ ]
-  }, {
-    "userId" : "s2",
-    "name" : "Hazem",
-    "email" : "hazem@gmail.com",
-    "password" : "46db433fda5ece6f12d3378751ff008d6aecdaf15d5c6529da853357c97d1905",
-    "courseProgressMap" : {
-      "C1" : {
-        "lessonStatus" : {
-          "L1" : "PASSED",
-          "L2" : "PASSED"
-        },
-        "quizAttempts" : [ ],
-        "completed" : true,
-        "certificateId" : null,
-        "completionDate" : 1763947262895,
-        "overallScore" : 0.0,
-        "readyForCertificate" : false,
-        "progressPercentage" : 100.0
-      }
-    },
-    "certificateIds" : [ ],
-    "certificates" : [ ]
-  }, {
-    "userId" : "s3",
-    "name" : "Menna",
+    "name" : "menna",
     "email" : "menna@gmail.com",
     "password" : "6a3319e5e7710d00634ecfd680d945c2c4caf23b6891648ba7f643afd2585e27",
     "courseProgressMap" : {
@@ -60,93 +16,40 @@
           "courseId" : "C1",
           "scorePercent" : 100,
           "passed" : true,
-          "attemptTime" : "2025-11-24T01:31:08.030957700Z"
+          "attemptTime" : "2025-11-24T02:12:10.107820900Z"
         }, {
           "quizId" : "L2",
           "lessonId" : "L2",
           "courseId" : "C1",
           "scorePercent" : 100,
           "passed" : true,
-          "attemptTime" : "2025-11-24T01:31:16.619115700Z"
+          "attemptTime" : "2025-11-24T02:12:19.432818200Z"
         } ],
         "completed" : true,
         "certificateId" : null,
-        "completionDate" : 1763947868030,
+        "completionDate" : 1763950330109,
         "overallScore" : 100.0,
         "readyForCertificate" : true,
         "progressPercentage" : 100.0
       }
     },
-    "certificateIds" : [ "CERT_1763947868030_4ef31071", "CERT_1763947868030_4ef31071" ],
+    "certificateIds" : [ "CERT_1763950330110_845cfa21" ],
     "certificates" : [ {
-      "certificateId" : "CERT_1763947868030_4ef31071",
-      "studentId" : "s3",
-      "studentName" : "Menna",
+      "certificateId" : "CERT_1763950330110_845cfa21",
+      "studentId" : "s1",
+      "studentName" : "menna",
       "courseId" : "C1",
       "courseTitle" : "Programming 2",
-      "issueDate" : 1763947868100,
-      "instructorName" : "Layla",
-      "finalScore" : 100.0,
-      "formattedDate" : "November 24, 2025"
-    } ]
-  }, {
-    "userId" : "s4",
-    "name" : "Nour",
-    "email" : "nour@gmail.com",
-    "password" : "c4f52d0b9e6571378acf16f4282696eeb56454926f6dd3ec36fefdb7dbff07b6",
-    "courseProgressMap" : {
-      "C1" : {
-        "lessonStatus" : {
-          "L1" : "PASSED",
-          "L2" : "PASSED"
-        },
-        "quizAttempts" : [ {
-          "quizId" : "L1",
-          "lessonId" : "L1",
-          "courseId" : "C1",
-          "scorePercent" : 50,
-          "passed" : false,
-          "attemptTime" : "2025-11-24T01:36:30.455251800Z"
-        }, {
-          "quizId" : "L1",
-          "lessonId" : "L1",
-          "courseId" : "C1",
-          "scorePercent" : 100,
-          "passed" : true,
-          "attemptTime" : "2025-11-24T01:36:44.321046200Z"
-        }, {
-          "quizId" : "L2",
-          "lessonId" : "L2",
-          "courseId" : "C1",
-          "scorePercent" : 100,
-          "passed" : true,
-          "attemptTime" : "2025-11-24T01:36:52.780795800Z"
-        } ],
-        "completed" : true,
-        "certificateId" : null,
-        "completionDate" : 1763948204321,
-        "overallScore" : 100.0,
-        "readyForCertificate" : true,
-        "progressPercentage" : 100.0
-      }
-    },
-    "certificateIds" : [ "CERT_1763948204322_e9ddf99e", "CERT_1763948204322_e9ddf99e" ],
-    "certificates" : [ {
-      "certificateId" : "CERT_1763948204322_e9ddf99e",
-      "studentId" : "s4",
-      "studentName" : "Nour",
-      "courseId" : "C1",
-      "courseTitle" : "Programming 2",
-      "issueDate" : 1763948204373,
-      "instructorName" : "Layla",
+      "issueDate" : 1763950330174,
+      "instructorName" : "layla",
       "finalScore" : 100.0,
       "formattedDate" : "November 24, 2025"
     } ]
   } ],
   "instructors" : [ {
     "userId" : "i1",
-    "name" : "Layla",
-    "email" : "Layla@gmail.com",
+    "name" : "layla",
+    "email" : "layla@gmail.com",
     "password" : "b12d95a8dd8e668681eb8af301da038cffe2979f4170ef844a9ba767ee637a2b",
     "myCoursesIds" : [ "C1", "C2" ]
   } ]
