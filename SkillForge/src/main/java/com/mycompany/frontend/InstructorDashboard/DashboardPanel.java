@@ -99,9 +99,7 @@ public class DashboardPanel extends JPanel {
             parent.showCourseFormPanel(null); // null means create new
         });
 
-        // Add Quiz button action - الإصدارة البسيطة
         btnAddQuiz.addActionListener(e -> {
-            // تحقق أولاً إذا فيه كورسات
             try {
                 ArrayList<Course> courses = instructor.getMyCourses();
                 if (courses.isEmpty()) {

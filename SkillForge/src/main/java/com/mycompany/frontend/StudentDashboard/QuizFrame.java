@@ -8,7 +8,6 @@ import com.mycompany.QuizManagement.Quiz;
 import com.mycompany.QuizManagement.Question;
 import com.mycompany.QuizManagement.QuizAttempt;
 import com.mycompany.CourseManagement.QuizServices;
-import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -27,14 +26,13 @@ public class QuizFrame extends JFrame {
     private CourseDetailsFrame parentFrame;
     private String lessonId;
     private String courseId;
-    private String studentId; // إضافة studentId كمتغير
+    private String studentId; 
 
     public QuizFrame(Quiz quiz, CourseDetailsFrame parentFrame, String lessonId, String courseId) {
         this.currentQuiz = quiz;
         this.parentFrame = parentFrame;
         this.lessonId = lessonId;
         this.courseId = courseId;
-        // جلب الـ studentId من الـ parentFrame
         this.studentId = (parentFrame != null) ? getStudentIdFromParent(parentFrame) : "s1";
         initializeQuiz();
         setupUI();
@@ -58,10 +56,8 @@ public class QuizFrame extends JFrame {
         setupUI();
     }
 
-    // دالة مساعدة لجلب الـ studentId من الـ parentFrame
     private String getStudentIdFromParent(CourseDetailsFrame parentFrame) {
         try {
-            // محاولة الوصول للـ student عبر reflection إذا كان متاحاً
             java.lang.reflect.Field studentField = parentFrame.getClass().getDeclaredField("student");
             studentField.setAccessible(true);
             Object student = studentField.get(parentFrame);

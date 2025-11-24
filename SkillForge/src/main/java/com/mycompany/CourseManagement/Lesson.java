@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 /**
  * Lesson entity with Quiz support
- * @author Lab8_Team
  */
 public class Lesson {
 
@@ -17,7 +16,7 @@ public class Lesson {
     private String content;
     private String quizId;
     
-    // NEW: Quiz for this lesson
+    // Quiz for this lesson
     private Quiz quiz;
 
     @JsonIgnore
@@ -32,7 +31,7 @@ public class Lesson {
         this.content = content;
         this.completed = false;
         this.quizId = null;
-        this.quiz = null; // Quiz can be added later
+        this.quiz = null;
     }
     
     public Lesson(String title, String content, Quiz quiz) {

@@ -18,7 +18,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 /**
  * Student Performance Panel - Shows individual student performance
  * 
- * @author Lab8_Team
  */
 public class StudentPerformancePanel extends javax.swing.JPanel {
 

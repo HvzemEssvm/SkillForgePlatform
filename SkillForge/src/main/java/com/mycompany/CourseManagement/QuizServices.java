@@ -183,6 +183,6 @@ public class QuizServices {
         JsonHandler.initializeFileIfNeeded(QUIZ_RESULTS_FILE);
         var emptyArray = JsonHandler.objectMapper.createArrayNode();
         JsonHandler.writeToFile(emptyArray, QUIZ_RESULTS_FILE);
-        System.out.println("🎯 ALL ATTEMPTS RESET - Start fresh with 3 attempts each");
+        System.out.println("ALL ATTEMPTS RESET - Start fresh with 3 attempts each");
     }
 }

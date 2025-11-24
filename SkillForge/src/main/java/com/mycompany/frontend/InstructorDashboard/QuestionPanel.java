@@ -25,7 +25,6 @@ public class QuestionPanel extends JPanel {
         setBorder(BorderFactory.createTitledBorder("Question " + questionNumber));
         setBackground(new Color(240, 240, 240));
 
-        // Panel للسؤال
         JPanel questionPanel = new JPanel(new BorderLayout());
         questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -36,7 +35,6 @@ public class QuestionPanel extends JPanel {
         questionPanel.add(questionLabel, BorderLayout.NORTH);
         questionPanel.add(questionText, BorderLayout.CENTER);
 
-        // Panel للاختيارات
         JPanel optionsPanel = new JPanel(new GridLayout(4, 2, 10, 5));
         optionsPanel.setBorder(BorderFactory.createTitledBorder("Options"));
 
@@ -49,7 +47,6 @@ public class QuestionPanel extends JPanel {
             optionsPanel.add(optionFields[i]);
         }
 
-        // Panel للإجابة الصحيحة
         JPanel settingsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         settingsPanel.add(new JLabel("Correct Answer:"));
         correctAnswerCombo = new JComboBox<>(new String[] { "A", "B", "C", "D" });
@@ -60,7 +57,6 @@ public class QuestionPanel extends JPanel {
         btnRemove.addActionListener(e -> removeQuestion());
         settingsPanel.add(btnRemove);
 
-        // Panel رئيسي
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(questionPanel);

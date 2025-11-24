@@ -2,7 +2,6 @@ package com.mycompany.frontend.InstructorDashboard;
 
 import com.mycompany.CourseManagement.Course;
 import com.mycompany.CourseManagement.Lesson;
-import com.mycompany.InputVerifiers.IsEmptyVerifier;
 import com.mycompany.UserAccountManagement.Instructor;
 import java.awt.*;
 import javax.swing.*;

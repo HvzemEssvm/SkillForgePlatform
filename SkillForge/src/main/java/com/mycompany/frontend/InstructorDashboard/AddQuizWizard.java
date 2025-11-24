@@ -171,10 +171,8 @@ public class AddQuizWizard extends JDialog {
             return;
         }
 
-        // جمع كل الأسئلة من الـ UI
         collectQuestionsFromUI();
 
-        // التأكد من أن كل الأسئلة مكتملة
         for (int i = 0; i < questions.size(); i++) {
             if (questions.get(i) == null) {
                 JOptionPane.showMessageDialog(this,
@@ -184,10 +182,8 @@ public class AddQuizWizard extends JDialog {
         }
 
         try {
-            // إنشاء الكويز
             Quiz quiz = QuizServices.createQuiz(selectedLesson.getLessonId(), questions);
 
-            // ربط الكويز بالدرس
             CourseServices.assignQuizToLesson(selectedLesson.getLessonId(), quiz);
 
             JOptionPane.showMessageDialog(this, "Quiz saved successfully!");

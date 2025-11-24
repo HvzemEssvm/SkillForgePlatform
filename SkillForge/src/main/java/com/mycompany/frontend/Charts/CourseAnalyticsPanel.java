@@ -19,7 +19,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 /**
  * Course Analytics Panel - Shows comprehensive course statistics
  * 
- * @author Lab8_Team
  */
 public class CourseAnalyticsPanel extends javax.swing.JPanel {
 
